@@ -1,0 +1,37 @@
+label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 25px;
+    color: #fff
+}
+
+.label__input::placeholder {
+    color: rgba(140, 27, 171, 0.71);
+}
+
+.label__input:focus {
+    outline: none;
+    border-color: #fff;
+    box-shadow: 0 0 5px #fff;
+}
+
+.label__title {
+    font-size: 24px;
+    width: 250px;
+    margin-right: 25px;
+}
+
+.label__input {
+    width: 300px;
+    border: 1px solid #ffffff;
+    border-radius: 6px;
+    padding: 10px 15px;
+    background-color: transparent;
+    color: #ffffff;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: 300;
+    -webkit-appearance: none;
+    appearance: none;
+}

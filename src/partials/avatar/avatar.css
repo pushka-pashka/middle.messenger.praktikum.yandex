@@ -1,0 +1,12 @@
+.avatar {
+    height:150px;
+    width:150px;
+    border-radius:150px;
+    background: white;
+    opacity: 0.5;
+    text-align: center;
+    color: rgba(140, 27, 171, 0.71);
+    line-height: 150px;
+    font-size: 50px;
+    margin-bottom: 30px;
+}

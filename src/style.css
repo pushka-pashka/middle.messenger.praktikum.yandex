@@ -1,0 +1,67 @@
+@import './partials/label/label.css';
+@import './partials/error/error.css';
+@import './partials/button/button.css';
+@import './partials/link/link.css';
+@import './partials/sidebar/sidebar.css';
+@import './partials/avatar/avatar.css';
+@import './partials/info/info.css';
+
+body {
+    color: #fff;
+    font-size: 20px;
+    margin: 0;
+}
+
+.main-container {
+    background: linear-gradient(#fccd18, #eb7195, #8c1bab);
+    display: flex;
+    min-height: 100vh;
+}
+
+
+.main-container_type_default {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.main_content {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+}
+
+.main_content_type_profile {
+    align-items: center;
+    width: 100%;
+}
+
+.header {
+    font-size: 30px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile_buttons {
+    width: 100%
+}
+
+.pages_list {
+    font-size: 24px;
+    color: white;
+}
