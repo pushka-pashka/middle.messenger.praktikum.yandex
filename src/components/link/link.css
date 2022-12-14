@@ -2,7 +2,7 @@
     display: block;
     margin: auto;
     margin-bottom: 10px;
-    color: #fccd18;
+    color: var(--yellow);
     opacity: 0.7;
     text-decoration: none;
 }
@@ -17,7 +17,7 @@
     margin: auto;
     margin-bottom: 20px;
     font-size: 30px;
-    color: white;
+    color: var(--white);
     opacity: 0.7;
     text-decoration: none;
 }

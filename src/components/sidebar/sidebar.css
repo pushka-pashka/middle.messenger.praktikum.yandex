@@ -4,11 +4,11 @@
 }
 
 .sidebar_button {
-    background-color: #fccd18;
-    height:40px;
-    width:40px;
-    border-radius:40px;
-    margin:auto;
+    background-color: var(--yellow);
+    height: 40px;
+    width: 40px;
+    border-radius: 40px;
+    margin: auto;
     position: relative;
     opacity: 0.8;
 }
@@ -25,7 +25,7 @@
     display: block;
     width: 7px;
     height: 7px;
-    border-left: 3px solid rgba(140, 27, 171, 0.71);
-    border-bottom: 3px solid rgba(140, 27, 171, 0.71);
+    border-left: 3px solid var(--fuchsia);
+    border-bottom: 3px solid var(--fuchsia);
     transform: translate(-50%, -50%) rotate(45deg);
 }

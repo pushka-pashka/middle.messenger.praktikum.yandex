@@ -1,13 +1,20 @@
-@import './partials/label/label.css';
-@import './partials/error/error.css';
-@import './partials/button/button.css';
-@import './partials/link/link.css';
-@import './partials/sidebar/sidebar.css';
-@import './partials/avatar/avatar.css';
-@import './partials/info/info.css';
+@import '../node_modules/normalize.css/normalize.css';
+@import './components/label/label.css';
+@import './components/error/error.css';
+@import './components/button/button.css';
+@import './components/link/link.css';
+@import './components/sidebar/sidebar.css';
+@import './components/avatar/avatar.css';
+@import './components/info/info.css';
+
+:root {
+    --white: #ffffff;
+    --yellow: #fccd18;
+    --fuchsia: rgba(140, 27, 171, 0.71);
+}
 
 body {
-    color: #fff;
+    color: var(--white);
     font-size: 20px;
     margin: 0;
 }
@@ -63,5 +70,5 @@ body {
 
 .pages_list {
     font-size: 24px;
-    color: white;
+    color: var(--white);
 }
