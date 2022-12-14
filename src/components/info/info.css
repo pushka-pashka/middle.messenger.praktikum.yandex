@@ -1,0 +1,13 @@
+.info {
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    display: flex;
+    border-bottom: 1px solid var(--white);
+}
+
+.info_label {
+    width: 150px;
+    margin-right: 25px;
+    font-size: 24px;
+}
