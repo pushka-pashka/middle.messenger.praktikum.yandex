@@ -6,6 +6,7 @@
       "max-len": [2, 140],
       "@typescript-eslint/no-unused-vars": 2,
       "jsx-quotes": [1, "prefer-double"],
+      "quotes": ["error", "double"],
       "comma-dangle": ["error", "never"]
     }
 }
