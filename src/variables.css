@@ -2,4 +2,18 @@
   --white: #ffffff;
   --yellow: #fccd18;
   --fuchsia: rgba(140, 27, 171, 0.71);
+
+  --message-background: #1f9af3;
+  --message-color: #fff;
+  --message-my-background: #e2f0fa;
+  --message-my-color: #000;
+  --screen-content-background: #fff;
+
+  --screen-width: 320px;
+  --screen-height: 560px;
+
+  --message-border-radius: 20px;
+
+  --screen-background: #e2f0fa;
+  --screen-content-background: #fff;
 }

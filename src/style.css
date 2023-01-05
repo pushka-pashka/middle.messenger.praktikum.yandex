@@ -1,12 +1,5 @@
 @import '../node_modules/normalize.css/normalize.css';
 @import './variables.css';
-@import './components/label/label.css';
-@import './components/error/error.css';
-@import './components/button/button.css';
-@import './components/link/link.css';
-@import './components/sidebar/sidebar.css';
-@import './components/avatar/avatar.css';
-@import './components/info/info.css';
 
 body {
     color: var(--white);
