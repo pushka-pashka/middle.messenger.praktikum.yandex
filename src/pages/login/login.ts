@@ -1,3 +1,4 @@
+import { validateForm, ValidateRuleType } from '../../helpers/validateForm';
 import Block from '../../utils/Block';
 
 export class LoginPage extends Block {
@@ -5,12 +6,47 @@ export class LoginPage extends Block {
     super()
 
     this.setProps({
-      onSubmit: this.onSubmit
+      onSubmit: () => this.onSubmit(),
+      onChange: () => this.onChange(),
+      errorMessage: '',
+      loginValue: '',
+      passwordValue: ''
     })
   }
 
   onSubmit() {
-    console.log('Login submit clicked');
+    const loginEl = this._element?.querySelector('input[name="login"]') as HTMLInputElement;
+    const passwordEl = this._element?.querySelector('input[name="password"]') as HTMLInputElement;
+    const loginValue = loginEl.value;
+    const passwordValue = passwordEl.value;
+
+    const errorMessage = validateForm([
+      { type: ValidateRuleType.Login, value: loginValue },
+      { type: ValidateRuleType.Password, value: passwordValue }
+    ]);
+
+    if (errorMessage) {
+      this.setProps({
+        errorMessage,
+        loginValue,
+        passwordValue
+      });
+    } else {
+      console.log(`Login form data: ${ValidateRuleType.Login}: ${loginValue}, ${ValidateRuleType.Password}: ${passwordValue}`);
+    }
+  }
+
+  onChange() {
+    const loginEl = this._element?.querySelector('input[name="login"]') as HTMLInputElement;
+    const passwordEl = this._element?.querySelector('input[name="password"]') as HTMLInputElement;
+    const loginValue = loginEl.value;
+    const passwordValue = passwordEl.value;
+
+    this.setProps({
+      errorMessage: '',
+      loginValue,
+      passwordValue
+    });
   }
 
   render() {
@@ -19,10 +55,25 @@ export class LoginPage extends Block {
       <div>
         <h1 class="header">Добро пожаловать</h1>
         <form id="signin" action="" method="post" class="form">
-          {{{Label label='Логин' type='text' name='login' placeholder='ivanovanov'}}}
-          {{{Label label='Пароль' type='password' name='password' placeholder='***'}}}
-          {{{Button text='Войти' onClick=this.onSubmit}}}
+          {{{Label
+            label='Логин'
+            type='text'
+            name='login'
+            placeholder='ivanovanov'
+            value=loginValue
+            onChange=onChange
+          }}}
+          {{{Label
+            label='Пароль'
+            type='password'
+            name='password'
+            placeholder='***'
+            value=passwordValue
+            onChange=onChange
+          }}}
         </form>
+        {{{Button text='Войти' onClick=onSubmit}}}
+        <div style="color:red">{{errorMessage}}</div>
       </div>
     `;
   }

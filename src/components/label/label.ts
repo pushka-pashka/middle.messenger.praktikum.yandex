@@ -8,11 +8,13 @@ interface LabelProps {
   type: string;
   name: string;
   placeholder: string;
+  value: string;
+  onChange?: () => void;
 }
 
 export class Label extends Block {
-  constructor({label, type, name, placeholder}: LabelProps) {
-    super({label, type, name, placeholder});
+  constructor({ onChange = () => {}, ...props }: LabelProps) {
+    super({...props, events: { input: onChange }});
   }
 
   protected render(): string {
