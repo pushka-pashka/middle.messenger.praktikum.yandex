@@ -1,6 +1,5 @@
-import Block from '../../utils/Block';
+import Block from 'utils/Block';
 import template from 'bundle-text:./iconUser.hbs';
-
 import './iconUser.css';
 
 interface IconUserProps {

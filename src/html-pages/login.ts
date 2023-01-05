@@ -1,12 +1,14 @@
-import { Button } from '../components/button/button';
-import { Label } from '../components/label/label';
-import { Link } from '../components/link/link';
-import { LoginPage } from '../pages/login/login';
-import { renderDOM, registerComponent }  from '../utils';
+import { renderDOM, registerComponent } from 'utils';
+import { LoginPage } from 'pages/login/login';
+import { InputDecorator } from 'components/inputDecorator/inputDecorator';
+import { Button } from 'components/button/button';
+import { Input } from 'components/input/input';
+import { Error as ErrorComponent } from 'components/error/error';
 
-registerComponent(Label);
+registerComponent(Input);
+registerComponent(ErrorComponent);
+registerComponent(InputDecorator);
 registerComponent(Button);
-registerComponent(Link);
 
 document.addEventListener("DOMContentLoaded", () => {
   renderDOM(new LoginPage);

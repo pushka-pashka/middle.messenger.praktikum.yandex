@@ -1,6 +1,5 @@
-import Block from '../../utils/Block';
+import Block from 'utils/Block';
 import template from 'bundle-text:./link.hbs';
-
 import './link.css';
 
 interface LinkProps {

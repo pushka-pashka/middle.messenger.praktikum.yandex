@@ -1,9 +1,15 @@
-import { Error } from '../components/error/error';
-import { ErrorPage } from '../pages/404/404';
-import { renderDOM, registerComponent }  from './../utils';
+import { Error } from 'components/error/error';
+import { Header, HeaderSizeType } from 'components/header/header';
+import { ErrorPage } from 'pages/ErrorPage/ErrorPage';
+import { renderDOM, registerComponent }  from 'utils';
 
 registerComponent(Error);
+registerComponent(Header);
 
 document.addEventListener("DOMContentLoaded", () => {
-  renderDOM(new ErrorPage());
+  renderDOM(new ErrorPage({
+    headerText: '404',
+    errorText: 'Упс! Обновите страницу',
+    size: HeaderSizeType.l
+  }));
 });

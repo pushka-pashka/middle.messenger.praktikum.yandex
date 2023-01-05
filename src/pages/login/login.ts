@@ -1,5 +1,5 @@
-import { validateForm, ValidateRuleType } from '../../helpers/validateForm';
-import Block from '../../utils/Block';
+import { validateForm, ValidateRuleEnum, inputNameToValidateRuleType } from 'helpers/validateForm';
+import Block from 'utils/Block';
 
 export class LoginPage extends Block {
   constructor() {
@@ -7,7 +7,16 @@ export class LoginPage extends Block {
 
     this.setProps({
       onSubmit: () => this.onSubmit(),
-      onChange: () => this.onChange(),
+      onInput: (e: InputEvent) => {
+        const inputEl = e.target as HTMLInputElement;
+        const { name, value } = inputEl;
+
+        const errorMessage = validateForm([
+          { type: inputNameToValidateRuleType(name), value }
+        ]);
+
+        this.refs[name].refs.errorRef.setProps({ text: errorMessage });
+      },
       errorMessage: '',
       loginValue: '',
       passwordValue: ''
@@ -21,32 +30,16 @@ export class LoginPage extends Block {
     const passwordValue = passwordEl.value;
 
     const errorMessage = validateForm([
-      { type: ValidateRuleType.Login, value: loginValue },
-      { type: ValidateRuleType.Password, value: passwordValue }
+      { type: ValidateRuleEnum.Login, value: loginValue },
+      { type: ValidateRuleEnum.Password, value: passwordValue }
     ]);
 
-    if (errorMessage) {
-      this.setProps({
-        errorMessage,
-        loginValue,
-        passwordValue
-      });
-    } else {
-      console.log(`Login form data: ${ValidateRuleType.Login}: ${loginValue}, ${ValidateRuleType.Password}: ${passwordValue}`);
-    }
-  }
-
-  onChange() {
-    const loginEl = this._element?.querySelector('input[name="login"]') as HTMLInputElement;
-    const passwordEl = this._element?.querySelector('input[name="password"]') as HTMLInputElement;
-    const loginValue = loginEl.value;
-    const passwordValue = passwordEl.value;
-
-    this.setProps({
-      errorMessage: '',
-      loginValue,
-      passwordValue
-    });
+    if (!errorMessage) {
+      console.log(`Login form data:
+        ${ValidateRuleEnum.Login}: ${loginValue},
+        ${ValidateRuleEnum.Password}: ${passwordValue}`
+      );
+    };
   }
 
   render() {
@@ -55,25 +48,26 @@ export class LoginPage extends Block {
       <div>
         <h1 class="header">Добро пожаловать</h1>
         <form id="signin" action="" method="post" class="form">
-          {{{Label
+          {{{InputDecorator
+            ref="login"
+            onInput=onInput
+            onFocus=onFocus
             label='Логин'
             type='text'
             name='login'
             placeholder='ivanovanov'
-            value=loginValue
-            onChange=onChange
           }}}
-          {{{Label
+          {{{InputDecorator
+            ref="password"
+            onInput=onInput
+            onFocus=onFocus
             label='Пароль'
             type='password'
             name='password'
             placeholder='***'
-            value=passwordValue
-            onChange=onChange
           }}}
         </form>
         {{{Button text='Войти' onClick=onSubmit}}}
-        <div style="color:red">{{errorMessage}}</div>
       </div>
     `;
   }

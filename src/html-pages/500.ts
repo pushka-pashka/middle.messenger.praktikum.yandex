@@ -1,9 +1,15 @@
-import { Error } from '../components/error/error';
-import { ServerErrorPage } from '../pages/500/500';
-import { renderDOM, registerComponent }  from '../utils';
+import { Error } from 'components/error/error';
+import { Header, HeaderSizeType } from 'components/header/header';
+import { ErrorPage } from 'pages/ErrorPage/ErrorPage';
+import { renderDOM, registerComponent }  from 'utils';
 
 registerComponent(Error);
+registerComponent(Header);
 
 document.addEventListener("DOMContentLoaded", () => {
-  renderDOM(new ServerErrorPage());
+  renderDOM(new ErrorPage({
+    headerText: '500',
+    errorText: 'Упс! Мы уже чиним...',
+    size: HeaderSizeType.l
+  }));
 });

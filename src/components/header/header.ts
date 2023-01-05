@@ -1,0 +1,24 @@
+import Block from 'utils/Block';
+import template from 'bundle-text:./header.hbs';
+import './header.css';
+
+export enum HeaderSizeType {
+  s ='s',
+  m = 'm',
+  l = 'l'
+}
+
+interface HeaderProps {
+  size: HeaderSizeType;
+  text: string;
+}
+
+export class Header extends Block {
+  constructor(props : HeaderProps) {
+    super({...props});
+  }
+
+  protected render(): string {
+    return template;
+  }
+}
