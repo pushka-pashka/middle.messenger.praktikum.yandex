@@ -11,6 +11,8 @@ export class Sidebar extends Block {
     super({...props});
   }
 
+  static componentName = "Sidebar";
+
   protected render(): string {
     return template;
   }

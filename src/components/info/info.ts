@@ -12,6 +12,8 @@ export class Info extends Block {
     super({...props});
   }
 
+  static componentName = "Info";
+
   protected render(): string {
     return template;
   }

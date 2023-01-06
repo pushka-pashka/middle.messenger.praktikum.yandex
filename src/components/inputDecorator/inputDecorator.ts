@@ -30,6 +30,8 @@ export class InputDecorator extends Block {
     });
   }
 
+  static componentName = "InputDecorator";
+
   protected render(): string {
     return `
       <div class="input-decorator">

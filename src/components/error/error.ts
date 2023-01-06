@@ -11,6 +11,8 @@ export class Error extends Block {
     super({...props});
   }
 
+  static componentName = "Error";
+
   protected render(): string {
     return template;
   }

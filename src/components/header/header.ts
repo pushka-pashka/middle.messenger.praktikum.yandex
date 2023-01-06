@@ -18,6 +18,8 @@ export class Header extends Block {
     super({...props});
   }
 
+  static componentName = "Header";
+
   protected render(): string {
     return template;
   }

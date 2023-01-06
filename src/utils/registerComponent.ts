@@ -3,10 +3,11 @@ import Handlebars, { HelperOptions } from 'handlebars';
 
 interface BlockConstructable<Props = any> {
   new(props: Props): Block;
+  componentName: string;
 }
 
 export default function registerComponent<Props extends any>(Component: BlockConstructable<Props>) {
-  Handlebars.registerHelper(Component.name, function (this: Props, { hash: { ref, ...hash }, data, fn }: HelperOptions) {
+  Handlebars.registerHelper(Component.componentName, function (this: Props, { hash: { ref, ...hash }, data, fn }: HelperOptions) {
     if (!data.root.children) {
       data.root.children = {};
     }
@@ -21,11 +22,11 @@ export default function registerComponent<Props extends any>(Component: BlockCon
      * Костыль для того, чтобы передавать переменные
      * внутрь блоков вручную подменяя значение
      */
-    // (Object.keys(hash) as any).forEach((key: keyof Props) => {
-    //   if (this[key] && typeof this[key] === 'string') {
-    //     hash[key] = hash[key].replace(new RegExp(`{{${key}}}`, 'i'), this[key]);
-    //   }
-    // });
+    (Object.keys(hash) as any).forEach((key: keyof Props) => {
+      if (this[key] && typeof this[key] === 'string') {
+        hash[key] = hash[key].replace(new RegExp(`{{${key}}}`, 'i'), this[key]);
+      }
+    });
 
     const component = new Component(hash);
 

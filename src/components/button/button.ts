@@ -13,6 +13,8 @@ export class Button extends Block {
     super({text, type, events: {click: onClick}});
   }
 
+  static componentName = "Button";
+
   protected render(): string {
     return template;
   }

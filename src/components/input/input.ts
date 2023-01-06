@@ -17,6 +17,8 @@ export class Input extends Block {
     super({...props, events: { input: onInput, focus: onFocus, blur: onBlur }});
   }
 
+  static componentName = "Input";
+
   protected render(): string {
     return template;
   }

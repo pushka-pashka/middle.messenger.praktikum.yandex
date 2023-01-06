@@ -13,6 +13,8 @@ export class IconUser extends Block {
     super({text, small, photo});
   }
 
+  static componentName = "IconUser";
+
   protected render(): string {
     return template;
   }
