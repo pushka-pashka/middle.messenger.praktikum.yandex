@@ -48,7 +48,7 @@ export class InputDecorator extends Block {
           }}}
         </div>
         <div class="input-decorator__error">
-          {{{Error ref="errorRef" text=error}}}
+          {{{Error ref="errorRef" text=error size="s"}}}
         </div>
       </div>
     `;

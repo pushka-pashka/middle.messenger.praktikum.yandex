@@ -21,7 +21,7 @@ export default class Block<P extends object = {} > {
   private readonly _meta: BlockMeta;
 
   protected _element: Nullable<HTMLElement> = null;
-  protected readonly props: P;
+  protected readonly props: Record<string, any>;
   protected children: {[id: string]: Block} = {};
 
   eventBus: () => EventBus<Events>;
@@ -86,6 +86,14 @@ export default class Block<P extends object = {} > {
   componentDidUpdate(oldProps: P, newProps: P) {
     return true;
   }
+
+  getProps = (prop?: string): any => {
+    if (this.props && prop) {
+      return this.props[prop];
+    }
+
+    return this.props;
+  };
 
   setProps = (nextProps: P) => {
     if (!nextProps) {

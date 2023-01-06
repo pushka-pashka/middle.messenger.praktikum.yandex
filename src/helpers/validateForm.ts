@@ -7,9 +7,10 @@ export enum ValidateRuleEnum {
   Login = 'login',
   Password = 'password',
   Email = 'email',
-  FirstName = 'first_name',
-  SecondName = 'second_name',
+  Name = 'name',
+  Surname = 'surname',
   PasswordDouble = 'password_double',
+  Phone = 'phone'
 };
 
 export type ValidateRuleType = Nullable<ValidateRuleEnum>;
@@ -22,12 +23,15 @@ export function inputNameToValidateRuleType(name: string): ValidateRuleType {
       return ValidateRuleEnum.Password;
     case ValidateRuleEnum.Email:
       return ValidateRuleEnum.Email;
-    case ValidateRuleEnum.FirstName:
-      return ValidateRuleEnum.FirstName;
-    case ValidateRuleEnum.SecondName:
-      return ValidateRuleEnum.SecondName;
+    case ValidateRuleEnum.Name:
+      return ValidateRuleEnum.Name;
+    case ValidateRuleEnum.Surname:
+      return ValidateRuleEnum.Surname;
     case ValidateRuleEnum.PasswordDouble:
       return ValidateRuleEnum.PasswordDouble;
+    case ValidateRuleEnum.Phone:
+      return ValidateRuleEnum.Phone;
+
     default:
       return null
   }
@@ -37,6 +41,7 @@ export function validateForm(rules: ValidateRule[]) : string | undefined {
   let errorMessage = '';
   const EMAIL_REGEXP = /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/iu;
   const NAME_REGEXP = /^[a-zA-Z\-]+$/;
+  const PHONE_REGEXP = /^\+?([0-9]{11})+$/;
 
   for(let i = 0; i < rules.length; i++ ) {
     const { type, value } = rules[i];
@@ -44,30 +49,39 @@ export function validateForm(rules: ValidateRule[]) : string | undefined {
     switch(type) {
       case ValidateRuleEnum.Login:
         if(!value.length) {
-          errorMessage = 'Login can not be empty';
+          errorMessage = 'Введите логин';
           return errorMessage;
         } else if(value.length < 4) {
-          errorMessage = 'Login should contains more than 3 letter';
+          errorMessage = 'Логин должен быть больше 3 символов';
           return errorMessage;
         }
+        break;
       case ValidateRuleEnum.Password:
-        if(value.length < 4) {
-          errorMessage = 'Password should contains more than 3 letter';
+        if(value.length < 5) {
+          errorMessage = 'Пароль должен быть больше 4 символов';
           return errorMessage;
         }
+        break;
       case ValidateRuleEnum.Email:
         if(!EMAIL_REGEXP.test(value)) {
-          errorMessage = 'Email error';
+          errorMessage = 'Некорректный email';
           return errorMessage;
         }
-      case ValidateRuleEnum.FirstName:
+        break;
+      case ValidateRuleEnum.Name:
         if(!NAME_REGEXP.test(value)) {
-          errorMessage = 'Name hould contains only letters';
+          errorMessage = 'Введите имя латинскими буквами';
           return errorMessage;
         }
-      case ValidateRuleEnum.SecondName:
+        break;
+      case ValidateRuleEnum.Surname:
         if(!NAME_REGEXP.test(value)) {
-          errorMessage = 'Second hould contains only letters';
+          errorMessage = 'Введите фамилию латинскими буквами';
+          return errorMessage;
+        }
+      case ValidateRuleEnum.Phone:
+        if(!PHONE_REGEXP.test(value)) {
+          errorMessage = 'Некорректный номер';
           return errorMessage;
         }
       default: break;

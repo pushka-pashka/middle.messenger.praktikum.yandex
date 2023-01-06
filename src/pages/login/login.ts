@@ -1,4 +1,4 @@
-import { validateForm, ValidateRuleEnum, inputNameToValidateRuleType } from 'helpers/validateForm';
+import { validateForm, ValidateRuleEnum } from 'helpers/validateForm';
 import Block from 'utils/Block';
 
 export class LoginPage extends Block {
@@ -9,17 +9,15 @@ export class LoginPage extends Block {
       onSubmit: () => this.onSubmit(),
       onInput: (e: InputEvent) => {
         const inputEl = e.target as HTMLInputElement;
-        const { name, value } = inputEl;
+        const { name } = inputEl;
+        const errorEl = this.refs[name].refs.errorRef;
 
-        const errorMessage = validateForm([
-          { type: inputNameToValidateRuleType(name), value }
-        ]);
+        if(errorEl.getProps('text')) {
+          errorEl.setProps({ text: '' })
+        }
 
-        this.refs[name].refs.errorRef.setProps({ text: errorMessage });
-      },
-      errorMessage: '',
-      loginValue: '',
-      passwordValue: ''
+        return;
+      }
     })
   }
 
@@ -39,6 +37,8 @@ export class LoginPage extends Block {
         ${ValidateRuleEnum.Login}: ${loginValue},
         ${ValidateRuleEnum.Password}: ${passwordValue}`
       );
+    } else {
+      console.log('onSubmit error')
     };
   }
 
@@ -46,7 +46,7 @@ export class LoginPage extends Block {
     // language=hbs
     return `
       <div>
-        <h1 class="header">Добро пожаловать</h1>
+        {{{Header text="Добро пожаловать" size='l'}}}
         <form id="signin" action="" method="post" class="form">
           {{{InputDecorator
             ref="login"
@@ -72,11 +72,3 @@ export class LoginPage extends Block {
     `;
   }
 }
-
-// hbs
-// <h1 class="header">Добро пожаловать</h1>
-// <form id="signin" action="" method="post" class="form">
-//   {{> 'label/label' label='Логин' type='text' name='login' placeholder='ivanovanov'}}
-//   {{> 'label/label' label='Пароль' type='password' name='password' placeholder='***'}}
-//   {{> 'button/button' type='submit' text='Войти'}}
-// </form>

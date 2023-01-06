@@ -1,3 +1,14 @@
-.error {
-  color: red;
+.error_size_s {
+  font-size: 10px;
+  margin-bottom: 10px;
+}
+
+.error_size_m {
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+.error_size_l {
+  font-size: 30px;
+  margin-bottom: 30px;
 }
