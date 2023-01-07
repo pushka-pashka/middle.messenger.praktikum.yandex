@@ -1,4 +1,4 @@
-.icon {
+.iconUser {
   height:150px;
   width:150px;
   border-radius:150px;
@@ -9,6 +9,14 @@
   margin-bottom: 30px;
   color: var(--greylight);
   border: 1px solid var(--greylight);
-  margin: 0 auto;
+  margin: 0 auto 30px auto;
   font-size: 20px;
+}
+
+.iconUser_size_s {
+  height:50px;
+  width:50px;
+  font-size: 10px;
+  line-height: 50px;
+  margin: 0;
 }

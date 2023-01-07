@@ -4,20 +4,22 @@
   border: 2px solid transparent;
   border-radius: 6px;
   padding: 9px 15px;
-  color: var(--fuchsia);
+  color: var(--white);
   font-size: 20px;
   font-weight: 300;
   font-family: inherit;
   margin-bottom: 15px;
-}
-
-.button_type_submit {
   background-color: var(--blue);
   cursor: pointer;
   opacity: 0.8;
 }
 
-.button_type_submit:hover {
+.button_size_s {
+  width: auto;
+  margin-bottom: 0px;
+}
+
+.button:hover {
   opacity: 1;
   box-shadow: 0 0 5px var(--blue);
 }

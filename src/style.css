@@ -2,9 +2,9 @@
 @import './variables.css';
 
 body {
-    color: var(--white);
-    font-size: 20px;
-    margin: 0;
+	color: var(--white);
+	font-size: 20px;
+	margin: 0;
 }
 
 .main-container {
@@ -14,7 +14,7 @@ body {
 
 .page {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     min-height: 100vh;
 }
 
@@ -28,7 +28,7 @@ body {
     flex-direction: column;
     align-items: stretch;
     justify-content: center;
-    margin: 0 auto;
+    margin: auto;
 }
 
 .page__link {

@@ -1,0 +1,10 @@
+.chats-list {
+  flex-basis: 300px;
+  background-color: var(--greydark);
+  color: var(--white);
+  padding: 20px
+}
+
+.chats-list__list{
+  margin: 20px 0;
+}

@@ -28,7 +28,6 @@ export class LoginPage extends Block {
     [ValidateRuleEnum.Login, ValidateRuleEnum.Password].forEach((rule: ValidateRuleEnum) => {
       const inputEl = this._element?.querySelector(`input[name=${rule}]`) as HTMLInputElement;
       const errorRefEl = this.refs[rule].refs.errorRef;
-
       const errorMessage = validateForm([
         { type: rule, value: inputEl.value }
       ]);
