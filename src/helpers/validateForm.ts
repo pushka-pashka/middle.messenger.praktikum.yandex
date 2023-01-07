@@ -37,7 +37,7 @@ export function inputNameToValidateRuleType(name: string): ValidateRuleType {
   }
 };
 
-export function validateForm(rules: ValidateRule[]) : string | undefined {
+export function validateForm(rules: ValidateRule[]) : string {
   let errorMessage = '';
   const EMAIL_REGEXP = /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/iu;
   const NAME_REGEXP = /^[a-zA-Z\-]+$/;
@@ -57,6 +57,7 @@ export function validateForm(rules: ValidateRule[]) : string | undefined {
         }
         break;
       case ValidateRuleEnum.Password:
+      case ValidateRuleEnum.PasswordDouble:
         if(value.length < 5) {
           errorMessage = 'Пароль должен быть больше 4 символов';
           return errorMessage;
@@ -79,11 +80,13 @@ export function validateForm(rules: ValidateRule[]) : string | undefined {
           errorMessage = 'Введите фамилию латинскими буквами';
           return errorMessage;
         }
+        break;
       case ValidateRuleEnum.Phone:
         if(!PHONE_REGEXP.test(value)) {
           errorMessage = 'Некорректный номер';
           return errorMessage;
         }
+        break;
       default: break;
     }
   }

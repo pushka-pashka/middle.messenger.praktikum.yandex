@@ -22,53 +22,63 @@ export class LoginPage extends Block {
   }
 
   onSubmit() {
-    const loginEl = this._element?.querySelector('input[name="login"]') as HTMLInputElement;
-    const passwordEl = this._element?.querySelector('input[name="password"]') as HTMLInputElement;
-    const loginValue = loginEl.value;
-    const passwordValue = passwordEl.value;
+    const errorData: [ValidateRuleEnum, string][]= [];
+    const data: [ValidateRuleEnum, string][] = [];
 
-    const errorMessage = validateForm([
-      { type: ValidateRuleEnum.Login, value: loginValue },
-      { type: ValidateRuleEnum.Password, value: passwordValue }
-    ]);
+    [ValidateRuleEnum.Login, ValidateRuleEnum.Password].forEach((rule: ValidateRuleEnum) => {
+      const inputEl = this._element?.querySelector(`input[name=${rule}]`) as HTMLInputElement;
+      const errorRefEl = this.refs[rule].refs.errorRef;
 
-    if (!errorMessage) {
-      console.log(`Login form data:
-        ${ValidateRuleEnum.Login}: ${loginValue},
-        ${ValidateRuleEnum.Password}: ${passwordValue}`
-      );
+      const errorMessage = validateForm([
+        { type: rule, value: inputEl.value }
+      ]);
+
+      if (errorMessage) {
+        errorRefEl.setProps({ text: errorMessage });
+        errorData.push([rule, errorMessage])
+      } else {
+        data.push([rule, inputEl.value])
+      }
+    });
+
+    if (errorData.length) {
+      console.log('onSubmit error:', errorData)
     } else {
-      console.log('onSubmit error')
+      console.log('Login form data:', data)
     };
   }
 
   render() {
     // language=hbs
     return `
-      <div>
-        {{{Header text="Добро пожаловать" size='l'}}}
-        <form id="signin" action="" method="post" class="form">
-          {{{InputDecorator
-            ref="login"
-            onInput=onInput
-            onFocus=onFocus
-            label='Логин'
-            type='text'
-            name='login'
-            placeholder='ivanovanov'
-          }}}
-          {{{InputDecorator
-            ref="password"
-            onInput=onInput
-            onFocus=onFocus
-            label='Пароль'
-            type='password'
-            name='password'
-            placeholder='***'
-          }}}
-        </form>
-        {{{Button text='Войти' onClick=onSubmit}}}
+    <div class="page">
+      {{{Sidebar to='index.hbs'}}}
+      <div class="page__wrapper">
+        <div class="page__content">
+          {{{Header text="Добро пожаловать" size='l'}}}
+          <form id="signin" action="" method="post" class="form">
+            {{{InputDecorator
+              ref="login"
+              onInput=onInput
+              onFocus=onFocus
+              label='Логин'
+              type='text'
+              name='login'
+              placeholder='ivanovanov'
+            }}}
+            {{{InputDecorator
+              ref="password"
+              onInput=onInput
+              onFocus=onFocus
+              label='Пароль'
+              type='password'
+              name='password'
+              placeholder='***'
+            }}}
+          </form>
+          {{{Button text='Войти' onClick=onSubmit}}}
       </div>
+    </div>
     `;
   }
 }
