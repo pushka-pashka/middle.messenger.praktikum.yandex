@@ -1,10 +1,10 @@
 .input {
   width: 300px;
-  border: 1px solid var(--white);
+  border: 1px solid var(--blue);
   border-radius: 6px;
   padding: 10px 15px;
   background-color: transparent;
-  color: var(--white);
+  color: var(--greydark);
   font-family: inherit;
   font-size: inherit;
   font-weight: 300;
@@ -13,11 +13,11 @@
 }
 
 .input::placeholder {
-  color: var(--fuchsia);
+  color: var(--greylight);
 }
 
 .input:focus {
   outline: none;
-  border-color: var(--white);
-  box-shadow: 0 0 5px var(--white);
+  border-color: var(--blue);
+  box-shadow: 0 0 5px var(--blue);
 }

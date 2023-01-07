@@ -12,12 +12,12 @@
 }
 
 .button_type_submit {
-  background-color: var(--yellow);
+  background-color: var(--blue);
   cursor: pointer;
   opacity: 0.8;
 }
 
 .button_type_submit:hover {
   opacity: 1;
-  box-shadow: 0 0 5px var(--yellow);
+  box-shadow: 0 0 5px var(--blue);
 }

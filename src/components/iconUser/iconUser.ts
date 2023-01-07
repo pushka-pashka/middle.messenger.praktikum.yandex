@@ -4,13 +4,13 @@ import './iconUser.css';
 
 interface IconUserProps {
   photo: string;
-  small?: string;
+  size?: string;
   text?: string;
 }
 
 export class IconUser extends Block {
-  constructor({text, small, photo}: IconUserProps) {
-    super({text, small, photo});
+  constructor(props: IconUserProps) {
+    super({...props});
   }
 
   static componentName = "IconUser";

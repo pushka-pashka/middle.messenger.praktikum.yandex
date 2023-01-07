@@ -1,19 +1,10 @@
 :root {
   --white: #ffffff;
-  --yellow: #fccd18;
-  --fuchsia: rgba(140, 27, 171, 0.71);
-
-  --message-background: #1f9af3;
-  --message-color: #fff;
-  --message-my-background: #e2f0fa;
-  --message-my-color: #000;
-  --screen-content-background: #fff;
-
-  --screen-width: 320px;
-  --screen-height: 560px;
-
-  --message-border-radius: 20px;
-
-  --screen-background: #e2f0fa;
-  --screen-content-background: #fff;
+  --milk: #F2F5F8;
+  --greylight: #a8aab1;
+  --grey: rgb(107, 113, 126);
+  --greydark: #444753;
+  --blue: #70aee8;
+  --green: #86BB71;
+  --red: red
 }

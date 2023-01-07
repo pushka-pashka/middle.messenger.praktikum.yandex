@@ -1,14 +1,19 @@
+.error {
+  color: var(--red);
+}
+
 .error_size_s {
-  font-size: 10px;
-  margin-bottom: 10px;
+  font-size: 12px;
+  margin-bottom: 12px;
 }
 
 .error_size_m {
-  font-size: 20px;
-  margin-bottom: 20px;
+  font-size: 16px;
+  margin-bottom: 16px;
 }
 
 .error_size_l {
-  font-size: 30px;
-  margin-bottom: 30px;
+  font-size: 20px;
+  margin-bottom: 20px;
+  color: var(--greydark)
 }

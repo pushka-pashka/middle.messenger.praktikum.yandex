@@ -8,45 +8,41 @@ body {
 }
 
 .main-container {
-    background: linear-gradient(#fccd18, #eb7195, #8c1bab);
-    display: flex;
+    background: var(--milk);
     min-height: 100vh;
+}
+
+.page {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+    flex-direction: row;
+    min-height: 100vh;
 }
 
-.main_content {
+.page__wrapper {
+    flex: 1;
     display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    justify-content: center;
 }
 
-.header {
-    font-size: 30px;
-    margin-bottom: 30px;
-    text-align: center;
-}
-
-.form {
+.page__content {
     display: flex;
     flex-direction: column;
     align-items: stretch;
+    justify-content: center;
+    margin: 0 auto;
 }
 
-.profile {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.page__link {
+    color: var(--blue);
+    font-size: 20px;
+    list-style: none;
+    font-size: 25px;
 }
 
-.profile_buttons {
-    width: 100%
+.page__link a {
+    color: var(--blue);
+    text-decoration: none;
 }
 
-.pages_list {
-    font-size: 24px;
-    color: var(--white);
+.page__link a:hover {
+    text-decoration: underline;
 }

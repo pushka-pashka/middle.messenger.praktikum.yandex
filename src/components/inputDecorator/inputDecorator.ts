@@ -35,8 +35,8 @@ export class InputDecorator extends Block {
   protected render(): string {
     return `
       <div class="input-decorator">
+        <div class="input-decorator__label">\{{label}}</div>
         <div class="input-decorator__wrapper">
-          <span class="input-decorator__label">\{{label}}</span>
           {{{Input
             onInput=onInput
             onFocus=onFocus
@@ -45,10 +45,11 @@ export class InputDecorator extends Block {
             type=type
             placeholder=placeholder
             value=value
+            ref=name
           }}}
-        </div>
-        <div class="input-decorator__error">
-          {{{Error ref="errorRef" text=error size="s"}}}
+          <div class="input-decorator__error">
+            {{{Error ref="errorRef" text=error size="s"}}}
+          </div>
         </div>
       </div>
     `;

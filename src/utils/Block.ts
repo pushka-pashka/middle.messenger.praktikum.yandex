@@ -27,7 +27,7 @@ export default class Block<P extends object = {} > {
   eventBus: () => EventBus<Events>;
 
   protected state: any = {};
-  protected refs: {[key: string]: Block} = {};
+  protected _refs: {[key: string]: Block} = {};
 
   public constructor(props?: P) {
     const eventBus = new EventBus<Events>();
@@ -110,6 +110,10 @@ export default class Block<P extends object = {} > {
 
     Object.assign(this.state, nextState);
   };
+
+  get refs() {
+    return this._refs;
+  }
 
   get element() {
     return this._element;

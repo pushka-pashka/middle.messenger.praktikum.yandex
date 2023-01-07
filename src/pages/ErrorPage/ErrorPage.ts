@@ -15,10 +15,15 @@ export class ErrorPage extends Block {
   render() {
     // language=hbs
     return `
-      <div>
-        {{{Header size=size text=headerText}}}
-        {{{Error text=errorText}}}
+    <div class="page">
+      {{{Sidebar to='index.hbs'}}}
+      <div class="page__wrapper">
+        <div class="page__content">
+          {{{Header size=size text=headerText}}}
+          {{{Error text=errorText size=size}}}
+        </div>
       </div>
+    </div>
     `;
   }
 }

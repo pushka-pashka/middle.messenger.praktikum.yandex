@@ -1,9 +1,5 @@
-{{#if photo}}
-  <div class="avatar"></div>
-{{/if}}
-
-{{#if small}}
-  <div class="avatar_small"></div>
-{{/if}}
-
-<div class="avatar">\{{text}}</div>
+<div class="icon icon_size_\{{size}}">
+  \{{#if text}}
+    \{{text}}
+  \{{/if}}
+</div>

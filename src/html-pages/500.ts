@@ -2,9 +2,11 @@ import { Error } from 'components/error/error';
 import { Header, HeaderSizeType } from 'components/header/header';
 import { ErrorPage } from 'pages/ErrorPage/ErrorPage';
 import { renderDOM, registerComponent }  from 'utils';
+import { Sidebar } from 'components/sidebar/sidebar';
 
 registerComponent(Error);
 registerComponent(Header);
+registerComponent(Sidebar);
 
 document.addEventListener("DOMContentLoaded", () => {
   renderDOM(new ErrorPage({
