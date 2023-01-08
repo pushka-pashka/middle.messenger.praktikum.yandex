@@ -55,7 +55,7 @@ export class LoginPage extends Block {
     // language=hbs
     return `
     <div class="page">
-      {{{Sidebar to='index.hbs'}}}
+      {{{Sidebar to='../index.html'}}}
       <div class="page__wrapper">
         <div class="page__content">
           {{{Header text="Добро пожаловать" size='l'}}}

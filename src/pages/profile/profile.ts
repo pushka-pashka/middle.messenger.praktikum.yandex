@@ -5,7 +5,7 @@ export class ProfilePage extends Block {
     // language=hbs
     return `
     <div class="page">
-      {{{Sidebar to='index.hbs'}}}
+      {{{Sidebar to='../index.html'}}}
       <div class="page__wrapper">
         <div class="page__content">
           {{{IconUser text="Саня" size="l"}}}

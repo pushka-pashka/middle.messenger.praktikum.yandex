@@ -52,7 +52,7 @@ export class ChatContent extends Block {
         placeholder='Введите текст'
       }}}
       <div class="chat-content__buttons">
-        {{{Sidebar to='index.hbs'}}}
+        {{{Sidebar to='../index.html'}}}
         {{{Button size='s' text='Отправить' onClick=onSubmit}}}
       </div>
       </div>
