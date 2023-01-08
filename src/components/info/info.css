@@ -1,14 +1,14 @@
 .info {
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 25px;
-    display: flex;
-    border-bottom: 1px solid var(--greylight);
-    color: var(--greydark);
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+  display: flex;
+  border-bottom: 1px solid var(--greylight);
+  color: var(--greydark);
 }
 
 .info_label {
-    width: 150px;
-    margin-right: 25px;
-    font-size: 20px;
+  width: 150px;
+  margin-right: 25px;
+  font-size: 20px;
 }

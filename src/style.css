@@ -1,48 +1,47 @@
-@import '../node_modules/normalize.css/normalize.css';
-@import './variables.css';
+@import url("../node_modules/normalize.css/normalize.css");
+@import url("./variables.css");
 
 body {
-	color: var(--white);
-	font-size: 20px;
-	margin: 0;
+  color: var(--white);
+  font-size: 20px;
+  margin: 0;
 }
 
 .main-container {
-    background: var(--milk);
-    min-height: 100vh;
+  background: var(--milk);
+  min-height: 100vh;
 }
 
 .page {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 .page__wrapper {
-    flex: 1;
-    display: flex;
+  flex: 1;
+  display: flex;
 }
 
 .page__content {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    justify-content: center;
-    margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  margin: auto;
 }
 
 .page__link {
-    color: var(--blue);
-    font-size: 20px;
-    list-style: none;
-    font-size: 25px;
+  color: var(--blue);
+  list-style: none;
+  font-size: 25px;
 }
 
 .page__link a {
-    color: var(--blue);
-    text-decoration: none;
+  color: var(--blue);
+  text-decoration: none;
 }
 
 .page__link a:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }

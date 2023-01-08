@@ -3,6 +3,7 @@
   align-items: center;
   margin-bottom: 20px;
 }
+
 .chatItem__about {
   display: flex;
   flex-direction: column;
@@ -13,6 +14,7 @@
 .chatItem__about_type_reverse {
   color: var(--grey);
 }
+
 .about__status {
   color: var(--greylight);
   font-size: 14px;
