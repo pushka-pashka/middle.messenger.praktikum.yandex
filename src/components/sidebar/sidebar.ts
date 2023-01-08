@@ -1,6 +1,6 @@
-import Block from 'utils/Block';
-import template from 'bundle-text:./sidebar.hbs';
-import './sidebar.css';
+import Block from "utils/Block";
+import template from "bundle-text:./sidebar.hbs";
+import "./sidebar.css";
 
 interface SidebarProps {
   to: string;
@@ -8,7 +8,7 @@ interface SidebarProps {
 
 export class Sidebar extends Block {
   constructor(props: SidebarProps) {
-    super({...props});
+    super({ ...props });
   }
 
   static componentName = "Sidebar";

@@ -1,6 +1,6 @@
-import Block from 'utils/Block';
-import template from 'bundle-text:./info.hbs';
-import './info.css';
+import Block from "utils/Block";
+import template from "bundle-text:./info.hbs";
+import "./info.css";
 
 interface InfoProps {
   label: string;
@@ -9,7 +9,7 @@ interface InfoProps {
 
 export class Info extends Block {
   constructor(props: InfoProps) {
-    super({...props});
+    super({ ...props });
   }
 
   static componentName = "Info";

@@ -1,1 +1,1 @@
-export { InputDecorator as default } from './inputDecorator';
+export { InputDecorator as default } from "./inputDecorator";

@@ -1,29 +1,32 @@
-import Block from 'utils/Block';
-import './chatContent.css';
+import Block from "utils/Block";
+import "./chatContent.css";
 
 export class ChatContent extends Block {
   static componentName = "ChatContent";
 
   constructor() {
-    super()
+    super();
 
     this.setProps({
       onSubmit: () => {
-        const textareaEl = this._element?.querySelector(`textarea[name='message']`) as HTMLInputElement;
+        const textareaEl = this._element?.querySelector(
+          "textarea[name='message']"
+        ) as HTMLInputElement;
         const { value } = textareaEl;
 
-        if(value) {
-          console.log('Message:', textareaEl.value);
-          debugger
-          const textareaRefEl = this.refs['message'];
-          textareaRefEl.setProps({ value: '' });
+        if (value) {
+          // eslint-disable-next-line
+          console.log("Message:", textareaEl.value);
+          debugger;
+          const textareaRefEl = this.refs.message;
+          textareaRefEl.setProps({ value: "" });
         }
       }
-    })
+    });
   }
 
   render(): string {
-  return `
+    return `
     <div class="chat-content">
       <div class="chat-content__header">
         {{{ChatItem type="reverse" name='Masha Vershinina' status='уже 1032 сообщения'}}}
@@ -36,7 +39,8 @@ export class ChatContent extends Block {
       {{{Message sender="" date="10:11, Сегодня" text="А ты?"}}}
       {{{Message sender="" date="10:17, Сегодня" text="Эй, ты где?"}}}
       {{{Message sender="Masha" date="10:17, Сегодня" text="Тут, тут, рядом в телефон пырюсь"}}}
-      {{{Message sender="Masha" date="10:12, Сегодня" text="Компьютер ночью не положен, И соблюдая сей режим,Мы с телефонами в обнимку Лежим"}}}
+      {{{Message sender="Masha" date="10:12, Сегодня" text="Компьютер ночью не положен,
+        И соблюдая сей режим,Мы с телефонами в обнимку Лежим"}}}
     </div>
     <div class="chat-content__footer">
       {{{Textarea

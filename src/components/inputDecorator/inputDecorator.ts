@@ -1,6 +1,9 @@
-import Block from 'utils/Block';
-import { validateForm, inputNameToValidateRuleType } from 'helpers/validateForm';
-import './inputDecorator.css';
+import Block from "utils/Block";
+import {
+  validateForm,
+  inputNameToValidateRuleType
+} from "helpers/validateForm";
+import "./inputDecorator.css";
 
 interface InputDecoratorProps {
   type: string;
@@ -13,7 +16,6 @@ interface InputDecoratorProps {
   onBlur?: () => void;
 }
 
-
 export class InputDecorator extends Block {
   constructor(props: InputDecoratorProps) {
     super({
@@ -22,10 +24,13 @@ export class InputDecorator extends Block {
         const inputEl = e.target as HTMLInputElement;
 
         const error = validateForm([
-          { type: inputNameToValidateRuleType(props.name), value: inputEl.value}
+          {
+            type: inputNameToValidateRuleType(props.name),
+            value: inputEl.value
+          }
         ]);
 
-        this.refs.errorRef.setProps({ text: error })
+        this.refs.errorRef.setProps({ text: error });
       }
     });
   }

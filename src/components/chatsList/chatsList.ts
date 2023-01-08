@@ -1,11 +1,11 @@
-import Block from 'utils/Block';
-import './chatsList.css';
+import Block from "utils/Block";
+import "./chatsList.css";
 
 export class ChatsList extends Block {
   static componentName = "ChatsList";
 
   protected render(): string {
-  return `
+    return `
     <div class="chats-list">
       {{{Search}}}
       <div class="chats-list__list">

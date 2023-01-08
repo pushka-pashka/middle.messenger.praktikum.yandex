@@ -1,22 +1,22 @@
 type ValidateRule = {
-  value: string,
-  type: ValidateRuleType
+  value: string;
+  type: ValidateRuleType;
 };
 
 export enum ValidateRuleEnum {
-  Login = 'login',
-  Password = 'password',
-  Email = 'email',
-  Name = 'name',
-  Surname = 'surname',
-  PasswordDouble = 'password_double',
-  Phone = 'phone'
-};
+  Login = "login",
+  Password = "password",
+  Email = "email",
+  Name = "name",
+  Surname = "surname",
+  PasswordDouble = "password_double",
+  Phone = "phone"
+}
 
 export type ValidateRuleType = Nullable<ValidateRuleEnum>;
 
 export function inputNameToValidateRuleType(name: string): ValidateRuleType {
-  switch(name) {
+  switch (name) {
     case ValidateRuleEnum.Login:
       return ValidateRuleEnum.Login;
     case ValidateRuleEnum.Password:
@@ -33,61 +33,64 @@ export function inputNameToValidateRuleType(name: string): ValidateRuleType {
       return ValidateRuleEnum.Phone;
 
     default:
-      return null
+      return null;
   }
-};
+}
 
-export function validateForm(rules: ValidateRule[]) : string {
-  let errorMessage = '';
-  const EMAIL_REGEXP = /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/iu;
+export function validateForm(rules: ValidateRule[]): string {
+  let errorMessage = "";
+  const EMAIL_REGEXP =
+    /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/iu;
   const NAME_REGEXP = /^[a-zA-Z\-]+$/;
   const PHONE_REGEXP = /^\+?([0-9]{11})+$/;
 
-  for(let i = 0; i < rules.length; i++ ) {
+  for (let i = 0; i < rules.length; i++) {
     const { type, value } = rules[i];
 
-    switch(type) {
+    switch (type) {
       case ValidateRuleEnum.Login:
-        if(!value.length) {
-          errorMessage = 'Введите логин';
+        if (!value.length) {
+          errorMessage = "Введите логин";
           return errorMessage;
-        } else if(value.length < 4) {
-          errorMessage = 'Логин должен быть больше 3 символов';
+        }
+        if (value.length < 4) {
+          errorMessage = "Логин должен быть больше 3 символов";
           return errorMessage;
         }
         break;
       case ValidateRuleEnum.Password:
       case ValidateRuleEnum.PasswordDouble:
-        if(value.length < 5) {
-          errorMessage = 'Пароль должен быть больше 4 символов';
+        if (value.length < 5) {
+          errorMessage = "Пароль должен быть больше 4 символов";
           return errorMessage;
         }
         break;
       case ValidateRuleEnum.Email:
-        if(!EMAIL_REGEXP.test(value)) {
-          errorMessage = 'Некорректный email';
+        if (!EMAIL_REGEXP.test(value)) {
+          errorMessage = "Некорректный email";
           return errorMessage;
         }
         break;
       case ValidateRuleEnum.Name:
-        if(!NAME_REGEXP.test(value)) {
-          errorMessage = 'Введите имя латинскими буквами';
+        if (!NAME_REGEXP.test(value)) {
+          errorMessage = "Введите имя латинскими буквами";
           return errorMessage;
         }
         break;
       case ValidateRuleEnum.Surname:
-        if(!NAME_REGEXP.test(value)) {
-          errorMessage = 'Введите фамилию латинскими буквами';
+        if (!NAME_REGEXP.test(value)) {
+          errorMessage = "Введите фамилию латинскими буквами";
           return errorMessage;
         }
         break;
       case ValidateRuleEnum.Phone:
-        if(!PHONE_REGEXP.test(value)) {
-          errorMessage = 'Некорректный номер';
+        if (!PHONE_REGEXP.test(value)) {
+          errorMessage = "Некорректный номер";
           return errorMessage;
         }
         break;
-      default: break;
+      default:
+        break;
     }
   }
 

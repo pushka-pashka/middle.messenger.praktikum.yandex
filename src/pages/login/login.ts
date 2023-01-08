@@ -1,9 +1,9 @@
-import { validateForm, ValidateRuleEnum } from 'helpers/validateForm';
-import Block from 'utils/Block';
+import { validateForm, ValidateRuleEnum } from "helpers/validateForm";
+import Block from "utils/Block";
 
 export class LoginPage extends Block {
   constructor() {
-    super()
+    super();
 
     this.setProps({
       onSubmit: () => this.onSubmit(),
@@ -12,39 +12,43 @@ export class LoginPage extends Block {
         const { name } = inputEl;
         const errorEl = this.refs[name].refs.errorRef;
 
-        if(errorEl.getProps('text')) {
-          errorEl.setProps({ text: '' })
+        if (errorEl.getProps("text")) {
+          errorEl.setProps({ text: "" });
         }
-
-        return;
       }
-    })
+    });
   }
 
   onSubmit() {
-    const errorData: [ValidateRuleEnum, string][]= [];
+    const errorData: [ValidateRuleEnum, string][] = [];
     const data: [ValidateRuleEnum, string][] = [];
 
-    [ValidateRuleEnum.Login, ValidateRuleEnum.Password].forEach((rule: ValidateRuleEnum) => {
-      const inputEl = this._element?.querySelector(`input[name=${rule}]`) as HTMLInputElement;
-      const errorRefEl = this.refs[rule].refs.errorRef;
-      const errorMessage = validateForm([
-        { type: rule, value: inputEl.value }
-      ]);
+    [ValidateRuleEnum.Login, ValidateRuleEnum.Password].forEach(
+      (rule: ValidateRuleEnum) => {
+        const inputEl = this._element?.querySelector(
+          `input[name=${rule}]`
+        ) as HTMLInputElement;
+        const errorRefEl = this.refs[rule].refs.errorRef;
+        const errorMessage = validateForm([
+          { type: rule, value: inputEl.value }
+        ]);
 
-      if (errorMessage) {
-        errorRefEl.setProps({ text: errorMessage });
-        errorData.push([rule, errorMessage])
-      } else {
-        data.push([rule, inputEl.value])
+        if (errorMessage) {
+          errorRefEl.setProps({ text: errorMessage });
+          errorData.push([rule, errorMessage]);
+        } else {
+          data.push([rule, inputEl.value]);
+        }
       }
-    });
+    );
 
     if (errorData.length) {
-      console.log('onSubmit error:', errorData)
+      // eslint-disable-next-line
+      console.log("onSubmit error:", errorData);
     } else {
-      console.log('Login form data:', data)
-    };
+      // eslint-disable-next-line
+      console.log("Login form data:", data);
+    }
   }
 
   render() {

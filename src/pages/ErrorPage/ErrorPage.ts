@@ -1,15 +1,15 @@
-import { HeaderSizeType } from 'components/header/header';
-import Block from 'utils/Block';
+import { HeaderSizeType } from "components/header/header";
+import Block from "utils/Block";
 
 export type ErrorPageProps = {
-  size: HeaderSizeType
+  size: HeaderSizeType;
   headerText: string;
   errorText: string;
-}
+};
 
 export class ErrorPage extends Block {
   constructor(props: ErrorPageProps) {
-    super({...props})
+    super({ ...props });
   }
 
   render() {

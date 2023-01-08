@@ -1,6 +1,6 @@
-import Block from 'utils/Block';
-import template from 'bundle-text:./input.hbs';
-import './input.css';
+import Block from "utils/Block";
+import template from "bundle-text:./input.hbs";
+import "./input.css";
 
 interface InputProps {
   type: string;
@@ -14,7 +14,10 @@ interface InputProps {
 
 export class Input extends Block {
   constructor({ onBlur, onInput, onFocus, ...props }: InputProps) {
-    super({...props, events: { input: onInput, focus: onFocus, blur: onBlur }});
+    super({
+      ...props,
+      events: { input: onInput, focus: onFocus, blur: onBlur }
+    });
   }
 
   static componentName = "Input";

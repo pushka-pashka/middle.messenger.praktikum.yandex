@@ -1,6 +1,6 @@
-import EventBus from './EventBus';
-import { nanoid } from 'nanoid';
-import Handlebars from 'handlebars';
+import EventBus from "./EventBus";
+import { nanoid } from "nanoid";
+import Handlebars from "handlebars";
 
 interface BlockMeta<P = any> {
   props: P;
@@ -8,12 +8,12 @@ interface BlockMeta<P = any> {
 
 type Events = Values<typeof Block.EVENTS>;
 
-export default class Block<P extends object = {} > {
+export default class Block<P extends object = {}> {
   static EVENTS = {
-    INIT: 'init',
-    FLOW_CDM: 'flow:component-did-mount',
-    FLOW_CDU: 'flow:component-did-update',
-    FLOW_RENDER: 'flow:render',
+    INIT: "init",
+    FLOW_CDM: "flow:component-did-mount",
+    FLOW_CDU: "flow:component-did-update",
+    FLOW_RENDER: "flow:render"
   } as const;
 
   static componentName: string;
@@ -22,23 +22,23 @@ export default class Block<P extends object = {} > {
 
   protected _element: Nullable<HTMLElement> = null;
   protected readonly props: Record<string, any>;
-  protected children: {[id: string]: Block} = {};
+  protected children: { [id: string]: Block } = {};
 
   eventBus: () => EventBus<Events>;
 
   protected state: any = {};
-  protected _refs: {[key: string]: Block} = {};
+  protected _refs: { [key: string]: Block } = {};
 
   public constructor(props?: P) {
     const eventBus = new EventBus<Events>();
 
     this._meta = {
-      props,
+      props
     };
 
-    this.getStateFromProps(props)
+    this.getStateFromProps(props);
 
-    this.props = this._makePropsProxy(props || {} as P);
+    this.props = this._makePropsProxy(props || ({} as P));
     this.state = this._makePropsProxy(this.state);
 
     this.eventBus = () => eventBus;
@@ -56,7 +56,7 @@ export default class Block<P extends object = {} > {
   }
 
   _createResources() {
-    this._element = this._createDocumentElement('div');
+    this._element = this._createDocumentElement("div");
   }
 
   protected getStateFromProps(props: any): void {
@@ -72,8 +72,7 @@ export default class Block<P extends object = {} > {
     this.componentDidMount(props);
   }
 
-  componentDidMount(props: P) {
-  }
+  componentDidMount(props: P) {}
 
   _componentDidUpdate(oldProps: P, newProps: P) {
     const response = this.componentDidUpdate(oldProps, newProps);
@@ -132,17 +131,19 @@ export default class Block<P extends object = {} > {
   }
 
   protected render(): string {
-    return '';
-  };
+    return "";
+  }
 
   getContent(): HTMLElement {
     // Хак, чтобы вызвать CDM только после добавления в DOM
     if (this.element?.parentNode?.nodeType === Node.DOCUMENT_FRAGMENT_NODE) {
       setTimeout(() => {
-        if (this.element?.parentNode?.nodeType !==  Node.DOCUMENT_FRAGMENT_NODE ) {
+        if (
+          this.element?.parentNode?.nodeType !== Node.DOCUMENT_FRAGMENT_NODE
+        ) {
           this.eventBus().emit(Block.EVENTS.FLOW_CDM);
         }
-      }, 100)
+      }, 100);
     }
 
     return this.element!;
@@ -156,19 +157,19 @@ export default class Block<P extends object = {} > {
     return new Proxy(props as unknown as object, {
       get(target: Record<string, unknown>, prop: string) {
         const value = target[prop];
-        return typeof value === 'function' ? value.bind(target) : value;
+        return typeof value === "function" ? value.bind(target) : value;
       },
       set(target: Record<string, unknown>, prop: string, value: unknown) {
         target[prop] = value;
 
         // Запускаем обновление компоненты
         // Плохой cloneDeep, в след итерации нужно заставлять добавлять cloneDeep им самим
-        self.eventBus().emit(Block.EVENTS.FLOW_CDU, {...target}, target);
+        self.eventBus().emit(Block.EVENTS.FLOW_CDU, { ...target }, target);
         return true;
       },
       deleteProperty() {
-        throw new Error('Нет доступа');
-      },
+        throw new Error("Нет доступа");
+      }
     }) as unknown as P;
   }
 
@@ -182,7 +183,6 @@ export default class Block<P extends object = {} > {
     if (!events || !this._element) {
       return;
     }
-
 
     Object.entries(events).forEach(([event, listener]) => {
       this._element!.removeEventListener(event, listener);
@@ -202,13 +202,18 @@ export default class Block<P extends object = {} > {
   }
 
   _compile(): DocumentFragment {
-    const fragment = document.createElement('template');
+    const fragment = document.createElement("template");
 
     /**
      * Рендерим шаблон
      */
     const template = Handlebars.compile(this.render());
-    fragment.innerHTML = template({ ...this.state, ...this.props, children: this.children, refs: this.refs });
+    fragment.innerHTML = template({
+      ...this.state,
+      ...this.props,
+      children: this.children,
+      refs: this.refs
+    });
 
     /**
      * Заменяем заглушки на компоненты
@@ -247,12 +252,11 @@ export default class Block<P extends object = {} > {
     return fragment.content;
   }
 
-
   show() {
-    this.getContent().style.display = 'block';
+    this.getContent().style.display = "block";
   }
 
   hide() {
-    this.getContent().style.display = 'none';
+    this.getContent().style.display = "none";
   }
 }

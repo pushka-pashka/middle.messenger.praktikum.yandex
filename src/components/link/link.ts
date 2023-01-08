@@ -1,6 +1,6 @@
-import Block from 'utils/Block';
-import template from 'bundle-text:./link.hbs';
-import './link.css';
+import Block from "utils/Block";
+import template from "bundle-text:./link.hbs";
+import "./link.css";
 
 interface LinkProps {
   text: string;
@@ -11,12 +11,13 @@ interface LinkProps {
 export class Link extends Block {
   constructor(props: LinkProps) {
     const onClick = (e: MouseEvent) => {
-      console.log('Link clicked');
+      // eslint-disable-next-line
+      console.log("Link clicked");
 
       e.preventDefault();
-    }
+    };
 
-    super({...props, events: { click: onClick }});
+    super({ ...props, events: { click: onClick } });
   }
 
   static componentName = "Link";

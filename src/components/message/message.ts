@@ -1,5 +1,5 @@
-import Block from 'utils/Block';
-import './message.css';
+import Block from "utils/Block";
+import "./message.css";
 
 interface MessageProps {
   date: string;
@@ -11,11 +11,11 @@ export class Message extends Block {
   static componentName = "Message";
 
   constructor(props: MessageProps) {
-      super({...props})
+    super({ ...props });
   }
 
   protected render(): string {
-    const type = this.props.sender ? 'toMe' : 'me';
+    const type = this.props.sender ? "toMe" : "me";
 
     return `
       <div class="message message_type_${type}">
@@ -25,5 +25,5 @@ export class Message extends Block {
         </div>
         <div class="message__content message__content_type_${type}">\{{text}}</div>
       </div>`;
-    }
+  }
 }

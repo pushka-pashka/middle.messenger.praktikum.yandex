@@ -1,11 +1,11 @@
-import Block from 'utils/Block';
-import template from 'bundle-text:./header.hbs';
-import './header.css';
+import Block from "utils/Block";
+import template from "bundle-text:./header.hbs";
+import "./header.css";
 
 export enum HeaderSizeType {
-  s ='s',
-  m = 'm',
-  l = 'l'
+  s = "s",
+  m = "m",
+  l = "l"
 }
 
 interface HeaderProps {
@@ -14,8 +14,8 @@ interface HeaderProps {
 }
 
 export class Header extends Block {
-  constructor(props : HeaderProps) {
-    super({...props});
+  constructor(props: HeaderProps) {
+    super({ ...props });
   }
 
   static componentName = "Header";

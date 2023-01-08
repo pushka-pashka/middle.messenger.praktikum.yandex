@@ -1,6 +1,6 @@
-import Block from 'utils/Block';
-import template from 'bundle-text:./button.hbs';
-import './button.css';
+import Block from "utils/Block";
+import template from "bundle-text:./button.hbs";
+import "./button.css";
 
 interface ButtonProps {
   text: string;
@@ -10,8 +10,8 @@ interface ButtonProps {
 }
 
 export class Button extends Block {
-  constructor({text, type, onClick, size}: ButtonProps) {
-    super({size, text, type, events: {click: onClick}});
+  constructor({ text, type, onClick, size }: ButtonProps) {
+    super({ size, text, type, events: { click: onClick } });
   }
 
   static componentName = "Button";
