@@ -17,7 +17,7 @@ export class ChatContent extends Block {
         if (value) {
           // eslint-disable-next-line
           console.log("Message:", textareaEl.value);
-          debugger;
+
           const textareaRefEl = this.refs.message;
           textareaRefEl.setProps({ value: "" });
         }

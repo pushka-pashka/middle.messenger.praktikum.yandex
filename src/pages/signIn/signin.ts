@@ -1,68 +1,38 @@
+import { ValidateRuleEnum } from "helpers/validateForm";
 import Block from "utils/Block";
-import { validateForm, ValidateRuleEnum } from "helpers/validateForm";
+import onSubmit from "utils/submitForm";
 
 export class SignInPage extends Block {
   constructor() {
     super();
 
     this.setProps({
-      onSubmit: () => this.onSubmit(),
-      onInput: (e: InputEvent) => {
-        const inputEl = e.target as HTMLInputElement;
-        const { name } = inputEl;
-        const errorEl = this.refs[name].refs.errorRef;
-
-        if (errorEl.getProps("text")) {
-          errorEl.setProps({ text: "" });
-        }
-      }
+      onSubmit: (e: FormDataEvent) => this.onSubmit(e),
+      onInput: (e: InputEvent) => this.onInput(e)
     });
   }
 
-  onSubmit() {
-    const errorData: [ValidateRuleEnum, string][] = [];
-    const data: [ValidateRuleEnum, string][] = [];
-
-    [
+  onSubmit(e: FormDataEvent) {
+    const fields = [
       ValidateRuleEnum.Email,
       ValidateRuleEnum.Login,
-      ValidateRuleEnum.Name,
-      ValidateRuleEnum.Surname,
+      ValidateRuleEnum.FirstName,
+      ValidateRuleEnum.SecondName,
       ValidateRuleEnum.Phone,
       ValidateRuleEnum.Password,
       ValidateRuleEnum.PasswordDouble
-    ].forEach((rule: ValidateRuleEnum) => {
-      const inputEl = this._element?.querySelector(
-        `input[name=${rule}]`
-      ) as HTMLInputElement;
-      const errorRefEl = this.refs[rule].refs.errorRef;
+    ];
 
-      let errorMessage = validateForm([{ type: rule, value: inputEl.value }]);
+    onSubmit(e, fields, this.element, this.refs);
+  }
 
-      if (!errorMessage && rule === ValidateRuleEnum.PasswordDouble) {
-        const passwordEl = this._element?.querySelector(
-          `input[name=${ValidateRuleEnum.Password}]`
-        ) as HTMLInputElement;
-        errorMessage =
-          passwordEl.value !== inputEl.value
-            ? "Не совпадает с основным паролем"
-            : "";
-      }
+  onInput(e: InputEvent) {
+    const inputEl = e.target as HTMLInputElement;
+    const { name } = inputEl;
+    const errorEl = this.refs[name].refs.errorRef;
 
-      if (errorMessage) {
-        errorRefEl.setProps({ text: errorMessage });
-        errorData.push([rule, errorMessage]);
-      } else {
-        data.push([rule, inputEl.value]);
-      }
-    });
-
-    if (errorData.length) {
-      // eslint-disable-next-line
-      console.log("onSubmit error:", errorData);
-    } else {
-      // eslint-disable-next-line
-      console.log("Login form data:", data);
+    if (errorEl.getProps("text")) {
+      errorEl.setProps({ text: "" });
     }
   }
 
@@ -96,18 +66,18 @@ export class SignInPage extends Block {
             {{{InputDecorator
               label='Имя'
               type='text'
-              name='name'
+              name='first_name'
               placeholder='Alexandr'
-              ref="name"
+              ref="first_name"
               onInput=onInput
               onFocus=onFocus
             }}}
             {{{InputDecorator
               label='Фамилия'
               type='text'
-              name='surname'
+              name='second_name'
               placeholder='Alexandrov'
-              ref="surname"
+              ref="second_name"
               onInput=onInput
               onFocus=onFocus
             }}}
@@ -139,7 +109,7 @@ export class SignInPage extends Block {
               onFocus=onFocus
             }}}
           </form>
-          {{{Button text='Зарегистрироваться' onClick=onSubmit}}}
+          {{{Button type="submit" text='Зарегистрироваться' onClick=onSubmit}}}
         </div>
     </div>
     `;

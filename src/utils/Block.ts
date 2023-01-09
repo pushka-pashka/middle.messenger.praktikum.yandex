@@ -8,7 +8,7 @@ interface BlockMeta<P = any> {
 
 type Events = Values<typeof Block.EVENTS>;
 
-export default class Block<P extends object = {}> {
+export default abstract class Block<P extends Record<string, any> = object> {
   static EVENTS = {
     INIT: "init",
     FLOW_CDM: "flow:component-did-mount",
@@ -21,7 +21,7 @@ export default class Block<P extends object = {}> {
   private readonly _meta: BlockMeta;
 
   protected _element: Nullable<HTMLElement> = null;
-  protected readonly props: Record<string, any>;
+  protected readonly props: P;
   protected children: { [id: string]: Block } = {};
 
   eventBus: () => EventBus<Events>;

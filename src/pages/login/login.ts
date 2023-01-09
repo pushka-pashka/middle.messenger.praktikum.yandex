@@ -1,53 +1,30 @@
-import { validateForm, ValidateRuleEnum } from "helpers/validateForm";
+import { ValidateRuleEnum } from "helpers/validateForm";
 import Block from "utils/Block";
+import onSubmit from "utils/submitForm";
 
 export class LoginPage extends Block {
   constructor() {
     super();
 
     this.setProps({
-      onSubmit: () => this.onSubmit(),
-      onInput: (e: InputEvent) => {
-        const inputEl = e.target as HTMLInputElement;
-        const { name } = inputEl;
-        const errorEl = this.refs[name].refs.errorRef;
-
-        if (errorEl.getProps("text")) {
-          errorEl.setProps({ text: "" });
-        }
-      }
+      onSubmit: (e: FormDataEvent) => this.onSubmit(e),
+      onInput: (e: InputEvent) => this.onInput(e)
     });
   }
 
-  onSubmit() {
-    const errorData: [ValidateRuleEnum, string][] = [];
-    const data: [ValidateRuleEnum, string][] = [];
+  onSubmit(e: FormDataEvent) {
+    const fields = [ValidateRuleEnum.Login, ValidateRuleEnum.Password];
 
-    [ValidateRuleEnum.Login, ValidateRuleEnum.Password].forEach(
-      (rule: ValidateRuleEnum) => {
-        const inputEl = this._element?.querySelector(
-          `input[name=${rule}]`
-        ) as HTMLInputElement;
-        const errorRefEl = this.refs[rule].refs.errorRef;
-        const errorMessage = validateForm([
-          { type: rule, value: inputEl.value }
-        ]);
+    onSubmit(e, fields, this.element, this.refs);
+  }
 
-        if (errorMessage) {
-          errorRefEl.setProps({ text: errorMessage });
-          errorData.push([rule, errorMessage]);
-        } else {
-          data.push([rule, inputEl.value]);
-        }
-      }
-    );
+  onInput(e: InputEvent) {
+    const inputEl = e.target as HTMLInputElement;
+    const { name } = inputEl;
+    const errorEl = this.refs[name].refs.errorRef;
 
-    if (errorData.length) {
-      // eslint-disable-next-line
-      console.log("onSubmit error:", errorData);
-    } else {
-      // eslint-disable-next-line
-      console.log("Login form data:", data);
+    if (errorEl.getProps("text")) {
+      errorEl.setProps({ text: "" });
     }
   }
 
@@ -78,8 +55,8 @@ export class LoginPage extends Block {
               name='password'
               placeholder='***'
             }}}
+            {{{Button type="submit" text='Войти' onClick=onSubmit}}}
           </form>
-          {{{Button text='Войти' onClick=onSubmit}}}
       </div>
     </div>
     `;

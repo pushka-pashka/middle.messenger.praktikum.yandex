@@ -18,9 +18,9 @@ export class ProfilePage extends Block {
             {{{Info label="Телефон" text="+79781461517"}}}
           </div>
           <div class="profile_buttons">
-            {{{Button type='' text='Изменить данные'}}}
-            {{{Button type='' text='Изменить пароль'}}}
-            {{{Button type='' text='Выйти'}}}
+            {{{Button text='Изменить данные'}}}
+            {{{Button text='Изменить пароль'}}}
+            {{{Button text='Выйти'}}}
           </div>
         </div>
       </div>

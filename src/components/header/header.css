@@ -1,5 +1,6 @@
 .header {
   color: var(--greydark);
+  font-weight: normal;
 }
 
 .header_size_l {

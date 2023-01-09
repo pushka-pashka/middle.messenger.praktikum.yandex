@@ -7,8 +7,8 @@ export enum ValidateRuleEnum {
   Login = "login",
   Password = "password",
   Email = "email",
-  Name = "name",
-  Surname = "surname",
+  FirstName = "first_name",
+  SecondName = "second_name",
   PasswordDouble = "password_double",
   Phone = "phone"
 }
@@ -23,10 +23,10 @@ export function inputNameToValidateRuleType(name: string): ValidateRuleType {
       return ValidateRuleEnum.Password;
     case ValidateRuleEnum.Email:
       return ValidateRuleEnum.Email;
-    case ValidateRuleEnum.Name:
-      return ValidateRuleEnum.Name;
-    case ValidateRuleEnum.Surname:
-      return ValidateRuleEnum.Surname;
+    case ValidateRuleEnum.FirstName:
+      return ValidateRuleEnum.FirstName;
+    case ValidateRuleEnum.SecondName:
+      return ValidateRuleEnum.SecondName;
     case ValidateRuleEnum.PasswordDouble:
       return ValidateRuleEnum.PasswordDouble;
     case ValidateRuleEnum.Phone:
@@ -71,13 +71,13 @@ export function validateForm(rules: ValidateRule[]): string {
           return errorMessage;
         }
         break;
-      case ValidateRuleEnum.Name:
+      case ValidateRuleEnum.FirstName:
         if (!NAME_REGEXP.test(value)) {
           errorMessage = "Введите имя латинскими буквами";
           return errorMessage;
         }
         break;
-      case ValidateRuleEnum.Surname:
+      case ValidateRuleEnum.SecondName:
         if (!NAME_REGEXP.test(value)) {
           errorMessage = "Введите фамилию латинскими буквами";
           return errorMessage;
