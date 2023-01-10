@@ -1,0 +1,14 @@
+.input-decorator__wrapper {
+  margin-bottom: 20px;
+}
+
+.input-decorator__label {
+  font-size: 20px;
+  width: 250px;
+  margin-bottom: 5px;
+  color: var(--greydark);
+}
+
+.input-decorator__error {
+  margin-top: 2px;
+}

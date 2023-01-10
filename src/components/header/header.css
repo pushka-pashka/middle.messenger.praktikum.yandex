@@ -1,0 +1,10 @@
+.header {
+  color: var(--greydark);
+  font-weight: normal;
+}
+
+.header_size_l {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 30px;
+}

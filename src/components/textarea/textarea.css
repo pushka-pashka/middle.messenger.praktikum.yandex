@@ -1,0 +1,22 @@
+.textarea {
+  border: 1px solid var(--blue);
+  border-radius: 6px;
+  padding: 10px 15px;
+  background-color: transparent;
+  color: var(--greydark);
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: 300;
+  appearance: none;
+  margin-bottom: 20px;
+}
+
+.textarea::placeholder {
+  color: var(--greylight);
+}
+
+.textarea:focus {
+  outline: none;
+  border-color: var(--blue);
+  box-shadow: 0 0 5px var(--blue);
+}
