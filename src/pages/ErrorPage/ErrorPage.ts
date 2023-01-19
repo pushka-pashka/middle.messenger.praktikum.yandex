@@ -1,5 +1,5 @@
 import { HeaderSizeType } from "components/header/header";
-import Block from "utils/Block";
+import Block from "core/Block";
 
 export type ErrorPageProps = {
   size: HeaderSizeType;
@@ -8,8 +8,12 @@ export type ErrorPageProps = {
 };
 
 export class ErrorPage extends Block {
-  constructor(props: ErrorPageProps) {
-    super({ ...props });
+  constructor(
+    headerText = "Заголовок",
+    size = "m",
+    errorText = "Страница ошибки"
+  ) {
+    super({ headerText, size, errorText });
   }
 
   render() {

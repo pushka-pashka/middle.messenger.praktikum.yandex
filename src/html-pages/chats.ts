@@ -1,7 +1,7 @@
 import { Error } from "components/error/error";
 import { Header } from "components/header/header";
 import { ChatsPage } from "pages/chats/chats";
-import { renderDOM, registerComponent } from "utils";
+import { renderDOM, registerComponent } from "core";
 import { Search } from "components/search/search";
 import { ChatsList } from "components/chatsList/chatsList";
 import ChatItem from "../components/chatItem";

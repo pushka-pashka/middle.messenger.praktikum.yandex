@@ -1,8 +1,5 @@
-import Block from "utils/Block";
-import {
-  validateForm,
-  inputNameToValidateRuleType
-} from "helpers/validateForm";
+import Block from "core/Block";
+import { validateForm, inputNameToValidateRuleType } from "utils/validateForm";
 import "./inputDecorator.css";
 
 interface InputDecoratorProps {

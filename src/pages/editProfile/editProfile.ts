@@ -1,5 +1,5 @@
-import { ValidateRuleEnum } from "helpers/validateForm";
-import Block from "utils/Block";
+import { ValidateRuleEnum } from "utils/validateForm";
+import Block from "core/Block";
 import onSubmit from "utils/submitForm";
 
 export class EditProfilePage extends Block {

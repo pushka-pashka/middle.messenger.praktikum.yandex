@@ -1,4 +1,4 @@
-import Block from "utils/Block";
+import Block from "core/Block";
 import template from "bundle-text:./sidebar.hbs";
 import "./sidebar.css";
 

@@ -1,4 +1,4 @@
-import { renderDOM, registerComponent } from "utils";
+import { renderDOM, registerComponent } from "core";
 import { LoginPage } from "pages/login/login";
 import { InputDecorator } from "components/inputDecorator/inputDecorator";
 import { Button } from "components/button/button";

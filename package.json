@@ -10,10 +10,12 @@
     "stylelint": "stylelint '**/*{.css,.scss}'"
   },
   "alias": {
-    "utils": "./src/utils",
+    "api": "./src/api",
     "components": "./src/components",
+    "core": "./src/core",
     "helpers": "./src/helpers",
-    "pages": "./src/pages"
+    "pages": "./src/pages",
+    "utils": "./src/utils"
   },
   "repository": {
     "type": "git",

@@ -3,7 +3,7 @@ import { IconUser } from "components/iconUser/iconUser";
 import { Info } from "components/info/info";
 import { Sidebar } from "components/sidebar/sidebar";
 import { ProfilePage } from "pages/profile/profile";
-import { renderDOM, registerComponent } from "utils";
+import { renderDOM, registerComponent } from "core";
 import { Header } from "components/header/header";
 
 registerComponent(IconUser);

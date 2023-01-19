@@ -1,5 +1,5 @@
-import { validateForm, ValidateRuleEnum } from "helpers/validateForm";
-import Block from "./Block";
+import { validateForm, ValidateRuleEnum } from "utils/validateForm";
+import Block from "../core/Block";
 
 export default function onSubmit(
   event: FormDataEvent,

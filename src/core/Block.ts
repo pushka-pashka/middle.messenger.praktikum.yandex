@@ -2,8 +2,9 @@ import EventBus from "./EventBus";
 import { nanoid } from "nanoid";
 import Handlebars from "handlebars";
 
-interface BlockMeta<P = any> {
-  props: P;
+export interface BlockClass<P> extends Function {
+  new (props: P): Block<P>;
+  componentName?: string;
 }
 
 type Events = Values<typeof Block.EVENTS>;
@@ -16,9 +17,8 @@ export default abstract class Block<P extends Record<string, any> = object> {
     FLOW_RENDER: "flow:render"
   } as const;
 
-  static componentName: string;
+  public static componentName: string;
   public id = nanoid(6);
-  private readonly _meta: BlockMeta;
 
   protected _element: Nullable<HTMLElement> = null;
   protected readonly props: P;
@@ -253,10 +253,12 @@ export default abstract class Block<P extends Record<string, any> = object> {
   }
 
   show() {
+    console.log("show block");
     this.getContent().style.display = "block";
   }
 
   hide() {
+    console.log("hide block");
     this.getContent().style.display = "none";
   }
 }

@@ -1,4 +1,4 @@
-import Block from "utils/Block";
+import Block from "core/Block";
 import template from "bundle-text:./info.hbs";
 import "./info.css";
 

@@ -2,7 +2,7 @@ import { Error } from "components/error/error";
 import { Header, HeaderSizeType } from "components/header/header";
 import { Sidebar } from "components/sidebar/sidebar";
 import { ErrorPage } from "pages/ErrorPage/ErrorPage";
-import { renderDOM, registerComponent } from "utils";
+import { renderDOM, registerComponent } from "core";
 
 registerComponent(Error);
 registerComponent(Header);

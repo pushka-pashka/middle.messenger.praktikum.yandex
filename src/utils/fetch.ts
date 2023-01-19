@@ -6,7 +6,7 @@ const METHODS = {
   DELETE: "DELETE"
 };
 
-function queryStringify(data) {
+function queryStringify(data: object) {
   if (typeof data !== "object") {
     throw new Error("Data must be object");
   }
@@ -18,8 +18,8 @@ function queryStringify(data) {
   }, "?");
 }
 
-class HTTPTransport {
-  get = (url, options = {}) => {
+export default class HTTPTransport {
+  get = (url: string, options = {}) => {
     return this.request(
       url,
       { ...options, method: METHODS.GET },
@@ -27,7 +27,7 @@ class HTTPTransport {
     );
   };
 
-  post = (url, options = {}) => {
+  post = (url: string, options = {}) => {
     return this.request(
       url,
       { ...options, method: METHODS.POST },

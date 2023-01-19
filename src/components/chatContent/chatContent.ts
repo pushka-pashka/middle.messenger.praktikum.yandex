@@ -1,4 +1,4 @@
-import Block from "utils/Block";
+import Block from "core/Block";
 import "./chatContent.css";
 
 export class ChatContent extends Block {

@@ -3,7 +3,7 @@ import { Header } from "components/header/header";
 import { Error } from "components/error/error";
 import { SignInPage } from "pages/signIn/signin";
 import { InputDecorator } from "components/inputDecorator/inputDecorator";
-import { renderDOM, registerComponent } from "utils";
+import { renderDOM, registerComponent } from "core";
 import { Input } from "components/input/input";
 import { Sidebar } from "components/sidebar/sidebar";
 
