@@ -1,11 +1,11 @@
 import { BlockClass } from "core/Block";
-import { ChatsPage } from "pages/chats/chats";
-import { LoginPage } from "pages/login/login";
-import { SignInPage } from "pages/signIn/signin";
+import ChatsPage from "pages/chats";
+import LoginPage from "pages/login/login";
+import SignInPage from "pages/signIn";
 import ProfilePage from "pages/profile";
 import ErrorPage from "pages/ErrorPage";
-import { EditProfilePage } from "pages/editProfile/editProfile";
-import { EditPassword } from "pages/editPassword/editPassword";
+import EditProfilePage from "pages/editProfile";
+import EditPassword from "pages/editPassword";
 
 export enum Screens {
   Login = "login",
