@@ -15,6 +15,7 @@
     "core": "./src/core",
     "helpers": "./src/helpers",
     "pages": "./src/pages",
+    "services": "./src/services",
     "utils": "./src/utils"
   },
   "repository": {

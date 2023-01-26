@@ -12,6 +12,10 @@ export type Action<State> = (
 ) => void;
 
 export class Store<State extends Record<string, any>> extends EventBus {
+  static EVENTS = {
+    Update: "update"
+  } as const;
+
   private state: State = {} as State;
 
   constructor(defaultState: State) {
@@ -30,7 +34,7 @@ export class Store<State extends Record<string, any>> extends EventBus {
 
     this.state = { ...this.state, ...nextState };
 
-    this.emit("changed", prevState, nextState);
+    this.emit(Store.EVENTS.Update, prevState, nextState);
   }
 
   dispatch(nextStateOrAction: Partial<State> | Action<State>, payload?: any) {

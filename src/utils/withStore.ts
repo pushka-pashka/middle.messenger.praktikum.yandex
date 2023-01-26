@@ -26,12 +26,12 @@ export function withStore<P extends WithStateProps>(
 
     componentDidMount(props: P) {
       super.componentDidMount(props);
-      window.store.on("changed", this.__onChangeStoreCallback);
+      window.store.on(Store.EVENTS.Update, this.__onChangeStoreCallback);
     }
 
     componentWillUnmount() {
       super.componentWillUnmount();
-      window.store.off("changed", this.__onChangeStoreCallback);
+      window.store.off(Store.EVENTS.Update, this.__onChangeStoreCallback);
     }
   } as BlockClass<Omit<P, "store">>;
 }
