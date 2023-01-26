@@ -1,18 +1,37 @@
 import { ValidateRuleEnum } from "utils/validateForm";
 import Block from "core/Block";
-import onSubmit from "utils/submitForm";
+import getFormData from "utils/submitForm";
+import { withStore } from "utils/withStore";
+import { withRouter } from "utils/withRouter";
 
-export class SignInPage extends Block {
-  constructor() {
-    super();
+import { Store } from "core/Store";
+import { logout, signin } from "../../services/auth";
+import { IRouter } from "core/Router";
 
+interface SignInPageProps {
+  router: IRouter;
+  store: Store<AppState>;
+  isLoading: () => boolean;
+  onSignIn: (e: FormDataEvent) => void;
+  onInput: (e: InputEvent) => void;
+  onLogout: () => void;
+}
+
+export class SignInPage extends Block<SignInPageProps> {
+  constructor(props: SignInPageProps) {
+    super(props);
     this.setProps({
-      onSubmit: (e: FormDataEvent) => this.onSubmit(e),
+      // router: window.router,
+      // isLoading: (): boolean => this.props.store.getState().isLoading,
+      onLogout: () => this.props.store.dispatch(logout),
+      onSignIn: (e: FormDataEvent) => this.onSignIn(e),
       onInput: (e: InputEvent) => this.onInput(e)
     });
+
+    // this.props.isLoading = true;
   }
 
-  onSubmit(e: FormDataEvent) {
+  onSignIn(e: FormDataEvent) {
     const fields = [
       ValidateRuleEnum.Email,
       ValidateRuleEnum.Login,
@@ -23,7 +42,11 @@ export class SignInPage extends Block {
       ValidateRuleEnum.PasswordDouble
     ];
 
-    onSubmit(e, fields, this.element, this.refs);
+    const formData = getFormData(e, fields, this.element, this.refs);
+
+    if (formData) {
+      this.props.store.dispatch(signin, formData);
+    }
   }
 
   onInput(e: InputEvent) {
@@ -45,6 +68,7 @@ export class SignInPage extends Block {
         <div class="page__content">
           {{{Header text="Регистрация" size='l'}}}
           <form id="signin" action="" method="post" class="form">
+            {{{Button text="Logout" onClick=onLogout}}}
             {{{InputDecorator
               label='Почта'
               type='text'
@@ -109,9 +133,11 @@ export class SignInPage extends Block {
               onFocus=onFocus
             }}}
           </form>
-          {{{Button type="submit" text='Зарегистрироваться' onClick=onSubmit}}}
+          {{{Button type="submit" text='Зарегистрироваться' onClick=onSignIn}}}
         </div>
     </div>
     `;
   }
 }
+
+export default withRouter(withStore(SignInPage));

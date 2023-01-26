@@ -20,6 +20,7 @@ Object.values(components).forEach((Component: any) =>
 
 //TODO: вынести в отдельный файл
 function initRouts(router: Router, store: Store<AppState>) {
+  debugger;
   routes.forEach((route) =>
     router.use(route.path, getScreenComponent(route.screen))
   );

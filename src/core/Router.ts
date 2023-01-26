@@ -1,6 +1,22 @@
 import Route from "./Route";
 
-class Router {
+export interface IRouter {
+  getRoute: () => boolean;
+  start(): void;
+  use(path: string, callback: () => void): IRouter;
+  go(path: string): void;
+  back(): void;
+  forward(): void;
+  routes: Route[];
+  currentRoute: Route;
+  history: [];
+  //__instance: IRouter;
+}
+
+class Router implements IRouter {
+  public routes: Route[] = [];
+  public currentRoute: Route = null;
+
   constructor() {
     if (Router.__instance) {
       return Router.__instance;
@@ -33,6 +49,8 @@ class Router {
 
   _onRoute(pathname) {
     const route = this.getRoute(pathname);
+
+    // TODO: вести на страницу ошибки
     if (!route) {
       return;
     }
