@@ -9,7 +9,7 @@ import EditPassword from "pages/editPassword";
 
 export enum Screens {
   Login = "login",
-  SignIn = "signIn",
+  SignIn = "signin",
   Profile = "profile",
   Chats = "chats",
   EditProfile = "edit-profile",

@@ -1,6 +1,6 @@
 import { ValidateRuleEnum } from "utils/validateForm";
 import Block from "core/Block";
-import onSubmit from "utils/submitForm";
+import onSubmit from "utils/getFormData";
 
 export class EditPassword extends Block {
   constructor() {

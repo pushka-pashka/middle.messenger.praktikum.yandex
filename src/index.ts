@@ -1,15 +1,14 @@
-import { routes } from "./core/Route";
-import { registerComponent, renderDOM, Router, Store } from "core";
+import { registerComponent, renderDOM, Store, Router, CoreRouter } from "core";
 import * as components from "./components";
-import { getScreenComponent } from "utils/ScreenList";
 import { defaultState } from "./store";
 import { LoadingPage } from "pages/loading/LoadingPage";
 import { initApp } from "services/initApp";
+import { initRouter } from "./route";
 
 //расширяем интерфейс window
 declare global {
   interface Window {
-    router: Router;
+    router: CoreRouter;
     store: Store<AppState>;
   }
 }
@@ -17,19 +16,6 @@ declare global {
 Object.values(components).forEach((Component: any) =>
   registerComponent(Component)
 );
-
-//TODO: вынести в отдельный файл
-function initRouts(router: Router, store: Store<AppState>) {
-  routes.forEach((route) =>
-    router.use(route.path, getScreenComponent(route.screen))
-  );
-
-  store.on(Store.EVENTS.Update, (prevState: AppState, nextState: AppState) => {
-    if (!prevState.appIsInited && nextState.appIsInited) {
-      router.start();
-    }
-  });
-}
 
 document.addEventListener("DOMContentLoaded", () => {
   const store = new Store<AppState>(defaultState);
@@ -42,6 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   store.on(Store.EVENTS.Update, (prevState, nextState) => {
     if (process.env.DEBUG) {
+      // eslint-disable-next-line no-console
       console.log(
         "%cstore updated",
         "background: #222; color: #bada55",
@@ -51,7 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  initRouts(router, store);
+  initRouter(router, store);
 
   store.dispatch(initApp);
 });

@@ -8,11 +8,10 @@ declare global {
 
   export type AppState = {
     appIsInited: boolean; //проинициализировано ли приложение
-    screen: Nullable<Screens>; //текущий экран
     isLoading: boolean; //идет ли загрузка приложения
     loginFormError: Nullable<string>; //ошибка при авторизации
+    screen: Nullable<Screens>; //текущий экран
     user: Nullable<User>; //текущий пользователь
-    isGreenTheme: boolean;
   };
 }
 
