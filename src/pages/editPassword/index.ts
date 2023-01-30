@@ -1,1 +1,1 @@
-export { EditPassword as default } from "./editPassword";
+export { default } from "./editPassword";

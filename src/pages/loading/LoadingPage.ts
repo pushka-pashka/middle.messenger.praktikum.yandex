@@ -22,3 +22,5 @@ export class LoadingPage extends Block {
     `;
   }
 }
+
+export default LoadingPage;

@@ -100,3 +100,5 @@ export class EditProfilePage extends Block {
     `;
   }
 }
+
+export default EditProfilePage;

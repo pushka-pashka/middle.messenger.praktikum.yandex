@@ -28,3 +28,5 @@ export class ProfilePage extends Block {
     `;
   }
 }
+
+export default ProfilePage;

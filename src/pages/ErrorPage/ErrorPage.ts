@@ -31,3 +31,5 @@ export class ErrorPage extends Block {
     `;
   }
 }
+
+export default ErrorPage;

@@ -63,3 +63,5 @@ export class EditPassword extends Block {
     `;
   }
 }
+
+export default EditPassword;

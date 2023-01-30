@@ -1,21 +1,41 @@
-import { ValidateRuleEnum } from "utils/validateForm";
 import Block from "core/Block";
-import onSubmit from "utils/submitForm";
+import { ValidateRuleEnum } from "utils/validateForm";
+import getFormData from "utils/getFormData";
+import { withRouter } from "utils/withRouter";
+import { withStore } from "utils/withStore";
+import { CoreRouter, Store } from "core";
+import { Screens } from "utils/ScreenList";
+import { login } from "services/auth";
 
-export class LoginPage extends Block {
-  constructor() {
-    super();
+interface LoginPageProps {
+  router: CoreRouter;
+  store: Store<AppState>;
+  onSubmit: (e: FormDataEvent) => void;
+  onInput: (e: InputEvent) => void;
+  onNavigateToSignIn: () => void;
+  formError?: () => string | null;
+}
+
+export class LoginPage extends Block<LoginPageProps> {
+  constructor(props: LoginPageProps) {
+    super(props);
 
     this.setProps({
       onSubmit: (e: FormDataEvent) => this.onSubmit(e),
-      onInput: (e: InputEvent) => this.onInput(e)
+      onInput: (e: InputEvent) => this.onInput(e),
+      onNavigateToSignIn: () => this.onNavigateToSignIn(),
+      formError: () => this.props.store.getState().loginFormError
     });
   }
 
   onSubmit(e: FormDataEvent) {
     const fields = [ValidateRuleEnum.Login, ValidateRuleEnum.Password];
+    const formData = getFormData(e, fields, this.element, this.refs);
 
-    onSubmit(e, fields, this.element, this.refs);
+    if (formData) {
+      const loginData = { login: formData.login, password: formData.password };
+      this.props.store.dispatch(login, loginData);
+    }
   }
 
   onInput(e: InputEvent) {
@@ -26,6 +46,10 @@ export class LoginPage extends Block {
     if (errorEl.getProps("text")) {
       errorEl.setProps({ text: "" });
     }
+  }
+
+  onNavigateToSignIn() {
+    this.props.router.go(`/${Screens.SignIn}`);
   }
 
   render() {
@@ -57,8 +81,12 @@ export class LoginPage extends Block {
             }}}
             {{{Button type="submit" text='Войти' onClick=onSubmit}}}
           </form>
+          {{{Button text='Зарегистрироваться' onClick=onNavigateToSignIn}}}
+          {{{Error size='s' text=formError}}}
       </div>
     </div>
     `;
   }
 }
+
+export default withRouter(withStore(LoginPage));
