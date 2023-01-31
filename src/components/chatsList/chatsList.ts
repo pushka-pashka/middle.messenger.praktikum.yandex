@@ -1,12 +1,21 @@
-import Block from "core/Block";
+import { Block } from "core";
 import "./chatsList.css";
+
+interface IChatList {
+  onNavigateToProfile: () => void;
+}
 
 export class ChatsList extends Block {
   static componentName = "ChatsList";
 
+  constructor(props: IChatList) {
+    super(props);
+  }
+
   protected render(): string {
     return `
     <div class="chats-list">
+      {{{Button text="Профиль пользователя" onClick=onNavigateToProfile}}}
       {{{Search}}}
       <div class="chats-list__list">
         {{{ChatItem name='Masha Vershinina' status='left 30min ago'}}}
@@ -21,3 +30,5 @@ export class ChatsList extends Block {
     </div>`;
   }
 }
+
+export default ChatsList;

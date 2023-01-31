@@ -56,7 +56,7 @@ export class LoginPage extends Block<LoginPageProps> {
     // language=hbs
     return `
     <div class="page">
-      {{{Sidebar to='../index.html'}}}
+      {{{Sidebar}}}
       <div class="page__wrapper">
         <div class="page__content">
           {{{Header text="Добро пожаловать" size='l'}}}

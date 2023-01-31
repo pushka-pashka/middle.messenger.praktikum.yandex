@@ -7,6 +7,18 @@ import ErrorPage from "pages/ErrorPage";
 import EditProfilePage from "pages/editProfile";
 import EditPassword from "pages/editPassword";
 
+export enum ScreenPath {
+  Default = "/",
+  Login = "/login",
+  SignIn = "/signin",
+  Profile = "/profile",
+  Chats = "/chats",
+  EditProfile = "/edit-profile",
+  EditPassword = "/edit-password",
+  Error = "/404",
+  Other = "*"
+}
+
 export enum Screens {
   Login = "login",
   SignIn = "signin",

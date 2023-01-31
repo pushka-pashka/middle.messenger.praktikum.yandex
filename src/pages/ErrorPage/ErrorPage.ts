@@ -20,7 +20,7 @@ export class ErrorPage extends Block {
     // language=hbs
     return `
     <div class="page">
-      {{{Sidebar to='../index.html'}}}
+      {{{Sidebar}}}
       <div class="page__wrapper">
         <div class="page__content">
           {{{Header size=size text=headerText}}}

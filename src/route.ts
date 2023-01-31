@@ -1,5 +1,5 @@
 import { renderDOM, Store, CoreRouter } from "core";
-import { getScreenComponent, Screens } from "utils/ScreenList";
+import { getScreenComponent, ScreenPath, Screens } from "utils/ScreenList";
 
 const routes = [
   { path: "/", screen: Screens.Login, shouldAuthorized: false },
@@ -30,16 +30,62 @@ export function initRouter(router: CoreRouter, store: Store<AppState>) {
   routes.forEach((route) => {
     router.use(route.path, () => {
       const isAuthorized = Boolean(store.getState().user);
-      const currentScreen = Boolean(store.getState().screen);
 
-      if (isAuthorized || !route.shouldAuthorized) {
-        store.dispatch({ screen: route.screen });
+      switch (route.path) {
+        case ScreenPath.Default:
+        case ScreenPath.Login:
+        case ScreenPath.Chats:
+          if (isAuthorized) {
+            store.dispatch({ screen: Screens.Chats });
+            return;
+          } else {
+            store.dispatch({ screen: Screens.Login });
+            return;
+          }
 
-        return;
-      }
+        case ScreenPath.SignIn:
+          if (isAuthorized) {
+            store.dispatch({ screen: Screens.Chats });
+            return;
+          } else {
+            store.dispatch({ screen: Screens.SignIn });
+            return;
+          }
 
-      if (!currentScreen) {
-        store.dispatch({ screen: Screens.Login });
+        case ScreenPath.Profile:
+          if (isAuthorized) {
+            store.dispatch({ screen: Screens.Profile });
+            return;
+          } else {
+            store.dispatch({ screen: Screens.Login });
+            return;
+          }
+
+        case ScreenPath.EditProfile:
+          if (isAuthorized) {
+            store.dispatch({ screen: Screens.EditProfile });
+            return;
+          } else {
+            store.dispatch({ screen: Screens.Login });
+            return;
+          }
+
+        case ScreenPath.EditPassword:
+          if (isAuthorized) {
+            store.dispatch({ screen: Screens.EditPassword });
+            return;
+          } else {
+            store.dispatch({ screen: Screens.Login });
+            return;
+          }
+
+        case ScreenPath.Error:
+          store.dispatch({ screen: Screens.Error });
+          return;
+
+        default:
+          store.dispatch({ screen: Screens.Login });
+          return;
       }
     });
   });
@@ -55,6 +101,7 @@ export function initRouter(router: CoreRouter, store: Store<AppState>) {
 
     if (prevState.screen !== nextState.screen) {
       const Page = getScreenComponent(nextState.screen);
+
       renderDOM(new Page({}));
       document.title = `Pushka / ${Page.componentName}`;
     }

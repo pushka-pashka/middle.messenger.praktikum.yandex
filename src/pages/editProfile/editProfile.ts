@@ -1,10 +1,17 @@
+import { Block, Store } from "core";
 import { ValidateRuleEnum } from "utils/validateForm";
-import Block from "core/Block";
-import onSubmit from "utils/getFormData";
+import getFormData from "utils/getFormData";
+import { withStore } from "utils/withStore";
 
-export class EditProfilePage extends Block {
-  constructor() {
-    super();
+interface IEditProfilePage {
+  store: Store<AppState>;
+  onSubmit: (e: FormDataEvent) => void;
+  onInput: (e: InputEvent) => void;
+}
+
+export class EditProfilePage extends Block<IEditProfilePage> {
+  constructor(props: IEditProfilePage) {
+    super(props);
 
     this.setProps({
       onSubmit: (e: FormDataEvent) => this.onSubmit(e),
@@ -21,7 +28,7 @@ export class EditProfilePage extends Block {
       ValidateRuleEnum.Phone
     ];
 
-    onSubmit(e, fields, this.element, this.refs);
+    getFormData(e, fields, this.element, this.refs);
   }
 
   onInput(e: InputEvent) {
@@ -35,10 +42,12 @@ export class EditProfilePage extends Block {
   }
 
   render() {
+    // const user = this.props.store.getState().user;
+
     // language=hbs
     return `
     <div class="page">
-      {{{Sidebar to='../index.html'}}}
+      {{{Sidebar}}}
       <div class="page__wrapper">
         <div class="page__content">
         {{{Header size="l" text="Редактирование профиля"}}}
@@ -101,4 +110,4 @@ export class EditProfilePage extends Block {
   }
 }
 
-export default EditProfilePage;
+export default withStore(EditProfilePage);

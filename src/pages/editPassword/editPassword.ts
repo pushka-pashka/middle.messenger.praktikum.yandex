@@ -32,7 +32,7 @@ export class EditPassword extends Block {
     // language=hbs
     return `
     <div class="page">
-      {{{Sidebar to='../index.html'}}}
+      {{{Sidebar}}}
       <div class="page__wrapper">
         <div class="page__content">
         {{{IconUser text="Саня" size="l"}}}

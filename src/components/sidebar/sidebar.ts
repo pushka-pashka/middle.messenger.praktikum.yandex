@@ -1,19 +1,29 @@
-import Block from "core/Block";
 import template from "bundle-text:./sidebar.hbs";
 import "./sidebar.css";
+import { withRouter } from "utils/withRouter";
+import { Block, CoreRouter } from "core";
 
-interface SidebarProps {
-  to: string;
+interface ISidebarProps {
+  router: CoreRouter;
+  events: object;
 }
 
-export class Sidebar extends Block {
-  constructor(props: SidebarProps) {
-    super({ ...props });
+export class Sidebar extends Block<ISidebarProps> {
+  static componentName = "Sidebar";
+
+  constructor(props: ISidebarProps) {
+    const onNavigateBack = () => this.onNavigateBack();
+
+    super({ ...props, events: { click: onNavigateBack } });
   }
 
-  static componentName = "Sidebar";
+  onNavigateBack() {
+    this.props.router.back();
+  }
 
   protected render(): string {
     return template;
   }
 }
+
+export default withRouter(Sidebar);

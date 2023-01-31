@@ -1,10 +1,12 @@
-import { Block, Store } from "core";
-import { logout } from "services/auth";
+import { Block, CoreRouter, Store } from "core";
+import { ScreenPath } from "utils/ScreenList";
+import { withRouter } from "utils/withRouter";
 import { withStore } from "utils/withStore";
 
 interface IChatsPage {
   store: Store<AppState>;
-  onLogout: () => void;
+  router: CoreRouter;
+  onNavigateToProfile: () => void;
 }
 
 export class ChatsPage extends Block<IChatsPage> {
@@ -12,7 +14,9 @@ export class ChatsPage extends Block<IChatsPage> {
     super(props);
 
     this.setProps({
-      onLogout: () => this.props.store.dispatch(logout)
+      onNavigateToProfile: () => {
+        this.props.router.go(ScreenPath.Profile);
+      }
     });
   }
 
@@ -21,7 +25,7 @@ export class ChatsPage extends Block<IChatsPage> {
     return `
     <div class="page">
       <div class="page__wrapper">
-        {{{ChatsList onLogout=onLogout}}}
+        {{{ChatsList onNavigateToProfile=onNavigateToProfile}}}
         {{{ChatContent}}}
       </div>
     </div>
@@ -29,4 +33,4 @@ export class ChatsPage extends Block<IChatsPage> {
   }
 }
 
-export default withStore(ChatsPage);
+export default withRouter(withStore(ChatsPage));

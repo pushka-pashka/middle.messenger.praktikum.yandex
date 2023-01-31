@@ -24,6 +24,7 @@ export class Router implements CoreRouter {
       this.routes[`${pathname}`]();
     }
 
+    //TODO: переделать эту логику под мой роутер
     if (!foundPath && this.routes["*"]) {
       this.routes["*"]();
     }

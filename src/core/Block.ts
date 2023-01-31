@@ -82,6 +82,7 @@ export default abstract class Block<P extends Record<string, any> = object> {
     this._render();
   }
 
+  //TODO: делать сравнение через isEqual
   componentDidUpdate(oldProps: P, newProps: P) {
     return true;
   }
@@ -94,7 +95,7 @@ export default abstract class Block<P extends Record<string, any> = object> {
     return this.props;
   };
 
-  setProps = (nextProps: P) => {
+  setProps = (nextProps: Partial<P>) => {
     if (!nextProps) {
       return;
     }
@@ -102,7 +103,7 @@ export default abstract class Block<P extends Record<string, any> = object> {
     Object.assign(this.props, nextProps);
   };
 
-  setState = (nextState: any) => {
+  setState = (nextState: Partial<P>) => {
     if (!nextState) {
       return;
     }
@@ -208,6 +209,7 @@ export default abstract class Block<P extends Record<string, any> = object> {
      * Рендерим шаблон
      */
     const template = Handlebars.compile(this.render());
+
     fragment.innerHTML = template({
       ...this.state,
       ...this.props,
@@ -228,22 +230,20 @@ export default abstract class Block<P extends Record<string, any> = object> {
         return;
       }
 
-      const stubChilds = stub.childNodes.length ? stub.childNodes : [];
-
       /**
        * Заменяем заглушку на component._element
        */
       const content = component.getContent();
       stub.replaceWith(content);
 
-      /**
-       * Ищем элемент layout-а, куда вставлять детей
-       */
-      const layoutContent = content.querySelector('[data-layout="1"]');
+      // /**
+      //  * Ищем элемент layout-а, куда вставлять детей
+      //  */
+      // const layoutContent = content.querySelector('[data-layout="1"]');
 
-      if (layoutContent && stubChilds.length) {
-        layoutContent.append(...stubChilds);
-      }
+      // if (layoutContent && stubChilds.length) {
+      //   layoutContent.append(...stubChilds);
+      // }
     });
 
     /**
