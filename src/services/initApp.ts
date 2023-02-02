@@ -1,4 +1,5 @@
 import { authAPI } from "api/authApi";
+import { chatsAPI } from "api/chatsApi";
 import { Dispatch } from "core/Store";
 import { apiHasError } from "utils/apiHasError";
 
@@ -7,13 +8,21 @@ export async function initApp(dispatch: Dispatch<AppState>) {
   await new Promise((r) => setTimeout(r, 700));
 
   try {
-    const response = await authAPI.me();
+    const user = await authAPI.me();
 
-    if (apiHasError(response)) {
+    if (apiHasError(user)) {
       return;
     }
 
-    dispatch({ user: response });
+    dispatch({ user });
+
+    const chatsList = await chatsAPI.getChats();
+
+    if (apiHasError(chatsList)) {
+      return;
+    }
+
+    dispatch({ chatsList });
   } catch (err) {
     console.error(err);
   } finally {

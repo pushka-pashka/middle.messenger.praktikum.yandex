@@ -5,7 +5,7 @@ import { withRouter } from "utils/withRouter";
 import { withStore } from "utils/withStore";
 import { CoreRouter, Store } from "core";
 import { Screens } from "utils/ScreenList";
-import { login } from "services/auth";
+import { login } from "services/authService";
 
 interface LoginPageProps {
   router: CoreRouter;

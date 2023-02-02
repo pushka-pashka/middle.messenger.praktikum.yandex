@@ -3,5 +3,7 @@ export const defaultState: AppState = {
   isLoading: false,
   loginFormError: null,
   screen: null,
-  user: null
+  user: null,
+  chatsList: null,
+  activeChat: null
 };

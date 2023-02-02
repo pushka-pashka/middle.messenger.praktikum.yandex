@@ -43,22 +43,13 @@ export default function getFormData(
     }
   });
 
-  // if (errorData.length) {
-  //   // eslint-disable-next-line
-  //   console.log("Form error:", errorData);
-  //   return null;
-  // } else {
-  //   // eslint-disable-next-line
-  //   console.log("Form data:", data);
-  //   return data;
-  // }
-  return {
-    email: "ya2@yandex.ru",
-    first_name: "Pavel2",
-    login: "pushka2",
-    password: "12345",
-    password_double: "12345",
-    second_name: "Pupkin2",
-    phone: "+79787878782"
-  };
+  if (errorData.length) {
+    // eslint-disable-next-line
+    console.log("Form error:", errorData);
+    return null;
+  } else {
+    // eslint-disable-next-line
+    console.log("Form data:", data);
+    return data;
+  }
 }

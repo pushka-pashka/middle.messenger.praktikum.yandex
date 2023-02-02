@@ -5,7 +5,7 @@ import { withStore } from "utils/withStore";
 import { withRouter } from "utils/withRouter";
 
 import { Store } from "core/Store";
-import { logout, signup } from "../../services/auth";
+import { logout, signup } from "../../services/authService";
 import { CoreRouter } from "core";
 
 interface SignInPageProps {

@@ -1,5 +1,5 @@
 import { Block, CoreRouter, Store } from "core";
-import { logout } from "services/auth";
+import { logout } from "services/authService";
 import { ScreenPath } from "utils/ScreenList";
 import { withRouter } from "utils/withRouter";
 import { withStore } from "utils/withStore";
@@ -32,14 +32,18 @@ export class ProfilePage extends Block<IProfilePage> {
       {{{Sidebar}}}
       <div class="page__wrapper">
         <div class="page__content">
-          {{{IconUser text="${user.first_name}" size="l"}}}
-          {{{Header size="l" text="${user.login}"}}}
+          {{{IconUser text="${user ? user.first_name : "Ава"}" size="l"}}}
+          {{{Header size="l" text="${user ? user.login : "Логин"}"}}}
           <div class="profile_info">
-            {{{Info label="Имя" text="${user.first_name}"}}}
-            {{{Info label="Фамилия" text="${user.second_name}"}}}
-            {{{Info label="Логин" text="${user.login}"}}}
-            {{{Info label="Имя в чате" text="${user.display_name}"}}}
-            {{{Info label="Телефон" text="${user.phone}"}}}
+            {{{Info label="Имя" text="${user ? user.first_name : "Имя"}"}}}
+            {{{Info label="Фамилия" text="${
+              user ? user.second_name : "Фамилия"
+            }"}}}
+            {{{Info label="Логин" text="${user ? user.login : "Логин"}"}}}
+            {{{Info label="Имя в чате" text="${
+              user ? user.display_name : "Имя в чате"
+            }"}}}
+            {{{Info label="Телефон" text="${user ? user.phone : "Телефон"}"}}}
           </div>
           <div class="profile_buttons">
             {{{Button text='Изменить данные' onClick=onChangeData}}}

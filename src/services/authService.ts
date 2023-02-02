@@ -1,4 +1,5 @@
 import { authAPI } from "api/authApi";
+import { chatsAPI } from "api/chatsApi";
 import { Dispatch } from "core/Store";
 import { apiHasError } from "utils/apiHasError";
 import { Screens } from "utils/ScreenList";
@@ -33,11 +34,6 @@ export const login = async (
   state: AppState,
   action: Object
 ) => {
-  // action = {
-  //   login: "pushka322",
-  //   password: "12345"
-  // };
-
   dispatch({ isLoading: true });
 
   const response = await authAPI.login(action);
@@ -49,9 +45,14 @@ export const login = async (
 
   const user = await authAPI.me();
 
+  const chatsList = await chatsAPI.getChats();
+  dispatch({ chatsList });
+  // const activeChat = getActiveChat(state);
+
   //TODO: вызвать здесь трансформер для юзера
   dispatch({
     user,
+    activeChat: chatsList?.[0].id,
     isLoading: false,
     loginFormError: null,
     screen: Screens.Chats

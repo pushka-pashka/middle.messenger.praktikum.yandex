@@ -1,34 +1,44 @@
-import { Block } from "core";
+import { Block, Store } from "core";
+import { withStore } from "utils/withStore";
 import "./chatsList.css";
 
 interface IChatList {
+  store: Store<AppState>;
+  chatsList: () => Nullable<Array>;
   onNavigateToProfile: () => void;
+  onCreateChat: () => void;
+  onStartChat: () => void;
+  onShowChat: () => void;
 }
 
-export class ChatsList extends Block {
+class ChatsList extends Block<IChatList> {
   static componentName = "ChatsList";
 
   constructor(props: IChatList) {
     super(props);
+
+    this.setProps({
+      chatsList: () => this.props.store.getState().chatsList
+    });
   }
 
   protected render(): string {
     return `
-    <div class="chats-list">
-      {{{Button text="Профиль пользователя" onClick=onNavigateToProfile}}}
-      {{{Search}}}
-      <div class="chats-list__list">
-        {{{ChatItem name='Masha Vershinina' status='left 30min ago'}}}
-        {{{ChatItem name='R2-D2' status='left 2 years ago'}}}
-        {{{ChatItem name='Master Yoda' status='left 18 min ago'}}}
-        {{{ChatItem name='Obi-Wan Kenobi' status='online'}}}
-        {{{ChatItem name='Chewbacca' status='online'}}}
-        {{{ChatItem name='Adam Ondra' status='online'}}}
-        {{{ChatItem name='Ilon Mask' status='left 2 min ago'}}}
-        {{{ChatItem name='Darth Vader' status='online'}}}
-      </div>
-    </div>`;
+      <div class="chats-list">
+        {{{Button text="Профиль пользователя" onClick=onNavigateToProfile}}}
+        {{{Button text="Создать чат" onClick=onCreateChat}}}
+        {{{Button text="Начать чат" onClick=onStartChat}}}
+        {{{Search}}}
+        {{!TODO: тут должен быть список ul}}
+        <div class="chats-list__list">
+          {{#each chatsList}}
+            {{{ChatItem name=this.title status=this.id onShowChat=onShowChat}}}
+          {{/each}}
+        </div>
+      </div>`;
   }
 }
 
-export default ChatsList;
+const ComposedChatsList = withStore(ChatsList);
+
+export { ComposedChatsList as ChatsList };

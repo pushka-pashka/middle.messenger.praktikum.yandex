@@ -12,6 +12,8 @@ declare global {
     loginFormError: Nullable<string>; //ошибка при авторизации
     screen: Nullable<Screens>; //текущий экран
     user: Nullable<User>; //текущий пользователь
+    chatsList: Nullable<ChatsList>; //список чатов
+    activeChat: null | Record<id, number>;
   };
 }
 
