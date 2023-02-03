@@ -17,6 +17,10 @@ export class Button extends Block {
   static componentName = "Button";
 
   protected render(): string {
+    // console.log(
+    //   `%cButton render ${this.id}`,
+    //   "background: #5fa4b2; color: black"
+    // );
     return template;
   }
 }

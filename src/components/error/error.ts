@@ -1,19 +1,31 @@
 import Block from "core/Block";
-import template from "bundle-text:./error.hbs";
+// import template from "bundle-text:./error.hbs";
 import "./error.css";
 
-interface ErrorProps {
+export interface IErrorProps {
   text: string;
+  size: string;
 }
 
 export class Error extends Block {
-  constructor(props: ErrorProps) {
-    super({ ...props });
+  constructor({ text = "", ...props }: IErrorProps) {
+    super({ ...props, text });
   }
 
   static componentName = "Error";
 
   protected render(): string {
-    return template;
+    // console.log(
+    //   `%cError render ${this.id}`,
+    //   "background: #e8cad3; color: black"
+    // );
+
+    return `
+      <div class="error error_size_{{size}}" data-id="${this.id}">
+        {{#if text}}
+          {{text}}
+        {{/if}}
+      </div>
+  `;
   }
 }

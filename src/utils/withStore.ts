@@ -1,9 +1,12 @@
 import { BlockClass, Store } from "core";
+import isEqual from "./isEqual";
 
 type WithStateProps = { store: Store<AppState> };
+type MapStateToProps = (state: AppState) => Partial<AppState>;
 
 export function withStore<P extends WithStateProps>(
-  WrappedBlock: BlockClass<P>
+  WrappedBlock: BlockClass<P>,
+  mapStateToProps: MapStateToProps
 ) {
   // @ts-expect-error No base constructor has the specified
   return class extends WrappedBlock<P> {
@@ -11,17 +14,19 @@ export function withStore<P extends WithStateProps>(
       WrappedBlock.componentName || WrappedBlock.name;
 
     constructor(props: P) {
-      super({ ...props, store: window.store });
+      super({ ...props, ...mapStateToProps(window.store.getState()) });
     }
 
-    __onChangeStoreCallback = () => {
-      /**
-       * TODO: проверить что стор реально обновлен
-       * и прокидывать не целый стор, а необходимые поля
-       * с помощью метода mapStateToProps
-       */
+    __onChangeStoreCallback = (prevState: AppState, nextState: AppState) => {
+      const prevProps = mapStateToProps(prevState);
+      const nextProps = mapStateToProps(nextState);
+
+      if (isEqual(prevProps, nextProps)) {
+        return;
+      }
+
       // @ts-expect-error this is not typed
-      this.setProps({ ...this.props, store: window.store });
+      this.setProps(nextProps);
     };
 
     componentDidMount(props: P) {

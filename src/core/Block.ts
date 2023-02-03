@@ -1,6 +1,7 @@
 import EventBus from "./EventBus";
 import { nanoid } from "nanoid";
 import Handlebars from "handlebars";
+import isEqual from "utils/isEqual";
 
 export interface BlockClass<P> extends Function {
   new (props: P): Block<P>;
@@ -21,25 +22,17 @@ export default abstract class Block<P extends Record<string, any> = object> {
   public id = nanoid(6);
 
   protected _element: Nullable<HTMLElement> = null;
-  protected readonly props: P;
+  protected props: Readonly<P>;
   protected children: { [id: string]: Block } = {};
 
   eventBus: () => EventBus<Events>;
 
-  protected state: any = {};
   protected _refs: { [key: string]: Block } = {};
 
   public constructor(props?: P) {
     const eventBus = new EventBus<Events>();
 
-    this._meta = {
-      props
-    };
-
-    this.getStateFromProps(props);
-
-    this.props = this._makePropsProxy(props || ({} as P));
-    this.state = this._makePropsProxy(this.state);
+    this.props = props || ({} as P);
 
     this.eventBus = () => eventBus;
 
@@ -59,10 +52,6 @@ export default abstract class Block<P extends Record<string, any> = object> {
     this._element = this._createDocumentElement("div");
   }
 
-  protected getStateFromProps(props: any): void {
-    this.state = {};
-  }
-
   init() {
     this._createResources();
     this.eventBus().emit(Block.EVENTS.FLOW_RENDER, this.props);
@@ -76,9 +65,11 @@ export default abstract class Block<P extends Record<string, any> = object> {
 
   _componentDidUpdate(oldProps: P, newProps: P) {
     const response = this.componentDidUpdate(oldProps, newProps);
+
     if (!response) {
       return;
     }
+
     this._render();
   }
 
@@ -95,20 +86,21 @@ export default abstract class Block<P extends Record<string, any> = object> {
     return this.props;
   };
 
-  setProps = (nextProps: Partial<P>) => {
-    if (!nextProps) {
+  setProps = (nextPartialProps: Partial<P>) => {
+    if (!nextPartialProps) {
       return;
     }
 
-    Object.assign(this.props, nextProps);
-  };
+    const prevProps = this.props;
+    const nextProps = { ...this.props, ...nextPartialProps };
 
-  setState = (nextState: Partial<P>) => {
-    if (!nextState) {
+    if (isEqual(prevProps, nextProps)) {
       return;
     }
 
-    Object.assign(this.state, nextState);
+    this.props = nextProps;
+
+    this.eventBus().emit(Block.EVENTS.FLOW_CDU, prevProps, nextProps);
   };
 
   get refs() {
@@ -125,6 +117,8 @@ export default abstract class Block<P extends Record<string, any> = object> {
     this._removeEvents();
     const newElement = fragment.firstElementChild!;
 
+    //TODO: почему дважды переписываем _element?
+    // придумать как реплейсить null
     this._element!.replaceWith(newElement);
 
     this._element = newElement as HTMLElement;
@@ -148,30 +142,6 @@ export default abstract class Block<P extends Record<string, any> = object> {
     }
 
     return this.element!;
-  }
-
-  _makePropsProxy(props: any): any {
-    // Можно и так передать this
-    // Такой способ больше не применяется с приходом ES6+
-    const self = this;
-
-    return new Proxy(props as unknown as object, {
-      get(target: Record<string, unknown>, prop: string) {
-        const value = target[prop];
-        return typeof value === "function" ? value.bind(target) : value;
-      },
-      set(target: Record<string, unknown>, prop: string, value: unknown) {
-        target[prop] = value;
-
-        // Запускаем обновление компоненты
-        // Плохой cloneDeep, в след итерации нужно заставлять добавлять cloneDeep им самим
-        self.eventBus().emit(Block.EVENTS.FLOW_CDU, { ...target }, target);
-        return true;
-      },
-      deleteProperty() {
-        throw new Error("Нет доступа");
-      }
-    }) as unknown as P;
   }
 
   _createDocumentElement(tagName: string) {
@@ -211,7 +181,6 @@ export default abstract class Block<P extends Record<string, any> = object> {
     const template = Handlebars.compile(this.render());
 
     fragment.innerHTML = template({
-      ...this.state,
       ...this.props,
       children: this.children,
       refs: this.refs
@@ -262,3 +231,27 @@ export default abstract class Block<P extends Record<string, any> = object> {
     this.getContent().style.display = "none";
   }
 }
+
+// _makePropsProxy(props: any): any {
+//   // Можно и так передать this
+//   // Такой способ больше не применяется с приходом ES6+
+//   const self = this;
+
+//   return new Proxy(props as unknown as object, {
+//     get(target: Record<string, unknown>, prop: string) {
+//       const value = target[prop];
+//       return typeof value === "function" ? value.bind(target) : value;
+//     },
+//     set(target: Record<string, unknown>, prop: string, value: unknown) {
+//       target[prop] = value;
+
+//       // Запускаем обновление компоненты
+//       // Плохой cloneDeep, в след итерации нужно заставлять добавлять cloneDeep им самим
+//       self.eventBus().emit(Block.EVENTS.FLOW_CDU, { ...target }, target);
+//       return true;
+//     },
+//     deleteProperty() {
+//       throw new Error("Нет доступа");
+//     }
+//   }) as unknown as P;
+// }

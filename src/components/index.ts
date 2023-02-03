@@ -13,3 +13,4 @@ export { default as Message } from "./message";
 export { default as Search } from "./search";
 export { default as Sidebar } from "./sidebar";
 export { default as Textarea } from "./textarea";
+export { default as FormError } from "./formError";

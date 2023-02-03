@@ -1,31 +1,25 @@
-import Block from "core/Block";
+import { Block } from "core";
 import { ValidateRuleEnum } from "utils/validateForm";
 import getFormData from "utils/getFormData";
-import { withRouter } from "utils/withRouter";
-import { withStore } from "utils/withStore";
-import { CoreRouter, Store } from "core";
 import { Screens } from "utils/ScreenList";
 import { login } from "services/authService";
 
-interface LoginPageProps {
-  router: CoreRouter;
-  store: Store<AppState>;
+interface ILoginPageProps {
   onSubmit: (e: FormDataEvent) => void;
   onInput: (e: InputEvent) => void;
   onNavigateToSignIn: () => void;
-  formError?: () => string | null;
+  formError: () => string | null;
 }
 
-export class LoginPage extends Block<LoginPageProps> {
-  constructor(props: LoginPageProps) {
-    super(props);
-
-    this.setProps({
+export class LoginPage extends Block<ILoginPageProps> {
+  constructor(props: ILoginPageProps) {
+    const events = {
       onSubmit: (e: FormDataEvent) => this.onSubmit(e),
       onInput: (e: InputEvent) => this.onInput(e),
-      onNavigateToSignIn: () => this.onNavigateToSignIn(),
-      formError: () => this.props.store.getState().loginFormError
-    });
+      onNavigateToSignIn: () => this.onNavigateToSignIn()
+    };
+
+    super({ ...props, ...events });
   }
 
   onSubmit(e: FormDataEvent) {
@@ -34,7 +28,7 @@ export class LoginPage extends Block<LoginPageProps> {
 
     if (formData) {
       const loginData = { login: formData.login, password: formData.password };
-      this.props.store.dispatch(login, loginData);
+      window.store.dispatch(login, loginData);
     }
   }
 
@@ -43,16 +37,24 @@ export class LoginPage extends Block<LoginPageProps> {
     const { name } = inputEl;
     const errorEl = this.refs[name].refs.errorRef;
 
+    if (window.store.getState().loginFormError) {
+      window.store.dispatch({ loginFormError: null });
+    }
+
     if (errorEl.getProps("text")) {
       errorEl.setProps({ text: "" });
     }
   }
 
   onNavigateToSignIn() {
-    this.props.router.go(`/${Screens.SignIn}`);
+    window.router.go(`/${Screens.SignIn}`);
   }
 
   render() {
+    // console.log(
+    //   `%cLogin render ${this.id}`,
+    //   "background: orange; color: black"
+    // );
     // language=hbs
     return `
     <div class="page">
@@ -82,11 +84,11 @@ export class LoginPage extends Block<LoginPageProps> {
             {{{Button type="submit" text='Войти' onClick=onSubmit}}}
           </form>
           {{{Button text='Зарегистрироваться' onClick=onNavigateToSignIn}}}
-          {{{Error size='s' text=formError}}}
+          {{{FormError size='s'}}}
       </div>
     </div>
     `;
   }
 }
 
-export default withRouter(withStore(LoginPage));
+export default LoginPage;

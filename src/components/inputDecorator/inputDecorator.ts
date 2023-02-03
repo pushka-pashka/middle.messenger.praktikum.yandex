@@ -17,19 +17,21 @@ export class InputDecorator extends Block {
   constructor(props: InputDecoratorProps) {
     super({
       ...props,
-      onBlur: (e: FocusEvent): void => {
-        const inputEl = e.target as HTMLInputElement;
-
-        const error = validateForm([
-          {
-            type: inputNameToValidateRuleType(props.name),
-            value: inputEl.value
-          }
-        ]);
-
-        this.refs.errorRef.setProps({ text: error });
-      }
+      onBlur: (e: FocusEvent): void => this.onBlur(e)
     });
+  }
+
+  onBlur(e: FocusEvent) {
+    const inputEl = e.target as HTMLInputElement;
+
+    const error = validateForm([
+      {
+        type: inputNameToValidateRuleType(this.props.name),
+        value: inputEl.value
+      }
+    ]);
+
+    this.refs.errorRef.setProps({ text: error });
   }
 
   static componentName = "InputDecorator";

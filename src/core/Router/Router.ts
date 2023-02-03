@@ -37,6 +37,7 @@ export class Router implements CoreRouter {
   }
 
   go(pathname: string) {
+    // TODO: унести в route и проверить, что будет правильно работать
     window.history.pushState({}, "", pathname);
     this.onRouteChange(pathname);
   }
