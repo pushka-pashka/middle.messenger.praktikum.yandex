@@ -10,7 +10,8 @@ export enum ValidateRuleEnum {
   FirstName = "first_name",
   SecondName = "second_name",
   PasswordDouble = "password_double",
-  Phone = "phone"
+  Phone = "phone",
+  ChatName = "chat_name"
 }
 
 export type ValidateRuleType = Nullable<ValidateRuleEnum>;
@@ -31,7 +32,8 @@ export function inputNameToValidateRuleType(name: string): ValidateRuleType {
       return ValidateRuleEnum.PasswordDouble;
     case ValidateRuleEnum.Phone:
       return ValidateRuleEnum.Phone;
-
+    case ValidateRuleEnum.ChatName:
+      return ValidateRuleEnum.ChatName;
     default:
       return null;
   }
@@ -86,6 +88,12 @@ export function validateForm(rules: ValidateRule[]): string {
       case ValidateRuleEnum.Phone:
         if (!PHONE_REGEXP.test(value)) {
           errorMessage = "Некорректный номер";
+          return errorMessage;
+        }
+        break;
+      case ValidateRuleEnum.ChatName:
+        if (!value.length) {
+          errorMessage = "Введите название чата";
           return errorMessage;
         }
         break;

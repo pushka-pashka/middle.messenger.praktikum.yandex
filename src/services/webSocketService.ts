@@ -58,6 +58,18 @@ class SocketService {
       })
     );
   }
+
+  public isOpen() {
+    return this.socket.readyState === this.socket.OPEN;
+  }
 }
+
+export const createWebSocketConnection = ({ userId, chatId, token }) => {
+  return new SocketService({
+    chatId,
+    userId,
+    token: token.token
+  });
+};
 
 export default SocketService;

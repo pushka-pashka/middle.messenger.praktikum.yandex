@@ -1,17 +1,17 @@
-import Block from "core/Block";
-import template from "bundle-text:./button.hbs";
+import { Block } from "core";
 import "./button.css";
 
-interface ButtonProps {
+interface IButtonProps {
   text: string;
   type?: string;
   onClick?: () => void;
   size: string;
+  disabled?: boolean;
 }
 
 export class Button extends Block {
-  constructor({ text, type, onClick, size }: ButtonProps) {
-    super({ size, text, type, events: { click: onClick } });
+  constructor({ onClick, ...props }: IButtonProps) {
+    super({ ...props, events: { click: onClick } });
   }
 
   static componentName = "Button";
@@ -21,6 +21,13 @@ export class Button extends Block {
     //   `%cButton render ${this.id}`,
     //   "background: #5fa4b2; color: black"
     // );
-    return template;
+    return `<button
+      class="button button_type_submit button_size_\{{size}}"
+      \{{#if disabled}}
+        disabled
+      \{{/if}}
+      type=\{{type}}>
+      \{{text}}
+    </button>;`;
   }
 }

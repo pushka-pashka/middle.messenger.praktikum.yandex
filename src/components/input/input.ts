@@ -1,8 +1,8 @@
-import Block from "core/Block";
+import { Block } from "core";
 import template from "bundle-text:./input.hbs";
 import "./input.css";
 
-interface InputProps {
+interface IInputProps {
   type: string;
   name: string;
   placeholder: string;
@@ -13,7 +13,7 @@ interface InputProps {
 }
 
 export class Input extends Block {
-  constructor({ onBlur, onInput, onFocus, ...props }: InputProps) {
+  constructor({ onBlur, onInput, onFocus, ...props }: IInputProps) {
     super({
       ...props,
       events: { input: onInput, focus: onFocus, blur: onBlur }

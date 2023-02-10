@@ -15,6 +15,7 @@ export default abstract class Block<P extends Record<string, any> = object> {
     INIT: "init",
     FLOW_CDM: "flow:component-did-mount",
     FLOW_CDU: "flow:component-did-update",
+    FLOW_CWU: "flow:component-will-unmount",
     FLOW_RENDER: "flow:render"
   } as const;
 
@@ -41,10 +42,26 @@ export default abstract class Block<P extends Record<string, any> = object> {
     eventBus.emit(Block.EVENTS.INIT, this.props);
   }
 
+  /**
+   * Хелпер, который проверяет, находится ли элемент в DOM дереве
+   * И есть нет, триггерит событие COMPONENT_WILL_UNMOUNT
+   */
+  _checkInDom() {
+    const elementInDOM = document.body.contains(this._element);
+
+    if (elementInDOM) {
+      setTimeout(() => this._checkInDom(), 1000);
+      return;
+    }
+
+    this.eventBus().emit(Block.EVENTS.FLOW_CWU, this.props);
+  }
+
   _registerEvents(eventBus: EventBus<Events>) {
     eventBus.on(Block.EVENTS.INIT, this.init.bind(this));
     eventBus.on(Block.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
     eventBus.on(Block.EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this));
+    eventBus.on(Block.EVENTS.FLOW_CWU, this._componentWillUnmount.bind(this));
     eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
   }
 
@@ -58,10 +75,18 @@ export default abstract class Block<P extends Record<string, any> = object> {
   }
 
   _componentDidMount(props: P) {
+    this._checkInDom();
     this.componentDidMount(props);
   }
 
   componentDidMount(props: P) {}
+
+  _componentWillUnmount() {
+    this.eventBus().destroy();
+    this.componentWillUnmount();
+  }
+
+  componentWillUnmount() {}
 
   _componentDidUpdate(oldProps: P, newProps: P) {
     const response = this.componentDidUpdate(oldProps, newProps);
@@ -219,16 +244,6 @@ export default abstract class Block<P extends Record<string, any> = object> {
      * Возвращаем фрагмент
      */
     return fragment.content;
-  }
-
-  show() {
-    console.log("show block");
-    this.getContent().style.display = "block";
-  }
-
-  hide() {
-    console.log("hide block");
-    this.getContent().style.display = "none";
   }
 }
 

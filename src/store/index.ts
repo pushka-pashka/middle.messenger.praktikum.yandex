@@ -1,9 +1,16 @@
 export const defaultState: AppState = {
-  activeChat: null,
   appIsInited: false,
-  chatsList: null,
   isLoading: false,
+
+  chatsList: null,
+  isCreatingChat: false,
+  currentChatId: null,
+  chatName: "",
+
   loginFormError: null,
   screen: null,
-  user: null
+  user: null,
+  searchUsersList: [],
+  checkedUsersId: {},
+  errorReason: null
 };

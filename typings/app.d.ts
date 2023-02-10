@@ -8,12 +8,29 @@ declare global {
 
   export type AppState = {
     appIsInited: boolean; //проинициализировано ли приложение
+    chatsList: Nullable<ChatsList>; //список чатов
+    isCreatingChat: boolean; // режим создания чатов
+    currentChatId: Nullable<number>;
+    chatName: Nullable<string>;
     isLoading: boolean; //идет ли загрузка приложения
     loginFormError: Nullable<string>; //ошибка при авторизации
     screen: Nullable<Screens>; //текущий экран
     user: Nullable<User>; //текущий пользователь
-    chatsList: Nullable<ChatsList>; //список чатов
-    activeChat: null | Record<id, number>;
+    searchUsersList: Nullable<User[]>;
+    checkedUsersId: Object<number>;
+    errorReason: Nullable<string>;
+  };
+
+  export type User = {
+    id: number;
+    login: string;
+    firstName: string;
+    secondName: string;
+    displayName: string;
+    avatar: string;
+    phone: string;
+    email: string;
+    isChecked?: boolean;
   };
 }
 

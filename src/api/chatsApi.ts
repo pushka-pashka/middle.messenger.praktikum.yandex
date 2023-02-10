@@ -22,5 +22,16 @@ export const chatsAPI = {
     const xhr = await chatAPIInstance.post(`/chats/token/${id}`);
 
     return xhr.response;
+  },
+
+  addUsers: async (users: number[], chatId: number) => {
+    const xhr = await chatAPIInstance.put("/chats/users", {
+      data: JSON.stringify({
+        users,
+        chatId
+      })
+    });
+
+    return xhr.response;
   }
 };

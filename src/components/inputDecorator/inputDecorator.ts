@@ -11,6 +11,7 @@ interface InputDecoratorProps {
   onInput?: () => void;
   onFocus?: () => void;
   onBlur?: () => void;
+  onBlurExtension?: () => void;
 }
 
 export class InputDecorator extends Block {
@@ -32,6 +33,10 @@ export class InputDecorator extends Block {
     ]);
 
     this.refs.errorRef.setProps({ text: error });
+
+    if (this.getProps().onBlurExtension) {
+      this.getProps().onBlurExtension(inputEl.value);
+    }
   }
 
   static componentName = "InputDecorator";

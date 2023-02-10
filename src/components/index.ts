@@ -1,5 +1,8 @@
 export { default as Button } from "./button";
 export { default as ChatContent } from "./chatContent";
+export { default as ChatContentСontainer } from "./chatContentСontainer";
+export { default as ChatCreator } from "./chatCreator";
+export { default as ChatCreatorSubmit } from "./chatCreator/chatCreatorSubmit";
 export { default as ChatItem } from "./chatItem";
 export { default as ChatsList } from "./chatsList";
 export { default as Error } from "./error";
@@ -14,3 +17,5 @@ export { default as Search } from "./search";
 export { default as Sidebar } from "./sidebar";
 export { default as Textarea } from "./textarea";
 export { default as FormError } from "./formError";
+export { default as SearchUsersList } from "./searchUsersList";
+export { default as UserItem } from "./UserItem";
