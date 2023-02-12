@@ -1,6 +1,6 @@
 import { Block } from "core";
 import { toogleUser } from "services/chatsService";
-import "./UserItem.css";
+import "./userItem.css";
 
 interface IUserItemProps {
   user: User;

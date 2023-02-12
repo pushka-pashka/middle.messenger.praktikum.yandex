@@ -1,31 +1,30 @@
-import { Block, CoreRouter, Store } from "core";
+import { Block } from "core";
 import { logout } from "services/authService";
 import { ScreenPath } from "utils/ScreenList";
-import { withRouter } from "utils/withRouter";
 import { withStore } from "utils/withStore";
 
 interface IProfilePage {
-  store: Store<AppState>;
-  router: CoreRouter;
   onChangeData: () => void;
   onChangePassword: () => void;
   onLogout: () => void;
+  user: User;
 }
 
-export class ProfilePage extends Block<IProfilePage> {
+class ProfilePage extends Block<IProfilePage> {
+  static componentName = "Profile";
+
   constructor(props: IProfilePage) {
     super(props);
 
     this.setProps({
-      onChangeData: () => this.props.router.go(ScreenPath.EditProfile),
-      onChangePassword: () => this.props.router.go(ScreenPath.EditPassword),
-      onLogout: () => this.props.store.dispatch(logout)
+      onChangeData: () => window.router.go(ScreenPath.EditProfile),
+      onChangePassword: () => window.router.go(ScreenPath.EditPassword),
+      onLogout: () => window.store.dispatch(logout)
     });
   }
 
   render() {
-    //TODO: если user=null то в шаблоне будут ошибки
-    const user = this.props.store.getState().user;
+    const user = this.getProps().user;
     // language=hbs
     return `
     <div class="page">
@@ -41,7 +40,7 @@ export class ProfilePage extends Block<IProfilePage> {
             }"}}}
             {{{Info label="Логин" text="${user ? user.login : "Логин"}"}}}
             {{{Info label="Имя в чате" text="${
-              user ? user.display_name : "Имя в чате"
+              user?.display_name ? user.display_name : "Имя в чате"
             }"}}}
             {{{Info label="Телефон" text="${user ? user.phone : "Телефон"}"}}}
           </div>
@@ -57,4 +56,12 @@ export class ProfilePage extends Block<IProfilePage> {
   }
 }
 
-export default withRouter(withStore(ProfilePage));
+const mapStateToProps: Partial<IProfilePage> = (state: AppState) => {
+  return {
+    user: state.user
+  };
+};
+
+const ComposedProfilePage = withStore(ProfilePage, mapStateToProps);
+
+export { ComposedProfilePage as ProfilePage };

@@ -1,14 +1,12 @@
+import { Block } from "core";
 import template from "bundle-text:./sidebar.hbs";
 import "./sidebar.css";
-import { withRouter } from "utils/withRouter";
-import { Block, CoreRouter } from "core";
 
 interface ISidebarProps {
-  router: CoreRouter;
   events: object;
 }
 
-export class Sidebar extends Block<ISidebarProps> {
+class Sidebar extends Block<ISidebarProps> {
   static componentName = "Sidebar";
 
   constructor(props: ISidebarProps) {
@@ -18,7 +16,7 @@ export class Sidebar extends Block<ISidebarProps> {
   }
 
   onNavigateBack() {
-    this.props.router.back();
+    window.router.back();
   }
 
   protected render(): string {
@@ -26,4 +24,4 @@ export class Sidebar extends Block<ISidebarProps> {
   }
 }
 
-export default withRouter(Sidebar);
+export default Sidebar;

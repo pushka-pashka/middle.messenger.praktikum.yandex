@@ -1,7 +1,7 @@
 import { registerComponent, renderDOM, Store, Router, CoreRouter } from "core";
 import * as components from "./components";
 import { defaultState } from "./store";
-import { LoadingPage } from "pages/loading/LoadingPage";
+import LoadingPage from "pages/loading/LoadingPage";
 import { initApp } from "services/initApp";
 import { initRouter } from "./route";
 

@@ -1,8 +1,9 @@
+import { Block } from "core";
 import { validateForm, ValidateRuleEnum } from "utils/validateForm";
-import Block from "../core/Block";
+
 type FormDataType = Record<ValidateRuleEnum, string>;
 
-export default function getFormData(
+export function getFormData(
   event: FormDataEvent,
   fields: ValidateRuleEnum[],
   element: Nullable<HTMLElement>,
@@ -52,4 +53,14 @@ export default function getFormData(
     console.log("Form data:", data);
     return data;
   }
+}
+
+export function isSameUserFields(user: User, newUser: Partial<User>): boolean {
+  return Boolean(
+    user.email === newUser.email &&
+      user.login === newUser.login &&
+      user.first_name === newUser.first_name &&
+      user.second_name === newUser.second_name &&
+      user.phone === newUser.phone
+  );
 }

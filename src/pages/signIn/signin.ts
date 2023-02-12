@@ -1,30 +1,20 @@
+import { Block } from "core";
 import { ValidateRuleEnum } from "utils/validateForm";
-import Block from "core/Block";
-import getFormData from "utils/getFormData";
-import { withStore } from "utils/withStore";
-import { withRouter } from "utils/withRouter";
+import { getFormData } from "utils/getFormData";
+import { signup } from "services/authService";
 
-import { Store } from "core/Store";
-import { logout, signup } from "../../services/authService";
-import { CoreRouter } from "core";
-
-interface SignInPageProps {
-  router: CoreRouter;
-  store: Store<AppState>;
-  isLoading: () => boolean;
+interface ISignInPageProps {
   onSignIn: (e: FormDataEvent) => void;
   onInput: (e: InputEvent) => void;
-  onLogout: () => void;
 }
 
-export class SignInPage extends Block<SignInPageProps> {
-  constructor(props: SignInPageProps) {
+class SignInPage extends Block<ISignInPageProps> {
+  static componentName = "SignInPage";
+
+  constructor(props: ISignInPageProps) {
     super(props);
 
     this.setProps({
-      // router: window.router,
-      // isLoading: (): boolean => this.props.store.getState().isLoading,
-      onLogout: () => this.props.store.dispatch(logout),
       onSignIn: (e: FormDataEvent) => this.onSignIn(e),
       onInput: (e: InputEvent) => this.onInput(e)
     });
@@ -44,7 +34,7 @@ export class SignInPage extends Block<SignInPageProps> {
     const formData = getFormData(e, fields, this.element, this.refs);
 
     if (formData) {
-      this.props.store.dispatch(signup, formData);
+      window.store.dispatch(signup, formData);
     }
   }
 
@@ -67,7 +57,6 @@ export class SignInPage extends Block<SignInPageProps> {
         <div class="page__content">
           {{{Header text="Регистрация" size='l'}}}
           <form id="signin" action="" method="post" class="form">
-            {{{Button text="Logout" onClick=onLogout}}}
             {{{InputDecorator
               label='Почта'
               type='text'
@@ -139,4 +128,4 @@ export class SignInPage extends Block<SignInPageProps> {
   }
 }
 
-export default withRouter(withStore(SignInPage));
+export default SignInPage;

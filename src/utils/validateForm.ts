@@ -11,7 +11,8 @@ export enum ValidateRuleEnum {
   SecondName = "second_name",
   PasswordDouble = "password_double",
   Phone = "phone",
-  ChatName = "chat_name"
+  ChatName = "chat_name",
+  NewPassword = "new_password"
 }
 
 export type ValidateRuleType = Nullable<ValidateRuleEnum>;
@@ -34,6 +35,8 @@ export function inputNameToValidateRuleType(name: string): ValidateRuleType {
       return ValidateRuleEnum.Phone;
     case ValidateRuleEnum.ChatName:
       return ValidateRuleEnum.ChatName;
+    case ValidateRuleEnum.NewPassword:
+      return ValidateRuleEnum.NewPassword;
     default:
       return null;
   }
@@ -62,6 +65,7 @@ export function validateForm(rules: ValidateRule[]): string {
         break;
       case ValidateRuleEnum.Password:
       case ValidateRuleEnum.PasswordDouble:
+      case ValidateRuleEnum.NewPassword:
         if (value.length < 5) {
           errorMessage = "Пароль должен быть больше 4 символов";
           return errorMessage;

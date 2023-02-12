@@ -1,7 +1,9 @@
 import { UserDTO } from "api/types";
 import { usersAPI } from "api/usersApi";
+import { Dispatch } from "core/Store";
 import { apiHasError } from "utils/apiHasError";
 import { transformUser } from "utils/apiTransformers";
+import { Screens } from "utils/ScreenList";
 
 export const searchUsers = async (
   dispatch: Dispatch<AppState>,
@@ -31,4 +33,54 @@ export const searchUsers = async (
   });
 
   dispatch({ searchUsersList: usersList, isLoading: false });
+};
+
+export const editProfile = async (
+  dispatch: Dispatch<AppState>,
+  state: AppState,
+  action: Object
+) => {
+  dispatch({ isLoading: true });
+
+  const editProfileData = { ...action, display_name: action.login };
+  const response = await usersAPI.changeProfile(editProfileData);
+
+  if (apiHasError(response)) {
+    dispatch({ isLoading: false, errorReason: response.reason });
+    return;
+  }
+
+  dispatch({
+    user: editProfileData,
+    isLoading: false,
+    errorReason: null,
+    screen: Screens.Profile
+  });
+};
+
+export const editPassword = async (
+  dispatch: Dispatch<AppState>,
+  state: AppState,
+  action: Object
+) => {
+  dispatch({ isLoading: true });
+
+  const editPassword = {
+    oldPassword: action.password,
+    newPassword: action.new_password
+  };
+
+  const response = await usersAPI.changePassword(editPassword);
+
+  if (apiHasError(response)) {
+    debugger;
+    dispatch({ isLoading: false, errorReason: response.reason });
+    return;
+  }
+
+  dispatch({
+    isLoading: false,
+    errorReason: null,
+    screen: Screens.Profile
+  });
 };

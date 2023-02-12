@@ -1,25 +1,18 @@
-import { Block, Store } from "core";
+import { Block } from "core";
 import { withStore } from "utils/withStore";
 import "./chatsList.css";
 
-interface IChatList {
-  store: Store<AppState>;
+interface IChatListProps {
   chatsList: () => Nullable<Array>;
   onNavigateToProfile: () => void;
   onCreateChat: () => void;
-  onStartChat: () => void;
-  onShowChat: () => void;
 }
 
-class ChatsList extends Block<IChatList> {
+class ChatsList extends Block<IChatListProps> {
   static componentName = "ChatsList";
 
-  constructor(props: IChatList) {
+  constructor(props: IChatListProps) {
     super(props);
-
-    this.setProps({
-      chatsList: () => this.props.store.getState().chatsList
-    });
   }
 
   protected render(): string {
@@ -27,18 +20,23 @@ class ChatsList extends Block<IChatList> {
       <div class="chats-list">
         {{{Button text="Профиль пользователя" onClick=onNavigateToProfile}}}
         {{{Button text="Создать чат" onClick=onCreateChat}}}
-        {{{Button text="Начать чат" onClick=onStartChat}}}
-        {{{Search}}}
+        {{{Search id="search_chats" placeholder="Найти чат"}}}
         {{!TODO: тут должен быть список ul}}
         <div class="chats-list__list">
           {{#each chatsList}}
-            {{{ChatItem name=this.title status=this.id onShowChat=onShowChat}}}
+            {{{ChatItem name=this.title status=this.id id=this.id}}}
           {{/each}}
         </div>
       </div>`;
   }
 }
 
-const ComposedChatsList = withStore(ChatsList);
+const mapStateToProps: Partial<IChatListProps> = (state: AppState) => {
+  return {
+    chatsList: state.chatsList
+  };
+};
+
+const ComposedChatsList = withStore(ChatsList, mapStateToProps);
 
 export { ComposedChatsList as ChatsList };

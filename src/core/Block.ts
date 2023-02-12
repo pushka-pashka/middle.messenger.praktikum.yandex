@@ -79,7 +79,7 @@ export default abstract class Block<P extends Record<string, any> = object> {
     this.componentDidMount(props);
   }
 
-  componentDidMount(props: P) {}
+  componentDidMount(props?: P) {}
 
   _componentWillUnmount() {
     this.eventBus().destroy();
@@ -99,7 +99,7 @@ export default abstract class Block<P extends Record<string, any> = object> {
   }
 
   //TODO: делать сравнение через isEqual
-  componentDidUpdate(oldProps: P, newProps: P) {
+  componentDidUpdate(oldProps?: P, newProps?: P) {
     return true;
   }
 

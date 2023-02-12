@@ -12,6 +12,7 @@ declare global {
     isCreatingChat: boolean; // режим создания чатов
     currentChatId: Nullable<number>;
     chatName: Nullable<string>;
+    chatData: Array;
     isLoading: boolean; //идет ли загрузка приложения
     loginFormError: Nullable<string>; //ошибка при авторизации
     screen: Nullable<Screens>; //текущий экран

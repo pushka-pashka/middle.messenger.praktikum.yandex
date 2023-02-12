@@ -23,6 +23,12 @@ export async function initApp(dispatch: Dispatch<AppState>) {
     }
 
     dispatch({ chatsList });
+
+    const currentChatId = chatsList[0]?.id || null;
+
+    if (currentChatId) {
+      dispatch({ currentChatId });
+    }
   } catch (err) {
     console.error(err);
   } finally {

@@ -1,10 +1,8 @@
-import Block from "core/Block";
+import { Block } from "core";
 
-export type ErrorPageProps = {
-  headerText: string;
-};
+class LoadingPage extends Block {
+  static componentName = "LoadingPage";
 
-export class LoadingPage extends Block {
   constructor(headerText = "Загрузка приложения") {
     super({ headerText });
   }

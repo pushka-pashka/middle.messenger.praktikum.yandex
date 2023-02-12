@@ -1,5 +1,6 @@
 export { default as Button } from "./button";
 export { default as ChatContent } from "./chatContent";
+export { default as ChatHeader } from "./chatContent/chatHeader";
 export { default as ChatContentСontainer } from "./chatContentСontainer";
 export { default as ChatCreator } from "./chatCreator";
 export { default as ChatCreatorSubmit } from "./chatCreator/chatCreatorSubmit";
@@ -19,3 +20,4 @@ export { default as Textarea } from "./textarea";
 export { default as FormError } from "./formError";
 export { default as SearchUsersList } from "./searchUsersList";
 export { default as UserItem } from "./UserItem";
+export { default as MessagesList } from "./messagesList";

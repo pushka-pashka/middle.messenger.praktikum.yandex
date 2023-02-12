@@ -1,6 +1,7 @@
 import { authAPI } from "api/authApi";
 import { chatsAPI } from "api/chatsApi";
 import { Dispatch } from "core/Store";
+import { logoutState } from "../store";
 import { apiHasError } from "utils/apiHasError";
 import { Screens } from "utils/ScreenList";
 
@@ -14,7 +15,7 @@ export const signup = async (
   const response = await authAPI.signUp(action);
 
   if (apiHasError(response)) {
-    dispatch({ isLoading: false, loginFormError: response.reason });
+    dispatch({ isLoading: false, errorReason: response.reason });
     return;
   }
 
@@ -24,7 +25,7 @@ export const signup = async (
   dispatch({
     user,
     isLoading: false,
-    loginFormError: null,
+    errorReason: null,
     screen: Screens.Chats
   });
 };
@@ -46,13 +47,18 @@ export const login = async (
   const user = await authAPI.me();
 
   const chatsList = await chatsAPI.getChats();
+
   dispatch({ chatsList });
-  // const activeChat = getActiveChat(state);
+
+  const currentChatId = chatsList[0]?.id || null;
+
+  if (currentChatId) {
+    dispatch({ currentChatId });
+  }
 
   //TODO: вызвать здесь трансформер для юзера
   dispatch({
     user,
-    activeChat: chatsList?.[0].id,
     isLoading: false,
     loginFormError: null,
     screen: Screens.Chats
@@ -60,9 +66,7 @@ export const login = async (
 };
 
 export const logout = async (dispatch: Dispatch<AppState>) => {
-  dispatch({ isLoading: true });
-
   await authAPI.logout();
 
-  dispatch({ isLoading: false, user: null, screen: Screens.Login });
+  dispatch({ ...logoutState, screen: Screens.Login });
 };

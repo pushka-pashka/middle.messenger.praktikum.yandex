@@ -1,30 +1,34 @@
-import { Store } from "core";
-import Block from "core/Block";
-import { withStore } from "utils/withStore";
+import { Block } from "core";
+import { openChat } from "services/chatsService";
 import "./chatItem.css";
 
 interface ChatItemProps {
-  store: Store<AppState>;
+  id: number;
   name: string;
   status?: string;
   type?: string;
   events: object;
-  onShowChat?: () => void;
 }
 
-class ChatItem extends Block<ChatItemProps> {
+export class ChatItem extends Block<ChatItemProps> {
   static componentName = "ChatItem";
 
   constructor(props: ChatItemProps) {
-    const { onShowChat } = props;
-    // const onShowChat = () => this.onShowChat();
+    super({ ...props, events: { click: () => this.onOpenChat() } });
+  }
 
-    super({ ...props, events: { click: onShowChat } });
+  onOpenChat() {
+    const chatId = this.getProps().id;
+
+    window.store.dispatch(openChat, {
+      chatId: chatId,
+      userId: window.store.getState().user.id
+    });
   }
 
   protected render(): string {
     return `
-      <div class="chatItem" {{#if onShowChat}} onClick=onShowChat {{/if}}>
+      <div class="chatItem">
         {{{IconUser size='s'}}}
         <div class="chatItem__about{{#if type}} chatItem__about_type_\{{type}} {{/if}}">
           <div class="about__name">\{{name}}</div>
@@ -33,7 +37,3 @@ class ChatItem extends Block<ChatItemProps> {
       </div>`;
   }
 }
-
-const ComposedChatItem = withStore(ChatItem);
-
-export { ComposedChatItem as ChatItem };

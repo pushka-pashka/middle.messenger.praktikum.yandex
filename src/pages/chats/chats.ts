@@ -1,5 +1,4 @@
 import { Block } from "core";
-// import { startNewChat } from "services/chatsService";
 import { ScreenPath } from "utils/ScreenList";
 
 interface IChatsPage {
@@ -14,13 +13,6 @@ class ChatsPage extends Block<IChatsPage> {
     const events = {
       onNavigateToProfile: () => window.router.go(ScreenPath.Profile),
       onCreateChat: () => this.onCreateChat()
-      // onStartChat: () => {
-      //   window.store.dispatch(startNewChat, {
-      //     chatId: 2525,
-      //     userId: window.store.getState().user.id
-      //   });
-      //   console.log("Начинаем общение");
-      // }
     };
 
     super({ ...props, ...events });

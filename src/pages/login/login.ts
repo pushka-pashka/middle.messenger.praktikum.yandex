@@ -1,6 +1,6 @@
 import { Block } from "core";
 import { ValidateRuleEnum } from "utils/validateForm";
-import getFormData from "utils/getFormData";
+import { getFormData } from "utils/getFormData";
 import { Screens } from "utils/ScreenList";
 import { login } from "services/authService";
 
@@ -11,7 +11,9 @@ interface ILoginPageProps {
   formError: () => string | null;
 }
 
-export class LoginPage extends Block<ILoginPageProps> {
+class LoginPage extends Block<ILoginPageProps> {
+  static componentName = "LoginPage";
+
   constructor(props: ILoginPageProps) {
     const events = {
       onSubmit: (e: FormDataEvent) => this.onSubmit(e),
@@ -55,10 +57,10 @@ export class LoginPage extends Block<ILoginPageProps> {
     //   `%cLogin render ${this.id}`,
     //   "background: orange; color: black"
     // );
+
     // language=hbs
     return `
     <div class="page">
-      {{{Sidebar}}}
       <div class="page__wrapper">
         <div class="page__content">
           {{{Header text="Добро пожаловать" size='l'}}}
