@@ -46,7 +46,7 @@ class SearchUsersList extends Block<ISearchUsersListProps> {
         </div>
         <div class="search-users-list__list">
           {{#each usersList}}
-            {{{UserItem
+            {{{SearchUsersItem
               user=this
               isChecked=this.isChecked
             }}}

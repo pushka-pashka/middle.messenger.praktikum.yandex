@@ -1,16 +1,16 @@
 import { Block } from "core";
 import { toogleUser } from "services/chatsService";
-import "./userItem.css";
+import "./searchUsersItem.css";
 
-interface IUserItemProps {
+interface ISearchUsersItemProps {
   user: User;
   onToogleUser?: () => void;
 }
 
-export class UserItem extends Block<IUserItemProps> {
-  static componentName = "UserItem";
+export class SearchUsersItem extends Block<ISearchUsersItemProps> {
+  static componentName = "SearchUsersItem";
 
-  constructor(props: IUserItemProps) {
+  constructor(props: ISearchUsersItemProps) {
     super(props);
 
     this.setProps({

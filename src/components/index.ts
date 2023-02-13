@@ -19,5 +19,5 @@ export { default as Sidebar } from "./sidebar";
 export { default as Textarea } from "./textarea";
 export { default as FormError } from "./formError";
 export { default as SearchUsersList } from "./searchUsersList";
-export { default as UserItem } from "./UserItem";
+export { default as SearchUsersItem } from "./searchUsersItem";
 export { default as MessagesList } from "./messagesList";
