@@ -3,7 +3,7 @@ import { Dispatch } from "core/Store";
 import { apiHasError } from "utils/apiHasError";
 import { createWebSocketConnection } from "./webSocketService";
 
-export let webSocketsConnection = null;
+export let webSocketConnection = null;
 
 // создание нового чата с добавлением пользователей
 export const createChat = async (
@@ -59,21 +59,29 @@ export const getChatsList = async (dispatch: Dispatch<AppState>) => {
   });
 };
 
-export const startNewChat = async (
+export const openChat = async (
   dispatch: Dispatch<AppState>,
   state: AppState,
   { chatId, userId }
 ) => {
+  if (webSocketConnection && webSocketConnection.isOpen()) {
+    console.log("WS соединение уже установлено");
+    return;
+  }
   dispatch({ currentChatId: chatId });
 
   const token = await chatsAPI.getToken(chatId);
 
   if (apiHasError(token)) {
-    dispatch({ isLoading: false, loginFormError: token.reason });
+    dispatch({ isLoading: false, errorReason: token.reason });
     return;
   }
 
-  webSocketsConnection = createWebSocketConnection({ userId, chatId, token });
+  webSocketConnection = createWebSocketConnection({
+    userId,
+    chatId,
+    token
+  });
 };
 
 export const sendMessage = async (
@@ -81,16 +89,24 @@ export const sendMessage = async (
   state: AppState,
   { text }
 ) => {
-  if (!webSocketsConnection) {
-    webSocketsConnection = createWebSocketConnection({ userId, chatId, token });
-  } else if (!webSocketsConnection.isOpen()) {
+  //TODO: переписать - вызывать openChat
+  // if (!webSocketConnection) {
+  //   webSocketConnection = createWebSocketConnection({ userId, chatId, token });
+  // } else if (!webSocketConnection.isOpen()) {
+  //   console.log("соединение не установлено");
+  //   return;
+  // }
+
+  if (!webSocketConnection || !webSocketConnection.isOpen()) {
     console.log("соединение не установлено");
     return;
   }
 
-  webSocketsConnection.sendMessage(text);
+  webSocketConnection.sendMessage(text);
+  //   console.log("соединение не установлено");
 };
 
+//TODO: проверить иммутабельность
 export const toogleUser = async (
   dispatch: Dispatch<AppState>,
   state: AppState,

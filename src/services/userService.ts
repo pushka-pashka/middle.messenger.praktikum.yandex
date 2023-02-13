@@ -73,7 +73,6 @@ export const editPassword = async (
   const response = await usersAPI.changePassword(editPassword);
 
   if (apiHasError(response)) {
-    debugger;
     dispatch({ isLoading: false, errorReason: response.reason });
     return;
   }

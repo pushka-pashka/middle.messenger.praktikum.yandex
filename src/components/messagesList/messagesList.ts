@@ -25,10 +25,10 @@ class MessagesList extends Block {
     this.scrollToLastMessage();
   }
 
-  componentDidUpdate(): boolean {
-    super.componentDidUpdate();
-    this.scrollToLastMessage();
-  }
+  // componentDidUpdate(): boolean {
+  //   super.componentDidUpdate();
+  //   this.scrollToLastMessage();
+  // }
 
   scrollToLastMessage(): boolean {
     const el = document.getElementById("message-list");
@@ -43,7 +43,7 @@ class MessagesList extends Block {
       <div class="messages-list" id="message-list">
         {{#each chatData}}
           {{{Message myUserId=${myUserId} userId=this.user_id time=this.time content=this.content}}}
-        {{/each}}s
+        {{/each}}
       </div>`;
   }
 }

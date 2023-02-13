@@ -21,14 +21,7 @@ class SocketService {
 
   initWebSocket(socket: WebSocket) {
     socket.addEventListener("open", () => {
-      console.log("Соединение установлено");
-
-      socket.send(
-        JSON.stringify({
-          content: "Моё первое сообщение миру!",
-          type: "message"
-        })
-      );
+      console.log("WS cоединение установлено");
     });
 
     socket.addEventListener("close", (event) => {
@@ -41,8 +34,17 @@ class SocketService {
       console.log(`Код: ${event.code} | Причина: ${event.reason}`);
     });
 
-    socket.addEventListener("message", (event) => {
-      console.log("Получены данные", event.data);
+    socket.addEventListener("message", (event: MessageEvent) => {
+      const chatData = [...window.store.getState().chatData];
+      const eventData = JSON.parse(event.data);
+
+      if (Array.isArray(eventData)) {
+        window.store.dispatch({ chatData: [...chatData, ...eventData] });
+      } else if (eventData.type === "message") {
+        chatData.push(eventData);
+
+        window.store.dispatch({ chatData });
+      }
     });
 
     socket.addEventListener("error", (event) => {
@@ -62,14 +64,22 @@ class SocketService {
   public isOpen() {
     return this.socket.readyState === this.socket.OPEN;
   }
+
+  public getOldMessages() {
+    this.socket.send(
+      JSON.stringify({
+        content: 0,
+        type: "get old"
+      })
+    );
+  }
 }
 
-export const createWebSocketConnection = ({ userId, chatId, token }) => {
-  return new SocketService({
+export const createWebSocketConnection = ({ userId, chatId, token }) =>
+  new SocketService({
     chatId,
     userId,
     token: token.token
   });
-};
 
 export default SocketService;
