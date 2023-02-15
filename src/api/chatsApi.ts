@@ -18,7 +18,7 @@ export const chatsAPI = {
     return xhr.response;
   },
 
-  getToken: async (id: string) => {
+  getToken: async (id: number) => {
     const xhr = await chatAPIInstance.post(`/chats/token/${id}`);
 
     return xhr.response;

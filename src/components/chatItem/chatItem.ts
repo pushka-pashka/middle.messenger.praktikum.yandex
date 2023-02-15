@@ -1,5 +1,6 @@
 import { Block } from "core";
-import { openChat } from "services/chatsService";
+import chatsService from "services/chatsService";
+
 import "./chatItem.css";
 
 interface ChatItemProps {
@@ -14,23 +15,27 @@ export class ChatItem extends Block<ChatItemProps> {
   static componentName = "ChatItem";
 
   constructor(props: ChatItemProps) {
-    super({ ...props, events: { click: () => this.onOpenChat() } });
+    super({
+      ...props,
+      events: {
+        click: async () => this.onSelectChat()
+      }
+    });
   }
 
-  onOpenChat() {
+  onSelectChat() {
     const chatId = this.getProps().id;
 
-    window.store.dispatch(openChat, {
-      chatId: chatId,
-      userId: window.store.getState().user.id
+    window.store.dispatch(chatsService.selectChat.bind(chatsService), {
+      chatId: chatId
     });
   }
 
   protected render(): string {
     return `
-      <div class="chatItem">
+      <div class="chat-item">
         {{{IconUser size='s'}}}
-        <div class="chatItem__about{{#if type}} chatItem__about_type_\{{type}} {{/if}}">
+        <div class="chat-item__about{{#if type}} chat-item__about_type_\{{type}} {{/if}}">
           <div class="about__name">\{{name}}</div>
           <div class="about__status">\{{status}}</div>
         </div>

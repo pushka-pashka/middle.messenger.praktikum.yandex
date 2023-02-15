@@ -1,55 +1,97 @@
-//'wss://ya-praktikum.tech/ws/chats/<USER_ID>/<CHAT_ID>/<TOKEN_VALUE>'
-const wsHost = process.env.WS_ENDPOINT;
+import EventBus from "core/EventBus";
 
-interface ISocketProps {
+interface SocketProps {
   userId: number;
   chatId: number;
   token: string;
 }
 
-class SocketService {
+class SocketService extends EventBus {
+  static EVENTS = {
+    OPEN: "ws:open",
+    CONNECTED: "ws:connected",
+    MESSAGE: "ws:message",
+    ERROR: "ws:error",
+    CLOSE: "ws:close"
+  } as const;
+
+  //'wss://ya-praktikum.tech/ws/chats/<USER_ID>/<CHAT_ID>/<TOKEN_VALUE>'
+  protected WS_URL = process.env.WS_ENDPOINT;
+
   protected socket: WebSocket;
 
-  constructor(props: ISocketProps) {
-    const { userId, chatId, token } = props;
+  constructor(props: SocketProps) {
+    super();
 
-    const wsPath = `${wsHost}/${userId}/${chatId}/${token}`;
+    const { userId, chatId, token } = props;
+    const wsPath = `${this.WS_URL}/${userId}/${chatId}/${token}`;
+
     this.socket = new WebSocket(wsPath);
 
-    this.initWebSocket(this.socket);
+    this.registerEvents();
+
+    this.setWSEvents(this.socket);
   }
 
-  initWebSocket(socket: WebSocket) {
-    socket.addEventListener("open", () => {
-      console.log("WS cоединение установлено");
-    });
+  private registerEvents() {
+    this.on(SocketService.EVENTS.CONNECTED, () => this.loadChat());
+  }
 
-    socket.addEventListener("close", (event) => {
+  private setWSEvents(socket: WebSocket) {
+    socket.onopen = () => {
+      this.emit(SocketService.EVENTS.CONNECTED);
+    };
+
+    socket.onclose = (event) => {
       if (event.wasClean) {
         console.log("Соединение закрыто чисто");
       } else {
         console.log("Обрыв соединения");
       }
-
       console.log(`Код: ${event.code} | Причина: ${event.reason}`);
-    });
 
-    socket.addEventListener("message", (event: MessageEvent) => {
+      this.emit(SocketService.EVENTS.CLOSE);
+    };
+
+    socket.onmessage = (message: MessageEvent) => {
+      const data = JSON.parse(message.data);
+
+      if (data.type && data.type === "pong") {
+        return;
+      }
+
       const chatData = [...window.store.getState().chatData];
-      const eventData = JSON.parse(event.data);
 
-      if (Array.isArray(eventData)) {
-        window.store.dispatch({ chatData: [...chatData, ...eventData] });
-      } else if (eventData.type === "message") {
-        chatData.push(eventData);
+      if (Array.isArray(data)) {
+        window.store.dispatch({ chatData: [...chatData, ...data] });
+      } else if (data.type === "message") {
+        chatData.push(data);
 
         window.store.dispatch({ chatData });
       }
-    });
+    };
 
-    socket.addEventListener("error", (event) => {
+    socket.onerror = (event) => {
       console.log("Ошибка", event.message);
-    });
+
+      this.emit(SocketService.EVENTS.ERROR, event);
+    };
+  }
+
+  private loadChat() {
+    console.log("Соединение установлено");
+    // this._autoPing();
+    this.getOldMessages();
+    // this.getPing();
+  }
+
+  private getOldMessages() {
+    this.socket.send(
+      JSON.stringify({
+        content: 0,
+        type: "get old"
+      })
+    );
   }
 
   public sendMessage(text: string) {
@@ -64,22 +106,6 @@ class SocketService {
   public isOpen() {
     return this.socket.readyState === this.socket.OPEN;
   }
-
-  public getOldMessages() {
-    this.socket.send(
-      JSON.stringify({
-        content: 0,
-        type: "get old"
-      })
-    );
-  }
 }
-
-export const createWebSocketConnection = ({ userId, chatId, token }) =>
-  new SocketService({
-    chatId,
-    userId,
-    token: token.token
-  });
 
 export default SocketService;
