@@ -16,7 +16,9 @@ export class ChatContent extends Block {
     const { value } = textareaEl;
 
     if (value) {
-      window.store.dispatch(sendMessage, { text: value });
+      const chatId = window.store.getState().currentChatId;
+
+      window.store.dispatch(sendMessage, { text: value, chatId });
       textareaEl.value = "";
     }
   }

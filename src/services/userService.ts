@@ -2,7 +2,7 @@ import { UserDTO } from "api/types";
 import { usersAPI } from "api/usersApi";
 import { Dispatch } from "core/Store";
 import { apiHasError } from "utils/apiHasError";
-import { transformUser } from "utils/apiTransformers";
+import { transformUser } from "utils/transformers";
 import { Screens } from "utils/ScreenList";
 
 export const searchUsers = async (

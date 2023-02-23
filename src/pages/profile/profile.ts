@@ -31,16 +31,16 @@ class ProfilePage extends Block<IProfilePage> {
       {{{Sidebar}}}
       <div class="page__wrapper">
         <div class="page__content">
-          {{{IconUser text="${user ? user.first_name : "Ава"}" size="l"}}}
+          {{{IconUser text="${user ? user.firstName : "Ава"}" size="l"}}}
           {{{Header size="l" text="${user ? user.login : "Логин"}"}}}
           <div class="profile_info">
-            {{{Info label="Имя" text="${user ? user.first_name : "Имя"}"}}}
+            {{{Info label="Имя" text="${user ? user.firstName : "Имя"}"}}}
             {{{Info label="Фамилия" text="${
-              user ? user.second_name : "Фамилия"
+              user ? user.secondName : "Фамилия"
             }"}}}
             {{{Info label="Логин" text="${user ? user.login : "Логин"}"}}}
             {{{Info label="Имя в чате" text="${
-              user?.display_name ? user.display_name : "Имя в чате"
+              user?.display_name ? user.displayName : "Имя в чате"
             }"}}}
             {{{Info label="Телефон" text="${user ? user.phone : "Телефон"}"}}}
           </div>

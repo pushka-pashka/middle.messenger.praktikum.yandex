@@ -1,45 +1,75 @@
 import { chatsAPI } from "api/chatsApi";
 import { Dispatch } from "core/Store";
 import { apiHasError } from "utils/apiHasError";
-import SocketService from "./webSocketService";
+import { cloneDeep } from "utils/cloneDeep";
+import set from "utils/set";
+import { transformMessage, transformMessages } from "utils/transformers";
+import { getWebSocket } from "./getWebSocket";
+import { sortMessages } from "./messageService";
 
-class ChatsService {
-  private chatWebSocket: Nullable<SocketService> = null;
+export const selectChat = async (
+  dispatch: Dispatch<AppState>,
+  state: AppState,
+  { chatId }
+) => {
+  dispatch({ currentChatId: chatId });
 
-  async getSocket(dispatch: Dispatch<AppState>, state: AppState, { chatId }) {
-    debugger;
-    const token = await chatsAPI.getToken(chatId);
+  await getWebSocket(chatId);
+};
 
-    if (apiHasError(token)) {
-      dispatch({ isLoading: false, errorReason: token.reason });
-      return;
-    }
+export const sendMessage = async (
+  dispatch: Dispatch<AppState>,
+  state: AppState,
+  { text, chatId }
+) => {
+  const ws = await getWebSocket(chatId);
 
-    const userId = window.store.getState().user?.id;
-
-    if (chatId && userId && token) {
-      this.chatWebSocket = new SocketService({
-        userId,
-        chatId,
-        token: token.token
-      });
-    }
+  if (!ws) {
+    return;
   }
 
-  async selectChat(dispatch: Dispatch<AppState>, state: AppState, { chatId }) {
-    debugger;
-    if (this.chatWebSocket && this.chatWebSocket.isOpen()) {
-      console.log("WS соединение уже установлено");
+  ws.sendMessage(text);
+};
 
-      return;
+export const addMessagesToChat = async (
+  dispatch: Dispatch<AppState>,
+  state: AppState,
+  { messages, chatId }
+) => {
+  const chatsData = cloneDeep(window.store.getState().chatsData);
+  const chatData = chatsData[chatId] || [];
+
+  //TODO: вызывать Transformmessages
+  let messagesToAdd;
+
+  if (Array.isArray(messages)) {
+    messagesToAdd = transformMessages(messages);
+
+    if (chatData.length) {
+      messagesToAdd = messages.filter((item) => !chatData.includes(item));
     }
-
-    dispatch({ currentChatId: chatId });
-    dispatch(this.getSocket.bind(this), { chatId });
+  } else if (messages.type === "message") {
+    messagesToAdd = [transformMessage(messages)];
+  } else {
+    return;
   }
-}
 
-export default new ChatsService();
+  chatData.push(...messagesToAdd);
+
+  const chatMessages = set(
+    { chatsData: {} },
+    `chatsData.${chatId}`,
+    sortMessages(chatData)
+  );
+
+  dispatch({ ...chatMessages });
+};
+
+export const sortChat = (chats: Chat[]) => {
+  return chats.sort(
+    (a, b) => new Date(b.lastMessage.time) - new Date(a.lastMessage.time)
+  );
+};
 
 // создание нового чата с добавлением пользователей
 
@@ -96,59 +126,11 @@ export default new ChatsService();
 //   });
 // };
 
-// export const selectChat1 = async (
-//   dispatch: Dispatch<AppState>,
-//   state: AppState,
-//   { chatId }
-// ) => {
-//   if (webSocketConnection && webSocketConnection.isOpen()) {
-//     console.log("WS соединение уже установлено");
-//     return;
-//   }
-
-//   dispatch({ currentChatId: chatId });
-
-//   const token = await chatsAPI.getToken(chatId);
-
-//   if (apiHasError(token)) {
-//     dispatch({ isLoading: false, errorReason: token.reason });
-//     return;
-//   }
-
-//   webSocketConnection = createWebSocketConnection({
-//     userId,
-//     chatId,
-//     token
-//   });
-// };
-
-// export const sendMessage = async (
-//   dispatch: Dispatch<AppState>,
-//   state: AppState,
-//   { text }
-// ) => {
-//   //TODO: переписать - вызывать openChat
-//   // if (!webSocketConnection) {
-//   //   webSocketConnection = createWebSocketConnection({ userId, chatId, token });
-//   // } else if (!webSocketConnection.isOpen()) {
-//   //   console.log("соединение не установлено");
-//   //   return;
-//   // }
-
-//   if (!webSocketConnection || !webSocketConnection.isOpen()) {
-//     console.log("соединение не установлено");
-//     return;
-//   }
-
-//   webSocketConnection.sendMessage(text);
-//   //   console.log("соединение не установлено");
-// };
-
 // //TODO: проверить иммутабельность
 // export const toogleUser = async (
 //   dispatch: Dispatch<AppState>,
 //   state: AppState,
-//   { userId }: Object
+//   { userId }
 // ) => {
 //   const checkedUsersId = { ...window.store.getState().checkedUsersId };
 //   const searchUsersList = [...window.store.getState().searchUsersList];

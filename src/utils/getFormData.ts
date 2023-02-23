@@ -59,8 +59,8 @@ export function isSameUserFields(user: User, newUser: Partial<User>): boolean {
   return Boolean(
     user.email === newUser.email &&
       user.login === newUser.login &&
-      user.first_name === newUser.first_name &&
-      user.second_name === newUser.second_name &&
+      user.firstName === newUser.firstName &&
+      user.secondName === newUser.secondName &&
       user.phone === newUser.phone
   );
 }

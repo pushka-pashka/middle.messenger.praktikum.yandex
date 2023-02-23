@@ -2,6 +2,8 @@ import { authAPI } from "api/authApi";
 import { chatsAPI } from "api/chatsApi";
 import { Dispatch } from "core/Store";
 import { apiHasError } from "utils/apiHasError";
+import { transformChats, transformUser } from "utils/transformers";
+import { sortChat } from "./chatsService";
 
 export async function initApp(dispatch: Dispatch<AppState>) {
   // Ручная задержка для демонстрации загрузочного экрана
@@ -14,7 +16,7 @@ export async function initApp(dispatch: Dispatch<AppState>) {
       return;
     }
 
-    dispatch({ user });
+    dispatch({ user: transformUser(user) });
 
     const chatsList = await chatsAPI.getChats();
 
@@ -22,13 +24,7 @@ export async function initApp(dispatch: Dispatch<AppState>) {
       return;
     }
 
-    dispatch({ chatsList });
-
-    const currentChatId = chatsList[0]?.id || null;
-
-    if (currentChatId) {
-      dispatch({ currentChatId });
-    }
+    dispatch({ chatsList: sortChat(transformChats(chatsList)) });
   } catch (err) {
     console.error(err);
   } finally {

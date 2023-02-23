@@ -6,13 +6,15 @@ declare global {
   export type Keys<T extends Record<string, unknown>> = keyof T;
   export type Values<T extends Record<string, unknown>> = T[Keys<T>];
 
+  export type Indexed<T = any> = { [key in string]: T };
+
   export type AppState = {
     appIsInited: boolean; //проинициализировано ли приложение
-    chatsList: Nullable<ChatsList>; //список чатов
+    chatsList: Nullable<ChatData[]>; //список чатов
     isCreatingChat: boolean; // режим создания чатов
     currentChatId: Nullable<number>;
     chatName: Nullable<string>;
-    chatData: Array;
+    chatsData: Object;
     isLoading: boolean; //идет ли загрузка приложения
     loginFormError: Nullable<string>; //ошибка при авторизации
     screen: Nullable<Screens>; //текущий экран
@@ -33,6 +35,27 @@ declare global {
     email: string;
     isChecked?: boolean;
   };
-}
 
-export {};
+  export type Chat = {
+    id: number;
+    title: string;
+    avatar: string;
+    unreadCount: number;
+    lastMessage: {
+      user: User | null;
+      time: string; //"2020-01-02T14:22:22.000Z"
+      content: string | null;
+    };
+  };
+
+  export type Message = {
+    chatId: number;
+    content: string;
+    file: null;
+    id: number;
+    isRead: boolean;
+    time: string;
+    type: string;
+    userId: number;
+  };
+}

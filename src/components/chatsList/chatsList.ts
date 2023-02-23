@@ -3,7 +3,7 @@ import { withStore } from "utils/withStore";
 import "./chatsList.css";
 
 interface IChatListProps {
-  chatsList: () => Nullable<Array>;
+  chatsList: Chat[];
   onNavigateToProfile: () => void;
   onCreateChat: () => void;
 }
@@ -24,7 +24,7 @@ class ChatsList extends Block<IChatListProps> {
         {{!TODO: тут должен быть список ul}}
         <div class="chats-list__list">
           {{#each chatsList}}
-            {{{ChatItem name=this.title status=this.id id=this.id}}}
+            {{{ChatItem name=this.title unreadCount=this.unreadCount id=this.id}}}
           {{/each}}
         </div>
       </div>`;

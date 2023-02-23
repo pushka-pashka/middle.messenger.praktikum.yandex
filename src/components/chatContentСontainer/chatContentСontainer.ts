@@ -1,9 +1,11 @@
 import { Block } from "core";
 import { withStore } from "utils/withStore";
+import template from "bundle-text:./chatContentСontainer.hbs";
 import "./chatContentСontainer.css";
 
 interface IChatContentСontainer {
   isCreatingChat: boolean;
+  currentChatId: Nullable<number>;
   onSearchUsers: () => void;
 }
 
@@ -15,20 +17,14 @@ class ChatContentСontainer extends Block<IChatContentСontainer> {
   }
 
   render(): string {
-    return `
-      <div class="chat-content-container">
-        {{#if ${this.getProps().isCreatingChat}}}
-          {{{ChatCreator}}}
-        {{else}}
-          {{{ChatContent}}};
-        {{/if}}
-      </div>`;
+    return template;
   }
 }
 
 const mapStateToProps: Partial<IChatContentСontainer> = (state: AppState) => {
   return {
-    isCreatingChat: state.isCreatingChat
+    isCreatingChat: state.isCreatingChat,
+    currentChatId: state.currentChatId
   };
 };
 

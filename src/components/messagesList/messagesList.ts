@@ -39,10 +39,11 @@ class MessagesList extends Block {
 
   render(): string {
     const myUserId = this.getProps().myUserId;
+
     return `
       <div class="messages-list" id="message-list">
         {{#each chatData}}
-          {{{Message myUserId=${myUserId} userId=this.user_id time=this.time content=this.content}}}
+          {{{Message myUserId=${myUserId} userId=this.userId time=this.time content=this.content}}}
         {{/each}}
       </div>`;
   }
@@ -51,7 +52,7 @@ class MessagesList extends Block {
 const mapStateToProps: Partial<IMessagesListProps> = (state: AppState) => {
   return {
     myUserId: state.user.id,
-    chatData: state.chatData
+    chatData: state.chatsData[state.currentChatId]
   };
 };
 
