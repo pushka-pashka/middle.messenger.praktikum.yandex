@@ -12,6 +12,8 @@ export default class EventBus<
     }
 
     this.listeners[event]!.push(callback);
+
+    return this;
   }
 
   off(event: E, callback: Listener<M[E]>) {

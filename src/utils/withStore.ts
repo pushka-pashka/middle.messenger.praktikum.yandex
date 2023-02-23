@@ -18,19 +18,20 @@ export function withStore<P extends WithStateProps>(
     }
 
     __onChangeStoreCallback = (prevState: AppState, nextState: AppState) => {
-      const prevProps = mapStateToProps(prevState);
-      const nextProps = mapStateToProps(nextState);
+      const prevPartialProps = mapStateToProps(prevState);
+      const nextPartialProps = mapStateToProps(nextState);
 
-      if (isEqual(prevProps, nextProps)) {
+      if (isEqual(prevPartialProps, nextPartialProps)) {
         return;
       }
 
       // @ts-expect-error this is not typed
-      this.setProps(nextProps);
+      this.setProps(nextPartialProps);
     };
 
     componentDidMount(props: P) {
       super.componentDidMount(props);
+
       window.store.on(Store.EVENTS.Update, this.__onChangeStoreCallback);
     }
 

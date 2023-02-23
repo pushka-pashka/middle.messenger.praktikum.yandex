@@ -2,6 +2,8 @@ import EventBus from "./EventBus";
 import { nanoid } from "nanoid";
 import Handlebars from "handlebars";
 import isEqual from "utils/isEqual";
+import { cloneDeep } from "utils/cloneDeep";
+import { merge } from "utils/merge";
 
 export interface BlockClass<P> extends Function {
   new (props: P): Block<P>;
@@ -116,8 +118,8 @@ export default abstract class Block<P extends Record<string, any> = object> {
       return;
     }
 
-    const prevProps = this.props;
-    const nextProps = { ...this.props, ...nextPartialProps };
+    const prevProps = cloneDeep(this.props);
+    const nextProps = merge(this.props, nextPartialProps);
 
     if (isEqual(prevProps, nextProps)) {
       return;

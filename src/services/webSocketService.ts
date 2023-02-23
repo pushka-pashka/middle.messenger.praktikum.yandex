@@ -1,56 +1,43 @@
 import EventBus from "core/EventBus";
 
-interface SocketProps {
-  userId: number;
-  chatId: number;
-  token: string;
-}
-
 class SocketService extends EventBus {
   static EVENTS = {
     OPEN: "ws:open",
     CONNECTED: "ws:connected",
     MESSAGE: "ws:message",
+    GET_MESSAGE: "ws:get-message",
     ERROR: "ws:error",
     CLOSE: "ws:close"
   } as const;
 
-  //'wss://ya-praktikum.tech/ws/chats/<USER_ID>/<CHAT_ID>/<TOKEN_VALUE>'
-  protected WS_URL = process.env.WS_ENDPOINT;
+  protected socket: Nullable<WebSocket> = null;
 
-  protected socket: WebSocket;
-
-  constructor(props: SocketProps) {
+  constructor(private wsURL: string) {
     super();
 
-    const { userId, chatId, token } = props;
-    const wsPath = `${this.WS_URL}/${userId}/${chatId}/${token}`;
+    this.connectWS();
+  }
 
-    this.socket = new WebSocket(wsPath);
+  private connectWS() {
+    this.socket = new WebSocket(this.wsURL);
 
     this.registerEvents();
 
-    this.setWSEvents(this.socket);
+    this.registerWSEvents(this.socket);
   }
 
   private registerEvents() {
     this.on(SocketService.EVENTS.CONNECTED, () => this.loadChat());
+
+    this.on(SocketService.EVENTS.ERROR, (event) => {
+      // eslint-disable-next-line no-console
+      console.log("Ошибка", event.message);
+    });
   }
 
-  private setWSEvents(socket: WebSocket) {
+  private registerWSEvents(socket: WebSocket) {
     socket.onopen = () => {
       this.emit(SocketService.EVENTS.CONNECTED);
-    };
-
-    socket.onclose = (event) => {
-      if (event.wasClean) {
-        console.log("Соединение закрыто чисто");
-      } else {
-        console.log("Обрыв соединения");
-      }
-      console.log(`Код: ${event.code} | Причина: ${event.reason}`);
-
-      this.emit(SocketService.EVENTS.CLOSE);
     };
 
     socket.onmessage = (message: MessageEvent) => {
@@ -60,41 +47,70 @@ class SocketService extends EventBus {
         return;
       }
 
-      const chatData = [...window.store.getState().chatData];
+      this.emit(SocketService.EVENTS.GET_MESSAGE, data);
+    };
 
-      if (Array.isArray(data)) {
-        window.store.dispatch({ chatData: [...chatData, ...data] });
-      } else if (data.type === "message") {
-        chatData.push(data);
-
-        window.store.dispatch({ chatData });
+    socket.onclose = (event) => {
+      if (event.wasClean) {
+        // eslint-disable-next-line no-console
+        console.log("Соединение закрыто чисто");
+      } else {
+        // eslint-disable-next-line no-console
+        console.log("Обрыв соединения");
       }
+      // eslint-disable-next-line no-console
+      console.log(`Код: ${event.code} | Причина: ${event.reason}`);
+
+      this.emit(SocketService.EVENTS.CLOSE);
     };
 
     socket.onerror = (event) => {
-      console.log("Ошибка", event.message);
-
       this.emit(SocketService.EVENTS.ERROR, event);
     };
   }
 
-  private loadChat() {
-    console.log("Соединение установлено");
-    // this._autoPing();
-    this.getOldMessages();
-    // this.getPing();
+  public close(code?: number, reason?: string) {
+    this.socket.close(code, reason);
   }
 
-  private getOldMessages() {
+  private loadChat() {
+    console.log("Соединение установлено");
+
+    this.ping();
+    this.getOldMessages();
+  }
+
+  private ping() {
+    let pingInterval: NodeJS.Timer | undefined = setInterval(() => {
+      this.socket.send(
+        JSON.stringify({
+          content: "",
+          type: "ping"
+        })
+      );
+    }, 15000);
+
+    this.on(SocketService.EVENTS.CLOSE, () => {
+      clearInterval(pingInterval);
+
+      pingInterval = undefined;
+    });
+  }
+
+  private getOldMessages(from = 0) {
     this.socket.send(
       JSON.stringify({
-        content: 0,
+        content: from,
         type: "get old"
       })
     );
   }
 
   public sendMessage(text: string) {
+    if (!this.socket) {
+      throw new Error("WS соединение не установлено");
+    }
+
     this.socket.send(
       JSON.stringify({
         content: text,
@@ -103,8 +119,22 @@ class SocketService extends EventBus {
     );
   }
 
-  public isOpen() {
-    return this.socket.readyState === this.socket.OPEN;
+  public getSocket() {
+    if (!this.socket) {
+      return;
+    }
+
+    if (this.socket.readyState === this.socket.CLOSED) {
+      this.connectWS();
+    }
+
+    if (this.socket.readyState === this.socket.CONNECTING) {
+      return new Promise<SocketService>((resolve) => {
+        this.on(SocketService.EVENTS.OPEN, () => resolve(this));
+      });
+    }
+
+    return this;
   }
 }
 

@@ -1,4 +1,6 @@
 import EventBus from "./EventBus";
+import { cloneDeep } from "utils/cloneDeep";
+import { merge } from "utils/merge";
 
 export type Dispatch<State> = (
   nextStateOrAction: Partial<State> | Action<State>,
@@ -29,10 +31,11 @@ export class Store<State extends Record<string, any>> extends EventBus {
     return this.state;
   }
 
-  public set(nextState: Partial<State>) {
-    const prevState = { ...this.state };
+  public set(nextPartialState: Partial<State>) {
+    const prevState = cloneDeep(this.getState());
+    const nextState = merge(this.getState(), nextPartialState);
 
-    this.state = { ...this.state, ...nextState };
+    this.state = nextState;
 
     this.emit(Store.EVENTS.Update, prevState, nextState);
   }
@@ -41,7 +44,7 @@ export class Store<State extends Record<string, any>> extends EventBus {
     if (typeof nextStateOrAction === "function") {
       nextStateOrAction(this.dispatch.bind(this), this.state, payload);
     } else {
-      this.set({ ...this.state, ...nextStateOrAction });
+      this.set(nextStateOrAction);
     }
   }
 }
