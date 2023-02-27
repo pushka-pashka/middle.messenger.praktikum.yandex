@@ -53,11 +53,6 @@ class LoginPage extends Block<ILoginPageProps> {
   }
 
   render() {
-    // console.log(
-    //   `%cLogin render ${this.id}`,
-    //   "background: orange; color: black"
-    // );
-
     // language=hbs
     return `
     <div class="page">
