@@ -28,7 +28,7 @@ class ProfilePage extends Block<IProfilePage> {
     // language=hbs
     return `
     <div class="page">
-      {{{Sidebar}}}
+      {{{Sidebar toPage="${ScreenPath.Chats}"}}}
       <div class="page__wrapper">
         <div class="page__content">
           {{{IconUser text="${user ? user.firstName : "Ава"}" size="l"}}}

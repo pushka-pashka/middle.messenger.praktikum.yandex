@@ -20,21 +20,17 @@ class MessagesList extends Block {
     super(props);
   }
 
-  componentDidMount(): boolean {
-    super.componentDidMount();
-    this.scrollToLastMessage();
-  }
-
-  // componentDidUpdate(): boolean {
-  //   super.componentDidUpdate();
-  //   this.scrollToLastMessage();
-  // }
-
-  scrollToLastMessage(): boolean {
-    const el = document.getElementById("message-list");
-    el?.scrollIntoView(false);
+  componentDidUpdate() {
+    setTimeout(() => {
+      this.scrollToLastMessage();
+    }, 10);
 
     return true;
+  }
+
+  scrollToLastMessage(): boolean {
+    const el = document.getElementById("message-list")?.lastElementChild;
+    el?.scrollIntoView(false);
   }
 
   render(): string {
@@ -56,7 +52,7 @@ class MessagesList extends Block {
 const mapStateToProps: Partial<IMessagesListProps> = (state: AppState) => {
   return {
     myUserId: state.user ? state.user.id : null,
-    chatData: state.chatsData[state.currentChatId]
+    chatData: state.chatsData[state.currentChatId]?.messages
   };
 };
 

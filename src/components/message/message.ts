@@ -21,8 +21,8 @@ export class Message extends Block {
     return `
       <div class="message message_type_${type}">
         <div class="message__about">
-          <span class="message__date">\{{date}}</span>
-<!--          <span class="message__sender">\{{sender}}</span>-->
+          <span class="message__date">{{date}}</span>
+          <!--<span class="message__sender">${type}</span>-->
         </div>
         <div class="message__content message__content_type_${type}">\{{content}}</div>
       </div>`;

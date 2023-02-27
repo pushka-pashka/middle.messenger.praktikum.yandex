@@ -1,13 +1,13 @@
 <div class="chat-content-container">
-  \{{#if currentChatId}}
-    \{{#if isCreatingChat}}
-      \{{{ChatCreator}}}
-    \{{else}}
-      \{{{ChatContent chatId=currentChatId}}}
-    \{{/if}}
+  \{{#if isCreatingChat}}
+    \{{{ChatCreator}}}
   \{{else}}
-    <div class="chat-content-container_type_empty">
-      <h3>Для начала общения выберите чат</h3>
-    </div>
+    \{{#if currentChatId}}
+      \{{{ChatContent chatId=currentChatId}}}
+    \{{else}}
+      <div class="chat-content-container_type_empty">
+        <h3>Для начала общения выберите чат</h3>
+      </div>
+    \{{/if}}
   \{{/if}}
 </div>

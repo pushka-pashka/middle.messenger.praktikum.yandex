@@ -6,10 +6,17 @@ export class ChatContent extends Block {
   static componentName = "ChatContent";
 
   constructor(props) {
-    super({ ...props, onSubmit: () => this.onSubmit() });
+    super({
+      ...props,
+      onSubmit: () => this.onSubmit()
+    });
   }
 
   onSubmit() {
+    this.onSendMessage();
+  }
+
+  onSendMessage() {
     const textareaEl = this._element?.querySelector(
       "textarea[name='message']"
     ) as HTMLInputElement;
@@ -41,7 +48,6 @@ export class ChatContent extends Block {
           value=value
         }}}
         <div class="chat-content__buttons">
-          {{{Sidebar}}}
           {{{Button size='s' text='Отправить' onClick=onSubmit}}}
         </div>
       </div>

@@ -56,7 +56,7 @@ class EditPassword extends Block<IEditPassword> {
     // language=hbs
     return `
     <div class="page">
-      {{{Sidebar}}}
+      {{{Sidebar toPage="${ScreenPath.Chats}"}}}
       <div class="page__wrapper">
         <div class="page__content">
         {{{IconUser text=user.login size="l"}}}

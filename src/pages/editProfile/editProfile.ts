@@ -70,7 +70,7 @@ class EditProfilePage extends Block<IEditProfilePage> {
     // language=hbs
     return `
     <div class="page">
-      {{{Sidebar}}}
+      {{{Sidebar toPage="${ScreenPath.Chats}"}}}
       <div class="page__wrapper">
         <div class="page__content">
         {{{Header size="l" text="Редактирование профиля"}}}
@@ -103,7 +103,7 @@ class EditProfilePage extends Block<IEditProfilePage> {
               ref="first_name"
               onInput=onInput
               onFocus=onFocus
-              value="${user?.first_name || ""}"
+              value="${user?.firstName || ""}"
             }}}
             {{{InputDecorator
               label='Фамилия'
@@ -113,7 +113,7 @@ class EditProfilePage extends Block<IEditProfilePage> {
               ref="second_name"
               onInput=onInput
               onFocus=onFocus
-              value="${user?.second_name || ""}"
+              value="${user?.secondName || ""}"
             }}}
             {{{InputDecorator
               label='Телефон'

@@ -1,8 +1,10 @@
 import { Block } from "core";
 import template from "bundle-text:./sidebar.hbs";
 import "./sidebar.css";
+import { ScreenPath } from "utils/ScreenList";
 
 interface ISidebarProps {
+  toPage?: ScreenPath;
   events: object;
 }
 
@@ -16,7 +18,11 @@ class Sidebar extends Block<ISidebarProps> {
   }
 
   onNavigateBack() {
-    window.router.back();
+    if (this.props.toPage) {
+      window.router.go(this.props.toPage);
+    } else {
+      window.router.back();
+    }
   }
 
   protected render(): string {

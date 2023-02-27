@@ -14,7 +14,7 @@ import { sortMessages } from "./messageService";
 export const selectChat = async (
   dispatch: Dispatch<AppState>,
   state: AppState,
-  chatId
+  chatId: number
 ) => {
   dispatch({ isCreatingChat: false, currentChatId: chatId });
 
@@ -41,9 +41,8 @@ export const addMessagesToChat = async (
   { messages, chatId }
 ) => {
   const chatsData = cloneDeep(window.store.getState().chatsData);
-  const chatData = chatsData[chatId] || [];
+  const chatData = chatsData[chatId]?.messages || [];
 
-  //TODO: вызывать Transformmessages
   let messagesToAdd;
 
   if (Array.isArray(messages)) {
@@ -62,7 +61,7 @@ export const addMessagesToChat = async (
 
   const chatMessages = set(
     { chatsData: {} },
-    `chatsData.${chatId}`,
+    `chatsData.${chatId}.messages`,
     sortMessages(chatData)
   );
 

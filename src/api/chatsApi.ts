@@ -18,6 +18,12 @@ export const chatsAPI = {
     return xhr.response;
   },
 
+  getChatUsers: async (id: number) => {
+    const xhr = await chatAPIInstance.get(`/chats/${id}/users`);
+
+    return xhr.response;
+  },
+
   getToken: async (id: number) => {
     const xhr = await chatAPIInstance.post(`/chats/token/${id}`);
 
