@@ -4,6 +4,8 @@ import { Dispatch } from "core/Store";
 import { logoutState } from "../store";
 import { apiHasError } from "utils/apiHasError";
 import { Screens } from "utils/ScreenList";
+import { transformChats, transformUser } from "utils/transformers";
+import { sortChats } from "./chatsService";
 
 export const signup = async (
   dispatch: Dispatch<AppState>,
@@ -48,17 +50,10 @@ export const login = async (
 
   const chatsList = await chatsAPI.getChats();
 
-  dispatch({ chatsList });
+  dispatch({ chatsList: sortChats(transformChats(chatsList)) });
 
-  const currentChatId = chatsList[0]?.id || null;
-
-  if (currentChatId) {
-    dispatch({ currentChatId });
-  }
-
-  //TODO: вызвать здесь трансформер для юзера
   dispatch({
-    user,
+    user: transformUser(user),
     isLoading: false,
     loginFormError: null,
     screen: Screens.Chats

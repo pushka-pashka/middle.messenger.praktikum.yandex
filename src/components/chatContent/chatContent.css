@@ -23,6 +23,10 @@
   align-items: stretch;
 }
 
+.chat-content__footer textarea {
+  resize: none;
+}
+
 .chat-content__buttons {
   display: flex;
   flex-direction: row;

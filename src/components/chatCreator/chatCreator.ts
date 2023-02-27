@@ -1,11 +1,12 @@
 import { Block } from "core";
 import "./chatCreator.css";
 import { withStore } from "utils/withStore";
-// TODO:  пересмотреть?
+import { trim } from "utils/trim";
+
 interface IChatCreator {
   onCloseChatCreator: () => void;
   onBlurExtension: (value: string) => void;
-  chatName: string;
+  newChatName: string;
 }
 
 class ChatCreator extends Block<IChatCreator> {
@@ -25,15 +26,15 @@ class ChatCreator extends Block<IChatCreator> {
 
   onCloseChatCreator() {
     window.store.dispatch({
-      chatName: "",
-      isCreatingChat: false,
+      newChatName: "",
       checkedUsersId: {},
-      searchUsersList: []
+      searchUsersList: [],
+      isCreatingChat: false
     });
   }
 
   onBlurExtension(value: string) {
-    window.store.dispatch({ chatName: value });
+    window.store.dispatch({ newChatName: trim(value) });
   }
 
   render(): string {
@@ -52,7 +53,7 @@ class ChatCreator extends Block<IChatCreator> {
               placeholder='Название чата'
               ref="chat_name"
               onBlurExtension=onBlurExtension
-              value=chatName
+              value=newChatName
             }}}
           </div>
           <div class="chat-creator__users-list">
@@ -66,8 +67,7 @@ class ChatCreator extends Block<IChatCreator> {
 
 const mapStateToProps: Partial<IChatCreator> = (state: AppState) => {
   return {
-    //isDisabledButton: Boolean(Object.keys(state.checkedUsersId).length),
-    chatName: state.chatName
+    newChatName: state.newChatName
   };
 };
 

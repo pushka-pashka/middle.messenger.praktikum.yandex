@@ -40,6 +40,10 @@ class MessagesList extends Block {
   render(): string {
     const myUserId = this.getProps().myUserId;
 
+    if (!myUserId) {
+      return;
+    }
+
     return `
       <div class="messages-list" id="message-list">
         {{#each chatData}}
@@ -51,7 +55,7 @@ class MessagesList extends Block {
 
 const mapStateToProps: Partial<IMessagesListProps> = (state: AppState) => {
   return {
-    myUserId: state.user.id,
+    myUserId: state.user ? state.user.id : null,
     chatData: state.chatsData[state.currentChatId]
   };
 };

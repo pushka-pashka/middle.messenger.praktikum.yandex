@@ -26,9 +26,7 @@ export class ChatItem extends Block<ChatItemProps> {
   onSelectChat() {
     const chatId = this.getProps().id;
 
-    window.store.dispatch(selectChat, {
-      chatId
-    });
+    window.store.dispatch(selectChat, chatId);
   }
 
   protected render(): string {

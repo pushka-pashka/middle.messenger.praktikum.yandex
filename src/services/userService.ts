@@ -32,7 +32,7 @@ export const searchUsers = async (
     return newUser;
   });
 
-  dispatch({ searchUsersList: usersList, isLoading: false });
+  dispatch({ isLoading: false, searchUsersList: usersList });
 };
 
 export const editProfile = async (

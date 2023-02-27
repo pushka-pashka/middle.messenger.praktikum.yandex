@@ -5,7 +5,7 @@ export const defaultState: AppState = {
   chatsList: null,
   isCreatingChat: false,
   currentChatId: null,
-  chatName: "",
+  newChatName: "",
   chatsData: {},
 
   loginFormError: null,
@@ -23,7 +23,7 @@ export const logoutState: Partial<AppState> = {
   chatsList: null,
   isCreatingChat: false,
   currentChatId: null,
-  chatName: "",
+  newChatName: "",
 
   chatsData: {},
 

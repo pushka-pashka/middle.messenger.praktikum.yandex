@@ -2,16 +2,16 @@ import { Block } from "core";
 import { withStore } from "utils/withStore";
 import "./chatsList.css";
 
-interface IChatListProps {
+interface IChatsListProps {
   chatsList: Chat[];
   onNavigateToProfile: () => void;
   onCreateChat: () => void;
 }
 
-class ChatsList extends Block<IChatListProps> {
+class ChatsList extends Block<IChatsListProps> {
   static componentName = "ChatsList";
 
-  constructor(props: IChatListProps) {
+  constructor(props: IChatsListProps) {
     super(props);
   }
 
@@ -31,7 +31,7 @@ class ChatsList extends Block<IChatListProps> {
   }
 }
 
-const mapStateToProps: Partial<IChatListProps> = (state: AppState) => {
+const mapStateToProps: Partial<IChatsListProps> = (state: AppState) => {
   return {
     chatsList: state.chatsList
   };

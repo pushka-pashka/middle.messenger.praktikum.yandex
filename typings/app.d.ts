@@ -11,16 +11,16 @@ declare global {
   export type AppState = {
     appIsInited: boolean; //проинициализировано ли приложение
     chatsList: Nullable<ChatData[]>; //список чатов
-    isCreatingChat: boolean; // режим создания чатов
+    isCreatingChat: boolean; //режим создания чата
+    newChatName: Nullable<string>; //название нового чата
     currentChatId: Nullable<number>;
-    chatName: Nullable<string>;
     chatsData: Object;
     isLoading: boolean; //идет ли загрузка приложения
     loginFormError: Nullable<string>; //ошибка при авторизации
     screen: Nullable<Screens>; //текущий экран
     user: Nullable<User>; //текущий пользователь
-    searchUsersList: Nullable<User[]>;
-    checkedUsersId: Object<number>;
+    searchUsersList: User[] | [];
+    checkedUsersId: Record<number>;
     errorReason: Nullable<string>;
   };
 

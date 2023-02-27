@@ -20,7 +20,7 @@ class ChatCreatorSubmit extends Block<IChatCreatorSubmit> {
   onCreateChat() {
     if (!this.props.isDisabled) {
       window.store.dispatch(createChat, {
-        title: window.store.getState().chatName
+        title: window.store.getState().newChatName
       });
     }
   }
@@ -39,10 +39,10 @@ class ChatCreatorSubmit extends Block<IChatCreatorSubmit> {
 
 const mapStateToProps: Partial<IChatCreatorSubmit> = (state: AppState) => {
   const users = state.checkedUsersId;
-  const chatName = state.chatName;
+  const newChatName = state.newChatName;
 
   return {
-    isDisabled: !(Boolean(Object.keys(users).length) && Boolean(chatName))
+    isDisabled: !(Boolean(Object.keys(users).length) && Boolean(newChatName))
   };
 };
 

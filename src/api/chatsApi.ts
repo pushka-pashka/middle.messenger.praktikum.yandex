@@ -33,5 +33,11 @@ export const chatsAPI = {
     });
 
     return xhr.response;
+  },
+
+  getNewMessagesCount: async (id: number) => {
+    const xhr = await chatAPIInstance.get(`/chats/new/${id}`);
+
+    return xhr.response;
   }
 };

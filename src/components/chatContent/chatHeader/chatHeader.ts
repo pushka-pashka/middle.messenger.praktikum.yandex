@@ -32,10 +32,12 @@ const mapStateToProps: Partial<IChatHeaderProps> = (state: AppState) => {
       const chatId = state.currentChatId;
       const chatsList = state.chatsList;
 
-      if (chatsList.length && chatId) {
-        const chat = state.chatsList.find((item) => item.id === chatId);
+      if (chatsList && chatsList.length && chatId) {
+        const chat = chatsList.find((item) => item.id === chatId);
 
-        return chat.title;
+        if (chat) {
+          return chat.title;
+        }
       }
 
       return null;

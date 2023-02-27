@@ -3,16 +3,20 @@ import { Dispatch } from "core/Store";
 import { apiHasError } from "utils/apiHasError";
 import { cloneDeep } from "utils/cloneDeep";
 import set from "utils/set";
-import { transformMessage, transformMessages } from "utils/transformers";
+import {
+  transformChats,
+  transformMessage,
+  transformMessages
+} from "utils/transformers";
 import { getWebSocket } from "./getWebSocket";
 import { sortMessages } from "./messageService";
 
 export const selectChat = async (
   dispatch: Dispatch<AppState>,
   state: AppState,
-  { chatId }
+  chatId
 ) => {
-  dispatch({ currentChatId: chatId });
+  dispatch({ isCreatingChat: false, currentChatId: chatId });
 
   await getWebSocket(chatId);
 };
@@ -65,87 +69,92 @@ export const addMessagesToChat = async (
   dispatch({ ...chatMessages });
 };
 
-export const sortChat = (chats: Chat[]) => {
+//сортировка чатов по дате самого свежего сообщения
+export const sortChats = (chats: Chat[]) => {
   return chats.sort(
     (a, b) => new Date(b.lastMessage.time) - new Date(a.lastMessage.time)
   );
 };
 
 // создание нового чата с добавлением пользователей
+export const createChat = async (
+  dispatch: Dispatch<AppState>,
+  state: AppState,
+  chatName: Object
+) => {
+  dispatch({ isLoading: true });
 
-// export const createChat = async (
-//   dispatch: Dispatch<AppState>,
-//   state: AppState,
-//   action: Object
-// ) => {
-//   dispatch({ isLoading: true });
+  const newChatResponse = await chatsAPI.create(chatName);
 
-//   const newChatResponse = await chatsAPI.create(action);
+  if (apiHasError(newChatResponse)) {
+    dispatch({ isLoading: false, errorReason: newChatResponse.reason });
+    return;
+  }
 
-//   if (apiHasError(newChatResponse)) {
-//     dispatch({ isLoading: false, errorReason: newChatResponse.reason });
-//     return;
-//   }
+  dispatch(getChatsList);
 
-//   const usersIds = window.store.getState().checkedUsersId;
+  const usersIds = window.store.getState().checkedUsersId;
 
-//   const addUsersResponse = await chatsAPI.addUsers(
-//     Object.keys(usersIds),
-//     newChatResponse.id
-//   );
+  const addUsersResponse = await chatsAPI.addUsers(
+    Object.keys(usersIds),
+    newChatResponse.id
+  );
 
-//   if (apiHasError(addUsersResponse)) {
-//     dispatch({ isLoading: false, errorReason: addUsersResponse.reason });
-//     return;
-//   }
+  if (apiHasError(addUsersResponse)) {
+    dispatch({ isLoading: false, errorReason: addUsersResponse.reason });
+    return;
+  }
 
-//   dispatch(getChatsList);
+  dispatch({
+    newChatName: "",
+    searchUsersList: [],
+    checkedUsersId: {}
+  });
 
-//   dispatch({
-//     chatName: "",
-//     searchUsersList: [],
-//     checkedUsersId: {},
-//     isCreatingChat: false
-//   });
-// };
+  dispatch(selectChat, newChatResponse.id);
+};
 
-// export const getChatsList = async (dispatch: Dispatch<AppState>) => {
-//   dispatch({ isLoading: true });
+export const getChatsList = async (dispatch: Dispatch<AppState>) => {
+  dispatch({ isLoading: true });
 
-//   const response = await chatsAPI.getChats();
+  const response = await chatsAPI.getChats();
 
-//   if (apiHasError(response)) {
-//     dispatch({ isLoading: false, errorReason: response.reason });
-//     return;
-//   }
+  if (apiHasError(response)) {
+    dispatch({ isLoading: false, errorReason: response.reason });
+    return;
+  }
 
-//   dispatch({
-//     isLoading: false,
-//     errorReason: null,
-//     chatsList: response
-//   });
-// };
+  dispatch({
+    isLoading: false,
+    errorReason: null,
+    chatsList: sortChats(transformChats(response))
+  });
+};
 
-// //TODO: проверить иммутабельность
-// export const toogleUser = async (
-//   dispatch: Dispatch<AppState>,
-//   state: AppState,
-//   { userId }
-// ) => {
-//   const checkedUsersId = { ...window.store.getState().checkedUsersId };
-//   const searchUsersList = [...window.store.getState().searchUsersList];
+export const toogleUser = async (
+  dispatch: Dispatch<AppState>,
+  state: AppState,
+  { userId }
+) => {
+  const checkedUsersId = cloneDeep(window.store.getState().checkedUsersId);
+  const searchUsersList: User[] = cloneDeep(
+    window.store.getState().searchUsersList
+  );
 
-//   const user = searchUsersList?.find((user) => user.id === userId);
+  if (searchUsersList) {
+    const user = searchUsersList.find((user: User) => user.id === userId);
 
-//   if (user) {
-//     if (!checkedUsersId[userId]) {
-//       checkedUsersId[userId] = true;
-//       user.isChecked = true;
-//     } else {
-//       delete checkedUsersId[userId];
-//       user.isChecked = false;
-//     }
-
-//     dispatch({ checkedUsersId, searchUsersList });
-//   }
-// };
+    if (user) {
+      if (!checkedUsersId[userId]) {
+        checkedUsersId[userId] = true;
+        user.isChecked = true;
+      } else {
+        checkedUsersId[userId] = false;
+        user.isChecked = false;
+      }
+      dispatch({ checkedUsersId, searchUsersList });
+    }
+  } else {
+    return;
+  }
+};

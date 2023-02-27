@@ -4,6 +4,8 @@ import { defaultState } from "./store";
 import LoadingPage from "pages/loading/LoadingPage";
 import { initApp } from "services/initApp";
 import { initRouter } from "./route";
+import { deepDiff } from "utils/deepDiff";
+import { cloneDeep } from "utils/cloneDeep";
 
 //расширяем интерфейс window
 declare global {
@@ -27,13 +29,16 @@ document.addEventListener("DOMContentLoaded", () => {
   renderDOM(new LoadingPage());
 
   store.on(Store.EVENTS.Update, (prevState, nextState) => {
+    const diffObj = deepDiff(cloneDeep(prevState), cloneDeep(nextState));
+
     if (process.env.DEBUG) {
       // eslint-disable-next-line no-console
       console.log(
         "%cstore updated",
         "background: #222; color: #bada55",
-        prevState,
-        nextState
+        // prevState,
+        // nextState,
+        diffObj
       );
     }
   });
