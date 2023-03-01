@@ -20,7 +20,6 @@ class ChatsList extends Block<IChatsListProps> {
       <div class="chats-list">
         {{{Button text="Профиль пользователя" onClick=onNavigateToProfile}}}
         {{{Button text="Создать чат" onClick=onCreateChat}}}
-        {{{Search id="search_chats" placeholder="Найти чат"}}}
         {{!TODO: тут должен быть список ul}}
         <div class="chats-list__list">
           {{#each chatsList}}
