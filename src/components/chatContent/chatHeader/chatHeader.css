@@ -1,0 +1,13 @@
+/* TODO поправить стили, посмотреть как сделано в ChatItem */
+.chat-header__about {
+  display: flex;
+  flex-direction: column;
+  padding-left: 8px;
+  font-size: 18px;
+  color: var(--grey);
+}
+
+.chat-header__about-status {
+  color: var(--greylight);
+  font-size: 14px;
+}

@@ -1,23 +1,41 @@
-import Block from "utils/Block";
+import { Block } from "core";
+import { withStore } from "utils/withStore";
 import "./chatsList.css";
 
-export class ChatsList extends Block {
+interface IChatsListProps {
+  chatsList: Chat[];
+  onNavigateToProfile: () => void;
+  onCreateChat: () => void;
+}
+
+class ChatsList extends Block<IChatsListProps> {
   static componentName = "ChatsList";
+
+  constructor(props: IChatsListProps) {
+    super(props);
+  }
 
   protected render(): string {
     return `
-    <div class="chats-list">
-      {{{Search}}}
-      <div class="chats-list__list">
-        {{{ChatItem name='Masha Vershinina' status='left 30min ago'}}}
-        {{{ChatItem name='R2-D2' status='left 2 years ago'}}}
-        {{{ChatItem name='Master Yoda' status='left 18 min ago'}}}
-        {{{ChatItem name='Obi-Wan Kenobi' status='online'}}}
-        {{{ChatItem name='Chewbacca' status='online'}}}
-        {{{ChatItem name='Adam Ondra' status='online'}}}
-        {{{ChatItem name='Ilon Mask' status='left 2 min ago'}}}
-        {{{ChatItem name='Darth Vader' status='online'}}}
-      </div>
-    </div>`;
+      <div class="chats-list">
+        {{{Button text="Профиль пользователя" onClick=onNavigateToProfile}}}
+        {{{Button text="Создать чат" onClick=onCreateChat}}}
+        {{!TODO: тут должен быть список ul}}
+        <div class="chats-list__list">
+          {{#each chatsList}}
+            {{{ChatItem name=this.title unreadCount=this.unreadCount id=this.id}}}
+          {{/each}}
+        </div>
+      </div>`;
   }
 }
+
+const mapStateToProps: Partial<IChatsListProps> = (state: AppState) => {
+  return {
+    chatsList: state.chatsList
+  };
+};
+
+const ComposedChatsList = withStore(ChatsList, mapStateToProps);
+
+export { ComposedChatsList as ChatsList };

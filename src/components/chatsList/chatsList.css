@@ -1,10 +1,14 @@
 .chats-list {
+  display: flex;
+  flex-direction: column;
   flex-basis: 300px;
+  height: 100vh;
+  padding: 20px;
   background-color: var(--greydark);
   color: var(--white);
-  padding: 20px;
 }
 
 .chats-list__list {
   margin: 20px 0;
+  overflow: auto;
 }

@@ -1,8 +1,5 @@
-import Block from "utils/Block";
-import {
-  validateForm,
-  inputNameToValidateRuleType
-} from "helpers/validateForm";
+import Block from "core/Block";
+import { validateForm, inputNameToValidateRuleType } from "utils/validateForm";
 import "./inputDecorator.css";
 
 interface InputDecoratorProps {
@@ -14,25 +11,32 @@ interface InputDecoratorProps {
   onInput?: () => void;
   onFocus?: () => void;
   onBlur?: () => void;
+  onBlurExtension?: () => void;
 }
 
 export class InputDecorator extends Block {
   constructor(props: InputDecoratorProps) {
     super({
       ...props,
-      onBlur: (e: FocusEvent): void => {
-        const inputEl = e.target as HTMLInputElement;
-
-        const error = validateForm([
-          {
-            type: inputNameToValidateRuleType(props.name),
-            value: inputEl.value
-          }
-        ]);
-
-        this.refs.errorRef.setProps({ text: error });
-      }
+      onBlur: (e: FocusEvent): void => this.onBlur(e)
     });
+  }
+
+  onBlur(e: FocusEvent) {
+    const inputEl = e.target as HTMLInputElement;
+
+    const error = validateForm([
+      {
+        type: inputNameToValidateRuleType(this.props.name),
+        value: inputEl.value
+      }
+    ]);
+
+    this.refs.errorRef.setProps({ text: error });
+
+    if (this.getProps().onBlurExtension) {
+      this.getProps().onBlurExtension(inputEl.value);
+    }
   }
 
   static componentName = "InputDecorator";

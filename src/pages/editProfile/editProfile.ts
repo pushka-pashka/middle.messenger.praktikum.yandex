@@ -1,14 +1,26 @@
-import { ValidateRuleEnum } from "helpers/validateForm";
-import Block from "utils/Block";
-import onSubmit from "utils/submitForm";
+import { Block } from "core";
+import { ValidateRuleEnum } from "utils/validateForm";
+import { getFormData, isSameUserFields } from "utils/getFormData";
+import { withStore } from "utils/withStore";
+import { editProfile } from "services/userService";
+import { ScreenPath } from "utils/ScreenList";
 
-export class EditProfilePage extends Block {
-  constructor() {
-    super();
+interface IEditProfilePage {
+  onSubmit: (e: FormDataEvent) => void;
+  onInput: (e: InputEvent) => void;
+  onNavigateToProfile: () => void;
+}
+
+class EditProfilePage extends Block<IEditProfilePage> {
+  static componentName = "EditProfilePage";
+
+  constructor(props: IEditProfilePage) {
+    super(props);
 
     this.setProps({
       onSubmit: (e: FormDataEvent) => this.onSubmit(e),
-      onInput: (e: InputEvent) => this.onInput(e)
+      onInput: (e: InputEvent) => this.onInput(e),
+      onNavigateToProfile: () => this.onNavigateToProfile()
     });
   }
 
@@ -21,7 +33,17 @@ export class EditProfilePage extends Block {
       ValidateRuleEnum.Phone
     ];
 
-    onSubmit(e, fields, this.element, this.refs);
+    const formData = getFormData(e, fields, this.element, this.refs);
+
+    if (formData) {
+      const user = this.getProps().user;
+      const isUserNotChange = isSameUserFields(user, formData);
+      if (isUserNotChange) {
+        window.store.dispatch({ loginFormError: "Данные не были изменены" });
+      } else {
+        window.store.dispatch(editProfile, formData);
+      }
+    }
   }
 
   onInput(e: InputEvent) {
@@ -34,11 +56,21 @@ export class EditProfilePage extends Block {
     }
   }
 
+  onNavigateToProfile() {
+    window.store.dispatch({
+      loginFormError: null
+    });
+
+    window.router.go(ScreenPath.Profile);
+  }
+
   render() {
+    const user = this.getProps().user;
+
     // language=hbs
     return `
     <div class="page">
-      {{{Sidebar to='../index.html'}}}
+      {{{Sidebar toPage="${ScreenPath.Chats}"}}}
       <div class="page__wrapper">
         <div class="page__content">
         {{{Header size="l" text="Редактирование профиля"}}}
@@ -51,7 +83,7 @@ export class EditProfilePage extends Block {
               ref="email"
               onInput=onInput
               onFocus=onFocus
-              value='email@yandex.ru'
+              value="${user?.email || ""}"
             }}}
             {{{InputDecorator
               label='Логин'
@@ -61,7 +93,7 @@ export class EditProfilePage extends Block {
               ref="login"
               onInput=onInput
               onFocus=onFocus
-              value='sanya'
+              value="${user?.login || ""}"
             }}}
             {{{InputDecorator
               label='Имя'
@@ -71,7 +103,7 @@ export class EditProfilePage extends Block {
               ref="first_name"
               onInput=onInput
               onFocus=onFocus
-              value="Alexandr"
+              value="${user?.firstName || ""}"
             }}}
             {{{InputDecorator
               label='Фамилия'
@@ -81,22 +113,34 @@ export class EditProfilePage extends Block {
               ref="second_name"
               onInput=onInput
               onFocus=onFocus
-              value="Alexandrov"
+              value="${user?.secondName || ""}"
             }}}
             {{{InputDecorator
               label='Телефон'
               type='phone'
               name='phone'
               placeholder='+7**********'
-              value="+79781461579"
+              value="${user?.phone || ""}"
               ref="phone"
               onInput=onInput
               onFocus=onFocus
             }}}
             {{{Button type="submit" text='Изменить данные' onClick=onSubmit}}}
+            {{{FormError size='m'}}}
           </form>
+          {{{Button text='Вернуться в профиль' onClick=onNavigateToProfile}}}
       </div>
     </div>
     `;
   }
 }
+
+const mapStateToProps: Partial<IEditProfilePage> = (state: AppState) => {
+  return {
+    user: state.user
+  };
+};
+
+const ComposedEditProfilePage = withStore(EditProfilePage, mapStateToProps);
+
+export { ComposedEditProfilePage as EditProfilePage };

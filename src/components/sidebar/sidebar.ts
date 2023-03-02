@@ -1,19 +1,33 @@
-import Block from "utils/Block";
+import { Block } from "core";
 import template from "bundle-text:./sidebar.hbs";
 import "./sidebar.css";
+import { ScreenPath } from "utils/ScreenList";
 
-interface SidebarProps {
-  to: string;
+interface ISidebarProps {
+  toPage?: ScreenPath;
+  events: object;
 }
 
-export class Sidebar extends Block {
-  constructor(props: SidebarProps) {
-    super({ ...props });
+class Sidebar extends Block<ISidebarProps> {
+  static componentName = "Sidebar";
+
+  constructor(props: ISidebarProps) {
+    const onNavigateBack = () => this.onNavigateBack();
+
+    super({ ...props, events: { click: onNavigateBack } });
   }
 
-  static componentName = "Sidebar";
+  onNavigateBack() {
+    if (this.props.toPage) {
+      window.router.go(this.props.toPage);
+    } else {
+      window.router.back();
+    }
+  }
 
   protected render(): string {
     return template;
   }
 }
+
+export default Sidebar;

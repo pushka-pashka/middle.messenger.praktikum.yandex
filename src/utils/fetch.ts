@@ -6,7 +6,9 @@ const METHODS = {
   DELETE: "DELETE"
 };
 
-function queryStringify(data) {
+const BASEURL = `${process.env.API_ENDPOINT}`;
+
+function queryStringify(data: object) {
   if (typeof data !== "object") {
     throw new Error("Data must be object");
   }
@@ -18,18 +20,28 @@ function queryStringify(data) {
   }, "?");
 }
 
-class HTTPTransport {
-  get = (url, options = {}) => {
+export default class HTTPTransport {
+  public baseURL: string | undefined
+
+  constructor(baseURL: string = BASEURL) {
+    this.baseURL = baseURL;
+  }
+
+  private createURL(url:string): string {
+    return `${this.baseURL}${url}`;
+  }
+
+  get = (url: string, options = {}) => {
     return this.request(
-      url,
+      this.createURL(url),
       { ...options, method: METHODS.GET },
       options.timeout
     );
   };
 
-  post = (url, options = {}) => {
+  post = (url: string, options = {}) => {
     return this.request(
-      url,
+      this.createURL(url),
       { ...options, method: METHODS.POST },
       options.timeout
     );
@@ -37,7 +49,7 @@ class HTTPTransport {
 
   put = (url, options = {}) => {
     return this.request(
-      url,
+      this.createURL(url),
       { ...options, method: METHODS.PUT },
       options.timeout
     );
@@ -45,13 +57,13 @@ class HTTPTransport {
 
   delete = (url, options = {}) => {
     return this.request(
-      url,
+      this.createURL(url),
       { ...options, method: METHODS.DELETE },
       options.timeout
     );
   };
 
-  request = (url, options = {}, timeout = 5000) => {
+  request = (url: string, options = {}, timeout = 5000) => {
     const { headers = {}, method, data } = options;
 
     return new Promise(function (resolve, reject) {
@@ -65,9 +77,15 @@ class HTTPTransport {
 
       xhr.open(method, isGet && !!data ? `${url}${queryStringify(data)}` : url);
 
+      headers["Content-type"] = "application/json; charset=utf-8";
+
       Object.keys(headers).forEach((key) => {
         xhr.setRequestHeader(key, headers[key]);
       });
+
+      //CORS и куки
+      xhr.withCredentials = true;
+      xhr.responseType = 'json';
 
       xhr.onload = function () {
         resolve(xhr);

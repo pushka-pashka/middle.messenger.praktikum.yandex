@@ -2,6 +2,12 @@
   color: var(--red);
 }
 
+/* .error::after {
+  color: black;
+  background-color: #e8cad3;
+  content: attr(data-id);
+} */
+
 .error_size_s {
   font-size: 12px;
   margin-bottom: 12px;

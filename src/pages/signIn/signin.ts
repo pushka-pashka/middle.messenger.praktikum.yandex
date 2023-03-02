@@ -1,18 +1,26 @@
-import { ValidateRuleEnum } from "helpers/validateForm";
-import Block from "utils/Block";
-import onSubmit from "utils/submitForm";
+import { Block } from "core";
+import { ValidateRuleEnum } from "utils/validateForm";
+import { getFormData } from "utils/getFormData";
+import { signup } from "services/authService";
 
-export class SignInPage extends Block {
-  constructor() {
-    super();
+interface ISignInPageProps {
+  onSignIn: (e: FormDataEvent) => void;
+  onInput: (e: InputEvent) => void;
+}
+
+class SignInPage extends Block<ISignInPageProps> {
+  static componentName = "SignInPage";
+
+  constructor(props: ISignInPageProps) {
+    super(props);
 
     this.setProps({
-      onSubmit: (e: FormDataEvent) => this.onSubmit(e),
+      onSignIn: (e: FormDataEvent) => this.onSignIn(e),
       onInput: (e: InputEvent) => this.onInput(e)
     });
   }
 
-  onSubmit(e: FormDataEvent) {
+  onSignIn(e: FormDataEvent) {
     const fields = [
       ValidateRuleEnum.Email,
       ValidateRuleEnum.Login,
@@ -23,7 +31,11 @@ export class SignInPage extends Block {
       ValidateRuleEnum.PasswordDouble
     ];
 
-    onSubmit(e, fields, this.element, this.refs);
+    const formData = getFormData(e, fields, this.element, this.refs);
+
+    if (formData) {
+      window.store.dispatch(signup, formData);
+    }
   }
 
   onInput(e: InputEvent) {
@@ -40,7 +52,7 @@ export class SignInPage extends Block {
     // language=hbs
     return `
     <div class="page">
-      {{{Sidebar to='../index.html'}}}
+      {{{Sidebar}}}
       <div class="page__wrapper">
         <div class="page__content">
           {{{Header text="Регистрация" size='l'}}}
@@ -109,9 +121,11 @@ export class SignInPage extends Block {
               onFocus=onFocus
             }}}
           </form>
-          {{{Button type="submit" text='Зарегистрироваться' onClick=onSubmit}}}
+          {{{Button type="submit" text='Зарегистрироваться' onClick=onSignIn}}}
         </div>
     </div>
     `;
   }
 }
+
+export default SignInPage;

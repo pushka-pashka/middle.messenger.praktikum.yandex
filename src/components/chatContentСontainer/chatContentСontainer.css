@@ -1,0 +1,11 @@
+.chat-content-container {
+  flex-grow: 1;
+}
+
+.chat-content-container_type_empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100%;
+  color: var(--grey);
+}

@@ -1,29 +1,30 @@
-import Block from "utils/Block";
+import { Block } from "core";
 import "./message.css";
 
-interface MessageProps {
-  date: string;
-  sender?: string;
-  text: string;
+interface IMessageProps {
+  myUserId: number;
+  userId: number;
+  time: string;
+  content: string;
 }
-
 export class Message extends Block {
   static componentName = "Message";
 
-  constructor(props: MessageProps) {
-    super({ ...props });
+  constructor(props: IMessageProps) {
+    super(props);
   }
 
   protected render(): string {
-    const type = this.props.sender ? "toMe" : "me";
+    const type =
+      this.getProps().myUserId === this.getProps().userId ? "me" : "toMe";
 
     return `
       <div class="message message_type_${type}">
         <div class="message__about">
-          <span class="message__date">\{{date}}</span>
-          <span class="message__sender">\{{sender}}</span>
+          <span class="message__date">{{date}}</span>
+          <!--<span class="message__sender">${type}</span>-->
         </div>
-        <div class="message__content message__content_type_${type}">\{{text}}</div>
+        <div class="message__content message__content_type_${type}">\{{content}}</div>
       </div>`;
   }
 }

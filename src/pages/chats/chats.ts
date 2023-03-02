@@ -1,15 +1,40 @@
-import Block from "utils/Block";
+import { Block } from "core";
+import { ScreenPath } from "utils/ScreenList";
 
-export class ChatsPage extends Block {
+interface IChatsPage {
+  onNavigateToProfile: () => void;
+  onCreateChat: () => void;
+}
+
+class ChatsPage extends Block<IChatsPage> {
+  static componentName = "Chats";
+
+  constructor(props: IChatsPage) {
+    const events = {
+      onNavigateToProfile: () => window.router.go(ScreenPath.Profile),
+      onCreateChat: () => this.onCreateChat()
+    };
+
+    super({ ...props, ...events });
+  }
+
+  onCreateChat() {
+    window.store.dispatch({ isCreatingChat: true });
+  }
+
   render() {
-    // language=hbs
     return `
-    <div class="page">
-      <div class="page__wrapper">
-        {{{ChatsList}}}
-        {{{ChatContent}}}
+      <div class="page">
+        <div class="page__wrapper">
+          {{{ChatsList
+            onNavigateToProfile=onNavigateToProfile
+            onCreateChat=onCreateChat
+          }}}
+          {{{ChatContentСontainer}}}
+        </div>
       </div>
-    </div>
     `;
   }
 }
+
+export default ChatsPage;

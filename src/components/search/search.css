@@ -2,8 +2,13 @@
   border-radius: 3px;
   border: none;
   padding: 14px;
-  color: white;
+  color: var(--white);
   background: var(--grey);
   width: 90%;
   font-size: 14px;
+}
+
+.search_input::placeholder {
+  color: var(--white);
+  opacity: 0.3;
 }

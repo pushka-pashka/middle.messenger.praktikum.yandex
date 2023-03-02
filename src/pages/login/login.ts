@@ -1,21 +1,37 @@
-import { ValidateRuleEnum } from "helpers/validateForm";
-import Block from "utils/Block";
-import onSubmit from "utils/submitForm";
+import { Block } from "core";
+import { ValidateRuleEnum } from "utils/validateForm";
+import { getFormData } from "utils/getFormData";
+import { Screens } from "utils/ScreenList";
+import { login } from "services/authService";
 
-export class LoginPage extends Block {
-  constructor() {
-    super();
+interface ILoginPageProps {
+  onSubmit: (e: FormDataEvent) => void;
+  onInput: (e: InputEvent) => void;
+  onNavigateToSignIn: () => void;
+  formError: () => string | null;
+}
 
-    this.setProps({
+class LoginPage extends Block<ILoginPageProps> {
+  static componentName = "LoginPage";
+
+  constructor(props: ILoginPageProps) {
+    const events = {
       onSubmit: (e: FormDataEvent) => this.onSubmit(e),
-      onInput: (e: InputEvent) => this.onInput(e)
-    });
+      onInput: (e: InputEvent) => this.onInput(e),
+      onNavigateToSignIn: () => this.onNavigateToSignIn()
+    };
+
+    super({ ...props, ...events });
   }
 
   onSubmit(e: FormDataEvent) {
     const fields = [ValidateRuleEnum.Login, ValidateRuleEnum.Password];
+    const formData = getFormData(e, fields, this.element, this.refs);
 
-    onSubmit(e, fields, this.element, this.refs);
+    if (formData) {
+      const loginData = { login: formData.login, password: formData.password };
+      window.store.dispatch(login, loginData);
+    }
   }
 
   onInput(e: InputEvent) {
@@ -23,16 +39,23 @@ export class LoginPage extends Block {
     const { name } = inputEl;
     const errorEl = this.refs[name].refs.errorRef;
 
+    if (window.store.getState().loginFormError) {
+      window.store.dispatch({ loginFormError: null });
+    }
+
     if (errorEl.getProps("text")) {
       errorEl.setProps({ text: "" });
     }
+  }
+
+  onNavigateToSignIn() {
+    window.router.go(`/${Screens.SignIn}`);
   }
 
   render() {
     // language=hbs
     return `
     <div class="page">
-      {{{Sidebar to='../index.html'}}}
       <div class="page__wrapper">
         <div class="page__content">
           {{{Header text="Добро пожаловать" size='l'}}}
@@ -57,8 +80,12 @@ export class LoginPage extends Block {
             }}}
             {{{Button type="submit" text='Войти' onClick=onSubmit}}}
           </form>
+          {{{Button text='Зарегистрироваться' onClick=onNavigateToSignIn}}}
+          {{{FormError size='s'}}}
       </div>
     </div>
     `;
   }
 }
+
+export default LoginPage;

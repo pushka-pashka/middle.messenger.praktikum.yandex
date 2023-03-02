@@ -4,12 +4,12 @@
   flex-direction: column;
 }
 
-.message_type_toMe {
+.message_type_me {
   text-align: right;
   align-items: flex-end;
 }
 
-.message_type_me {
+.message_type_toMe {
   text-align: left;
   align-items: flex-start;
 }

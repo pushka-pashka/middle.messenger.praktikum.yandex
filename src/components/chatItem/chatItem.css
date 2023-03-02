@@ -1,17 +1,22 @@
-.chatItem {
+.chat-item {
   display: flex;
   align-items: center;
   margin-bottom: 20px;
+  cursor: pointer;
 }
 
-.chatItem__about {
+.chat-item:hover {
+  box-shadow: 0 0 5px var(--blue);
+}
+
+.chat-item__about {
   display: flex;
   flex-direction: column;
   padding-left: 8px;
   font-size: 18px;
 }
 
-.chatItem__about_type_reverse {
+.chat-item__about_type_reverse {
   color: var(--grey);
 }
 

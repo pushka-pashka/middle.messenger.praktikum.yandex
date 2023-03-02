@@ -1,0 +1,15 @@
+.user {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border: 1px solid var(--greylight);
+  padding: 5px;
+}
+
+.user_info {
+  color: var(--grey);
+}
+
+.user_button {
+  width: 50px;
+}
