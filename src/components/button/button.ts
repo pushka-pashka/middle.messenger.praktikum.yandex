@@ -22,12 +22,12 @@ export class Button extends Block {
     //   "background: #5fa4b2; color: black"
     // );
     return `<button
-      class="button button_type_submit button_size_\{{size}}"
-      \{{#if disabled}}
+      class="button button_type_submit button_size_{{size}}"
+      {{#if disabled}}
         disabled
-      \{{/if}}
-      type=\{{type}}>
-      \{{text}}
+      {{/if}}
+      type={{type}}>
+      {{text}}
     </button>;`;
   }
 }

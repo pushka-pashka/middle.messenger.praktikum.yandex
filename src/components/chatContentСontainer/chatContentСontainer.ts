@@ -1,6 +1,6 @@
 import { Block } from "core";
 import { withStore } from "utils/withStore";
-import template from "bundle-text:./chatContentСontainer.hbs";
+import template from "./chatContentСontainer.hbs";
 import "./chatContentСontainer.css";
 
 interface IChatContentСontainer {

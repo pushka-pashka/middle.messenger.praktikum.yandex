@@ -44,7 +44,7 @@ export class InputDecorator extends Block {
   protected render(): string {
     return `
       <div class="input-decorator">
-        <div class="input-decorator__label">\{{label}}</div>
+        <div class="input-decorator__label">{{label}}</div>
         <div class="input-decorator__wrapper">
           {{{Input
             onInput=onInput

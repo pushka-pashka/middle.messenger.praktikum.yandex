@@ -1,5 +1,5 @@
 import Block from "core/Block";
-import template from "bundle-text:./textarea.hbs";
+import template from "./textarea.hbs";
 import "./textarea.css";
 
 interface TextareaProps {

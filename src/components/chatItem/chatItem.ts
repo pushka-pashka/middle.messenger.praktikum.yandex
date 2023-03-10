@@ -33,11 +33,11 @@ export class ChatItem extends Block<ChatItemProps> {
     return `
       <div class="chat-item">
         {{{IconUser size='s'}}}
-        <div class="chat-item__about{{#if type}} chat-item__about_type_\{{type}} {{/if}}">
-          <div class="about__name">\{{name}}</div>
+        <div class="chat-item__about{{#if type}} chat-item__about_type_{{type}} {{/if}}">
+          <div class="about__name">{{name}}</div>
           {{#if unreadCount}}
             <div class="about__status">
-              Новых сообщений: \{{unreadCount}}
+              Новых сообщений: {{unreadCount}}
             </div>
           {{/if}}
         </div>

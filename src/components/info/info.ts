@@ -1,5 +1,5 @@
 import Block from "core/Block";
-import template from "bundle-text:./info.hbs";
+import template from "./info.hbs";
 import "./info.css";
 
 interface InfoProps {

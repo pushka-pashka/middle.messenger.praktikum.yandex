@@ -1,5 +1,5 @@
 import Block from "core/Block";
-import template from "bundle-text:./header.hbs";
+import template from "./header.hbs";
 import "./header.css";
 
 export enum HeaderSizeType {
