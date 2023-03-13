@@ -1,43 +1,29 @@
-// Generated using webpack-cli https://github.com/webpack/webpack-cli
-
 const path = require("path");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const Dotenv = require("dotenv-webpack");
 // const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const webpack = require("webpack");
-
-const ENVIRONMENT_VARIABLES = {
-  NODE_ENV: process.env.NODE_ENV || "development",
-  PORT: process.env.PORT || 3000,
-  DEBUG: process.env.DEBUG || true,
-  WS_ENDPOINT: "wss://ya-praktikum.tech/ws/chats",
-  API_ENDPOINT: "https://ya-praktikum.tech/api/v2"
-};
-
-const isProduction = process.env.NODE_ENV == "production";
 
 // const stylesHandler = MiniCssExtractPlugin.loader;
 
-const config = {
-  entry: "./src/index.ts",
+module.exports = {
+  context: path.resolve(__dirname, "src"),
+  entry: "./index.ts",
   output: {
-    path: path.resolve(__dirname, "dist")
-  },
-  devServer: {
-    open: true,
-    host: "localhost",
-    historyApiFallback: true
+    filename: "bundle.js",
+    path: path.resolve(__dirname, "dist"),
+    publicPath: "/",
+    clean: true
   },
   plugins: [
-    new webpack.EnvironmentPlugin(ENVIRONMENT_VARIABLES),
+    new CleanWebpackPlugin(),
 
     new HtmlWebpackPlugin({
-      template: "./src/index.html"
-    })
+      template: "./index.html"
+    }),
+    new Dotenv()
 
     // new MiniCssExtractPlugin()
-
-    // Add your plugins here
-    // Learn more about plugins from https://webpack.js.org/configuration/plugins/
   ],
   module: {
     rules: [
@@ -58,9 +44,6 @@ const config = {
         test: /\.hbs/,
         type: "asset/source"
       }
-
-      // Add your rules for custom modules here
-      // Learn more about loaders from https://webpack.js.org/loaders/
     ]
   },
   resolve: {
@@ -76,13 +59,4 @@ const config = {
       services: path.resolve(__dirname, "src/services")
     }
   }
-};
-
-module.exports = () => {
-  if (isProduction) {
-    config.mode = "production";
-  } else {
-    config.mode = "development";
-  }
-  return config;
 };
