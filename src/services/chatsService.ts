@@ -13,7 +13,7 @@ import { sortMessages } from "./messageService";
 
 export const selectChat = async (
   dispatch: Dispatch<AppState>,
-  state: AppState,
+  _state: AppState,
   chatId: number
 ) => {
   dispatch({ isCreatingChat: false, currentChatId: chatId });
@@ -22,9 +22,9 @@ export const selectChat = async (
 };
 
 export const sendMessage = async (
-  dispatch: Dispatch<AppState>,
-  state: AppState,
-  { text, chatId }
+  _dispatch: Dispatch<AppState>,
+  _state: AppState,
+  { text, chatId }: ChatMessageText
 ) => {
   const ws = await getWebSocket(chatId);
 
@@ -37,8 +37,8 @@ export const sendMessage = async (
 
 export const addMessagesToChat = async (
   dispatch: Dispatch<AppState>,
-  state: AppState,
-  { messages, chatId }
+  _state: AppState,
+  { messages, chatId }: ChatMessages
 ) => {
   const chatsData = cloneDeep(window.store.getState().chatsData);
   const chatData = chatsData[chatId]?.messages || [];
@@ -65,21 +65,21 @@ export const addMessagesToChat = async (
     sortMessages(chatData)
   );
 
-  dispatch({ ...chatMessages });
+  dispatch({ ...(chatMessages as Indexed) });
 };
 
 //сортировка чатов по дате самого свежего сообщения
 export const sortChats = (chats: Chat[]) => {
   return chats.sort(
-    (a, b) => new Date(b.lastMessage.time) - new Date(a.lastMessage.time)
+    (a, b) => +new Date(b.lastMessage.time) - +new Date(a.lastMessage.time)
   );
 };
 
 // создание нового чата с добавлением пользователей
 export const createChat = async (
   dispatch: Dispatch<AppState>,
-  state: AppState,
-  chatName: Object
+  _state: AppState,
+  chatName: string
 ) => {
   dispatch({ isLoading: true });
 
@@ -132,13 +132,15 @@ export const getChatsList = async (dispatch: Dispatch<AppState>) => {
 
 export const toogleUser = async (
   dispatch: Dispatch<AppState>,
-  state: AppState,
-  { userId }
+  _state: AppState,
+  userId: number
 ) => {
-  const checkedUsersId = cloneDeep(window.store.getState().checkedUsersId);
-  const searchUsersList: User[] = cloneDeep(
-    window.store.getState().searchUsersList
-  );
+  const checkedUsersId = cloneDeep(
+    window.store.getState().checkedUsersId
+  ) as Record<number, boolean>;
+  const searchUsersList = cloneDeep(window.store.getState().searchUsersList) as
+    | User[]
+    | [];
 
   if (searchUsersList) {
     const user = searchUsersList.find((user: User) => user.id === userId);

@@ -26,7 +26,7 @@ class ChatHeader extends Block<IChatHeaderProps> {
   }
 }
 
-const mapStateToProps: Partial<IChatHeaderProps> = (state: AppState) => {
+const mapStateToProps = (state: AppState): Partial<IChatHeaderProps> => {
   return {
     chatName: () => {
       const chatId = state.currentChatId;

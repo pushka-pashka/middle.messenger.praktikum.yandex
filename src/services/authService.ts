@@ -6,11 +6,12 @@ import { apiHasError } from "utils/apiHasError";
 import { Screens } from "utils/ScreenList";
 import { transformChats, transformUser } from "utils/transformers";
 import { sortChats } from "./chatsService";
+import { FormDataType } from "utils/getFormData";
 
 export const signup = async (
   dispatch: Dispatch<AppState>,
-  state: AppState,
-  action: Object
+  __state: AppState,
+  action: Nullable<FormDataType>
 ) => {
   dispatch({ isLoading: true });
 
@@ -34,8 +35,8 @@ export const signup = async (
 
 export const login = async (
   dispatch: Dispatch<AppState>,
-  state: AppState,
-  action: Object
+  __state: AppState,
+  action: LoginData
 ) => {
   dispatch({ isLoading: true });
 

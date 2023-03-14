@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "NODE_ENV=development webpack serve --config webpack.dev.js",
     "build": "NODE_ENV=production webpack --progress --config webpack.prod.js",
+    "start": "npm run build && node ./app.js",
     "eslint": "eslint './src/**/*.{js,ts}'",
     "stylelint": "stylelint '**/*{.css,.scss}'",
     "parcel:dev": "parcel src/index.html --no-source-maps --no-cache",

@@ -12,7 +12,8 @@ export enum ValidateRuleEnum {
   PasswordDouble = "password_double",
   Phone = "phone",
   ChatName = "chat_name",
-  NewPassword = "new_password"
+  NewPassword = "new_password",
+  DisplayName = "display_name"
 }
 
 export type ValidateRuleType = Nullable<ValidateRuleEnum>;

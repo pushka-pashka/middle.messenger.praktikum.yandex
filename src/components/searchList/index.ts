@@ -1,1 +1,1 @@
-export { Search as default } from "./search";
+export { SearchList as default } from "./searchList";

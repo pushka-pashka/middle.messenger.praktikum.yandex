@@ -7,7 +7,7 @@ interface IProfilePage {
   onChangeData: () => void;
   onChangePassword: () => void;
   onLogout: () => void;
-  user: User;
+  user: Nullable<User>;
 }
 
 class ProfilePage extends Block<IProfilePage> {
@@ -56,7 +56,7 @@ class ProfilePage extends Block<IProfilePage> {
   }
 }
 
-const mapStateToProps: Partial<IProfilePage> = (state: AppState) => {
+const mapStateToProps = (state: AppState): Partial<IProfilePage> => {
   return {
     user: state.user
   };

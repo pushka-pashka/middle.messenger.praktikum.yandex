@@ -3,7 +3,7 @@ import { withStore } from "utils/withStore";
 import "./chatsList.css";
 
 interface IChatsListProps {
-  chatsList: Chat[];
+  chatsList: Nullable<Chat[]>;
   onNavigateToProfile: () => void;
   onCreateChat: () => void;
 }
@@ -30,7 +30,7 @@ class ChatsList extends Block<IChatsListProps> {
   }
 }
 
-const mapStateToProps: Partial<IChatsListProps> = (state: AppState) => {
+const mapStateToProps = (state: AppState): Partial<IChatsListProps> => {
   return {
     chatsList: state.chatsList
   };

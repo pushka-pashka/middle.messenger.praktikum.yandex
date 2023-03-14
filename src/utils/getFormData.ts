@@ -1,7 +1,7 @@
 import { Block } from "core";
 import { validateForm, ValidateRuleEnum } from "utils/validateForm";
 
-type FormDataType = Record<ValidateRuleEnum, string>;
+export type FormDataType = Record<ValidateRuleEnum, string>;
 
 export function getFormData(
   event: FormDataEvent,

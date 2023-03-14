@@ -1,6 +1,6 @@
 import { Block } from "core";
 import { ValidateRuleEnum } from "utils/validateForm";
-import { getFormData } from "utils/getFormData";
+import { FormDataType, getFormData } from "utils/getFormData";
 import { withStore } from "utils/withStore";
 import { ScreenPath } from "utils/ScreenList";
 import { editPassword } from "services/userService";
@@ -9,6 +9,7 @@ interface IEditPassword {
   onSubmit: (e: FormDataEvent) => void;
   onInput: (e: InputEvent) => void;
   onNavigateToProfile: () => void;
+  user: Nullable<User>;
 }
 
 class EditPassword extends Block<IEditPassword> {
@@ -35,7 +36,12 @@ class EditPassword extends Block<IEditPassword> {
   onSubmit(e: FormDataEvent) {
     const fields = [ValidateRuleEnum.Password, ValidateRuleEnum.NewPassword];
 
-    const formData = getFormData(e, fields, this.element, this.refs);
+    const formData: Nullable<FormDataType> = getFormData(
+      e,
+      fields,
+      this.element,
+      this.refs
+    );
 
     if (formData) {
       window.store.dispatch(editPassword, formData);
@@ -90,7 +96,7 @@ class EditPassword extends Block<IEditPassword> {
   }
 }
 
-const mapStateToProps: Partial<IEditPassword> = (state: AppState) => {
+const mapStateToProps = (state: AppState): Partial<IEditPassword> => {
   return {
     user: state.user
   };

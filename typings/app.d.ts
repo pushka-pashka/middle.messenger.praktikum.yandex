@@ -1,3 +1,4 @@
+import { MessageDTO } from "api/types";
 import { Screens } from "utils/ScreenList";
 
 declare global {
@@ -14,13 +15,13 @@ declare global {
     isCreatingChat: boolean; //режим создания чата
     newChatName: Nullable<string>; //название нового чата
     currentChatId: Nullable<number>;
-    chatsData: Object;
+    chatsData: ChatsData | Record<>;
     isLoading: boolean; //идет ли загрузка приложения
     loginFormError: Nullable<string>; //ошибка при авторизации
     screen: Nullable<Screens>; //текущий экран
     user: Nullable<User>; //текущий пользователь
     searchUsersList: User[] | [];
-    checkedUsersId: Record<number>;
+    checkedUsersId: Record<number, boolean>;
     errorReason: Nullable<string>;
   };
 
@@ -30,7 +31,7 @@ declare global {
     firstName: string;
     secondName: string;
     displayName: string;
-    avatar: string;
+    avatar: string | undefined;
     phone: string;
     email: string;
     isChecked?: boolean;
@@ -48,6 +49,8 @@ declare global {
     };
   };
 
+  export type ChatsData = Record<number, Messages>;
+
   export type Message = {
     chatId: number;
     content: string;
@@ -57,5 +60,39 @@ declare global {
     time: string;
     type: string;
     userId: number;
+  };
+
+  interface Messages {
+    messages: Message[];
+  }
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  export type ResponseData = {} | APIError;
+
+  export type LoginData = {
+    login: string;
+    password: string;
+  };
+
+  export type ChatMessageText = {
+    text: string;
+    chatId: number;
+  };
+
+  export type EditPassword = {
+    oldPassword: string;
+    newPassword: string;
+  };
+
+  export type WSMEssage = {
+    content: string;
+    id: number;
+    time: Date;
+    type: WSMEssage;
+    user_id: number;
+  };
+
+  export type ChatMessages = {
+    messages: MessageDTO | MessageDTO[];
+    chatId: number;
   };
 }

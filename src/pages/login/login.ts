@@ -1,6 +1,6 @@
 import { Block } from "core";
 import { ValidateRuleEnum } from "utils/validateForm";
-import { getFormData } from "utils/getFormData";
+import { FormDataType, getFormData } from "utils/getFormData";
 import { Screens } from "utils/ScreenList";
 import { login } from "services/authService";
 
@@ -26,10 +26,18 @@ class LoginPage extends Block<ILoginPageProps> {
 
   onSubmit(e: FormDataEvent) {
     const fields = [ValidateRuleEnum.Login, ValidateRuleEnum.Password];
-    const formData = getFormData(e, fields, this.element, this.refs);
+    const formData: Nullable<FormDataType> = getFormData(
+      e,
+      fields,
+      this.element,
+      this.refs
+    );
 
     if (formData) {
-      const loginData = { login: formData.login, password: formData.password };
+      const loginData: LoginData = {
+        login: formData.login,
+        password: formData.password
+      };
       window.store.dispatch(login, loginData);
     }
   }

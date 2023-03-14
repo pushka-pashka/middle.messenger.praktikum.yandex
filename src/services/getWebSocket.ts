@@ -1,4 +1,5 @@
 import { chatsAPI } from "api/chatsApi";
+import { MessageDTO } from "api/types";
 import { apiHasError } from "utils/apiHasError";
 import { addMessagesToChat } from "./chatsService";
 import SocketService from "./webSocketService";
@@ -36,7 +37,7 @@ export const getWebSocket = async (chatId: number) => {
     .on(SocketService.EVENTS.GET_MESSAGE, (data) => addNewMessages(data))
     .on(SocketService.EVENTS.CLOSE, () => deleteSoket());
 
-  const addNewMessages = (messages) => {
+  const addNewMessages = (messages: MessageDTO[]) => {
     window.store.dispatch(addMessagesToChat, { messages, chatId });
   };
 

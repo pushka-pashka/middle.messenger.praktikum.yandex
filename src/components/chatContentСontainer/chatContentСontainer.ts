@@ -6,7 +6,7 @@ import "./chatContentСontainer.css";
 interface IChatContentСontainer {
   isCreatingChat: boolean;
   currentChatId: Nullable<number>;
-  onSearchUsers: () => void;
+  onSearchUsers?: () => void;
 }
 
 class ChatContentСontainer extends Block<IChatContentСontainer> {
@@ -21,7 +21,7 @@ class ChatContentСontainer extends Block<IChatContentСontainer> {
   }
 }
 
-const mapStateToProps: Partial<IChatContentСontainer> = (state: AppState) => {
+const mapStateToProps = (state: AppState): Partial<IChatContentСontainer> => {
   return {
     isCreatingChat: state.isCreatingChat,
     currentChatId: state.currentChatId

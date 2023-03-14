@@ -27,7 +27,7 @@ export class InputDecorator extends Block {
 
     const error = validateForm([
       {
-        type: inputNameToValidateRuleType(this.props.name),
+        type: inputNameToValidateRuleType(this.getProps().name),
         value: inputEl.value
       }
     ]);

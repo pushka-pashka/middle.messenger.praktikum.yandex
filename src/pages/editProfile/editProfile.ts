@@ -1,6 +1,6 @@
 import { Block } from "core";
 import { ValidateRuleEnum } from "utils/validateForm";
-import { getFormData, isSameUserFields } from "utils/getFormData";
+import { FormDataType, getFormData, isSameUserFields } from "utils/getFormData";
 import { withStore } from "utils/withStore";
 import { editProfile } from "services/userService";
 import { ScreenPath } from "utils/ScreenList";
@@ -9,6 +9,7 @@ interface IEditProfilePage {
   onSubmit: (e: FormDataEvent) => void;
   onInput: (e: InputEvent) => void;
   onNavigateToProfile: () => void;
+  user: Nullable<User>;
 }
 
 class EditProfilePage extends Block<IEditProfilePage> {
@@ -33,11 +34,17 @@ class EditProfilePage extends Block<IEditProfilePage> {
       ValidateRuleEnum.Phone
     ];
 
-    const formData = getFormData(e, fields, this.element, this.refs);
+    const formData: Nullable<FormDataType> = getFormData(
+      e,
+      fields,
+      this.element,
+      this.refs
+    );
 
     if (formData) {
       const user = this.getProps().user;
       const isUserNotChange = isSameUserFields(user, formData);
+
       if (isUserNotChange) {
         window.store.dispatch({ loginFormError: "Данные не были изменены" });
       } else {
@@ -135,7 +142,7 @@ class EditProfilePage extends Block<IEditProfilePage> {
   }
 }
 
-const mapStateToProps: Partial<IEditProfilePage> = (state: AppState) => {
+const mapStateToProps = (state: AppState): Partial<IEditProfilePage> => {
   return {
     user: state.user
   };
