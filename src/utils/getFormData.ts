@@ -49,8 +49,6 @@ export function getFormData(
     console.log("Form error:", errorData);
     return null;
   } else {
-    // eslint-disable-next-line
-    console.log("Form data:", data);
     return data;
   }
 }
