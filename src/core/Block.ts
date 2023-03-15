@@ -1,5 +1,5 @@
 import EventBus from "./EventBus";
-import { nanoid } from "nanoid";
+import { v4 as uuidv4 } from "uuid";
 import Handlebars from "handlebars";
 import isEqual from "utils/isEqual";
 import { cloneDeep } from "utils/cloneDeep";
@@ -23,7 +23,7 @@ export default abstract class Block<P extends Record<string, any> = object> {
   } as const;
 
   public static componentName: string;
-  public id = nanoid(6);
+  public id = uuidv4(6);
   public props: P;
 
   protected _element: Nullable<HTMLElement> = null;

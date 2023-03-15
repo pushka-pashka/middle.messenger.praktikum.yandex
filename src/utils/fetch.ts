@@ -1,5 +1,5 @@
 /* eslint-disable */
-enum Methods {
+export enum Methods {
   GET = "GET",
   POST = "POST",
   PUT = "PUT",
@@ -69,12 +69,19 @@ export default class HTTPTransport {
     );
   };
 
-  delete = (url: string, options: Options) => {
-    return this.request(
-      this.createURL(url),
-      { ...options, method: Methods.DELETE },
-      options.timeout
-    );
+  delete = (url: string, options?: Options) => {
+    if(options) {
+      return this.request(
+        this.createURL(url),
+        { ...options, method: Methods.DELETE },
+        options.timeout
+      );
+    } else {
+       return this.request(
+        this.createURL(url),
+        { method: Methods.DELETE }
+      );
+    }
   };
 
   request = (url: string, options: Options, timeout: number = 5000) => {

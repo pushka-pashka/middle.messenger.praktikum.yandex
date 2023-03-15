@@ -10,7 +10,8 @@
     "stylelint": "stylelint '**/*{.css,.scss}'",
     "parcel:dev": "parcel src/index.html --no-source-maps --no-cache",
     "parcel:build": "parcel build src/index.html --no-cache",
-    "parcel:start": "npm run parcel:build && node ./app.js"
+    "parcel:start": "npm run parcel:build && node ./app.js",
+    "test": "jest"
   },
   "alias": {
     "api": "./src/api",
@@ -36,26 +37,37 @@
   "homepage": "https://github.com/pushka-pashka/middle.messenger.praktikum.yandex#readme",
   "devDependencies": {
     "@anikin/parcel-transformer-handlebars": "1.0.9",
+    "@babel/core": "7.21.3",
+    "@babel/preset-env": "7.20.2",
+    "@babel/preset-typescript": "7.21.0",
     "@parcel/transformer-inline-string": "2.8.2",
+    "@testing-library/dom": "9.0.1",
+    "@testing-library/jest-dom": "5.16.5",
+    "@types/jest": "27.5.2",
     "@types/node": "18.11.18",
+    "@types/sinon": "10.0.13",
     "@typescript-eslint/eslint-plugin": "5.47.1",
     "@typescript-eslint/parser": "5.47.1",
     "autoprefixer": "10.4.13",
     "clean-webpack-plugin": "4.0.0",
     "css-loader": "6.7.3",
+    "dotenv": "16.0.3",
     "dotenv-webpack": "8.0.1",
     "eslint": "8.30.0",
     "eslint-config-prettier": "8.6.0",
     "eslint-plugin-import": "2.26.0",
     "eslint-plugin-prettier": "4.2.1",
     "html-webpack-plugin": "5.5.0",
+    "jest": "27.5.1",
     "lightningcss": "1.18.0",
     "mini-css-extract-plugin": "2.7.3",
+    "msw": "1.1.0",
     "parcel": "2.8.2",
     "postcss": "8.4.20",
     "postcss-import": "15.1.0",
     "postcss-loader": "7.0.2",
     "prettier": "2.8.2",
+    "sinon": "15.0.2",
     "style-loader": "3.3.1",
     "stylelint": "14.16.1",
     "stylelint-config-standard": "29.0.0",
@@ -64,12 +76,13 @@
     "webpack": "5.76.0",
     "webpack-cli": "5.0.1",
     "webpack-dev-server": "4.11.1",
-    "webpack-merge": "5.8.0"
+    "webpack-merge": "5.8.0",
+    "whatwg-fetch": "3.6.2"
   },
   "dependencies": {
     "express": "4.18.2",
     "handlebars": "4.7.7",
-    "nanoid": "4.0.0",
-    "normalize.css": "8.0.1"
+    "normalize.css": "8.0.1",
+    "uuid": "9.0.0"
   }
 }
