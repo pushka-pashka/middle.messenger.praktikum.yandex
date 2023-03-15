@@ -2,9 +2,6 @@ const path = require("path");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const Dotenv = require("dotenv-webpack");
-// const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-
-// const stylesHandler = MiniCssExtractPlugin.loader;
 
 module.exports = {
   context: path.resolve(__dirname, "src"),
@@ -22,8 +19,6 @@ module.exports = {
       template: "./index.html"
     }),
     new Dotenv()
-
-    // new MiniCssExtractPlugin()
   ],
   module: {
     rules: [
@@ -31,10 +26,6 @@ module.exports = {
         test: /\.(ts|tsx)$/i,
         loader: "ts-loader",
         exclude: ["/node_modules/"]
-      },
-      {
-        test: /\.css$/i,
-        use: ["style-loader", "css-loader"]
       },
       {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,

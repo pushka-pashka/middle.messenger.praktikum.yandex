@@ -8,5 +8,13 @@ module.exports = merge(common, {
     open: true,
     host: "localhost",
     historyApiFallback: true
+  },
+  module: {
+    rules: [
+      {
+        test: /\.css$/i,
+        use: ["style-loader", "css-loader", "postcss-loader"]
+      }
+    ]
   }
 });
