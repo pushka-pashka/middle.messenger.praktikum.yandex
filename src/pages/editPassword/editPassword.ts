@@ -70,8 +70,9 @@ class EditPassword extends Block<IEditPassword> {
           <form id="signin" action="" method="post" class="form">
             {{{InputDecorator
               label='Старый пароль'
-              name='password'
+              type='text'
               placeholder='*****'
+              name='password'
               ref="password"
               onInput=onInput
               onFocus=onFocus
@@ -79,6 +80,7 @@ class EditPassword extends Block<IEditPassword> {
             }}}
             {{{InputDecorator
               label='Новый пароль'
+              type='text'
               name='new_password'
               placeholder='*****'
               ref="new_password"

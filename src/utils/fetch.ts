@@ -13,7 +13,24 @@ type Options = {
   timeout?: number;
 };
 
+type Response = {
+  readonly status: number;
+  readonly statusText: string;
+  readonly responseType: XMLHttpRequestResponseType;
+  readonly response: Indexed;
+};
+
 const BASEURL = `${process.env.API_ENDPOINT}`;
+
+function normalizeResponse(error: Nullable<Error>, response?: Response) {
+  if (error) {
+    console.error(error);
+
+    return { reason: "Responce error: " + error.name + " " + error.message};
+  }
+
+  return response;
+};
 
 function queryStringify(data: string | Indexed): string {
   if (typeof data !== "object") {
@@ -39,48 +56,76 @@ export default class HTTPTransport {
     return `${this.baseURL}${url}`;
   }
 
-  get = (url: string) => {
-    return this.request(
-      this.createURL(url),
-      { method: Methods.GET }
-    );
-  };
+  get = async (url: string) => {
+    try {
+      const res = await this.request(
+        this.createURL(url),
+        { method: Methods.GET }
+      ) as Response;
 
-  post = (url: string, options?: Options) => {
-    if(options) {
-      return this.request(
-        this.createURL(url),
-        { ...options, method: Methods.POST },
-        options.timeout
-      );
-    } else {
-       return this.request(
-        this.createURL(url),
-        { method: Methods.POST }
-      );
+      return normalizeResponse(null, res);
+    } catch(error) {
+      return normalizeResponse(error as Error);
     }
   };
 
-  put = (url: string, options: Options) => {
-    return this.request(
-      this.createURL(url),
-      { ...options, method: Methods.PUT },
-      options.timeout
-    );
+  post = async (url: string, options?: Options) => {
+    try {
+      let res: Response;
+
+      if(options) {
+        res = await this.request(
+          this.createURL(url),
+          { ...options, method: Methods.POST },
+          options.timeout
+        ) as Response;
+      } else {
+        res = await this.request(
+          this.createURL(url),
+          { method: Methods.POST }
+        ) as Response;
+      }
+
+      return normalizeResponse(null, res);
+    } catch(error) {
+      return normalizeResponse(error as Error);
+    }
   };
 
-  delete = (url: string, options?: Options) => {
-    if(options) {
-      return this.request(
+  put = async (url: string, options: Options) => {
+    try {
+      const res = await this.request(
         this.createURL(url),
-        { ...options, method: Methods.DELETE },
+        { ...options, method: Methods.PUT },
         options.timeout
-      );
-    } else {
-       return this.request(
-        this.createURL(url),
-        { method: Methods.DELETE }
-      );
+      ) as Response;
+
+      return normalizeResponse(null, res);
+    } catch(error) {
+      return normalizeResponse(error as Error);
+    }
+  };
+
+  delete = async (url: string, options?: Options) => {
+    try {
+      let res: Response;
+
+      if(options) {
+        res = await this.request(
+          this.createURL(url),
+          { ...options, method: Methods.DELETE },
+          options.timeout
+        ) as Response;;
+      } else {
+        res = await this.request(
+          this.createURL(url),
+          { method: Methods.DELETE }
+        ) as Response;
+      }
+
+      return normalizeResponse(null, res);
+    } catch(error) {
+      return normalizeResponse(error as Error);
     }
   };
 
