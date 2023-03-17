@@ -70,7 +70,7 @@ export const addMessagesToChat = async (
 
 //сортировка чатов по дате самого свежего сообщения
 export const sortChats = (chats: Chat[]) => {
-  return chats.sort(
+  return chats?.sort(
     (a, b) => +new Date(b.lastMessage.time) - +new Date(a.lastMessage.time)
   );
 };

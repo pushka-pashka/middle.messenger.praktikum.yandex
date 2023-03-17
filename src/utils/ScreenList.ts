@@ -11,8 +11,8 @@ export enum ScreenPath {
   Default = "/",
   Login = "/login",
   SignIn = "/signin",
-  Profile = "/profile",
-  Chats = "/chats",
+  Profile = "/settings",
+  Chats = "/messenger",
   EditProfile = "/edit-profile",
   EditPassword = "/edit-password",
   Error = "/404",
@@ -22,8 +22,8 @@ export enum ScreenPath {
 export enum Screens {
   Login = "login",
   SignIn = "signin",
-  Profile = "profile",
-  Chats = "chats",
+  Profile = "settings",
+  Chats = "messenger",
   EditProfile = "edit-profile",
   EditPassword = "edit-password",
   Error = "error"

@@ -47,7 +47,7 @@ export const transformChat = (data: ChatDTO): Chat => {
 };
 
 export const transformChats = (data: ChatDTO[]): Chat[] => {
-  return data.map((chat) => transformChat(chat));
+  return data?.map((chat) => transformChat(chat));
 };
 
 export const transformMessage = (data: MessageDTO): Message => {

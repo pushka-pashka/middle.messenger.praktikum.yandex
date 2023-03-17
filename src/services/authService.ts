@@ -24,9 +24,8 @@ export const signup = async (
 
   const user = await authAPI.me();
 
-  //TODO: вызвать здесь трансформер для юзера
   dispatch({
-    user,
+    user: user ? transformUser(user) : null,
     isLoading: false,
     errorReason: null,
     screen: Screens.Chats
@@ -51,14 +50,16 @@ export const login = async (
 
   const chatsList = await chatsAPI.getChats();
 
-  dispatch({ chatsList: sortChats(transformChats(chatsList)) });
+  if (chatsList) {
+    dispatch({ chatsList: sortChats(transformChats(chatsList)) });
 
-  dispatch({
-    user: transformUser(user),
-    isLoading: false,
-    loginFormError: null,
-    screen: Screens.Chats
-  });
+    dispatch({
+      user: user ? transformUser(user) : null,
+      isLoading: false,
+      loginFormError: null,
+      screen: Screens.Chats
+    });
+  }
 };
 
 export const logout = async (dispatch: Dispatch<AppState>) => {
