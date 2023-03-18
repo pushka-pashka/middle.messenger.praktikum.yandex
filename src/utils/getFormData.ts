@@ -1,7 +1,7 @@
 import { Block } from "core";
 import { validateForm, ValidateRuleEnum } from "utils/validateForm";
 
-type FormDataType = Record<ValidateRuleEnum, string>;
+export type FormDataType = Record<ValidateRuleEnum, string>;
 
 export function getFormData(
   event: FormDataEvent,
@@ -49,8 +49,6 @@ export function getFormData(
     console.log("Form error:", errorData);
     return null;
   } else {
-    // eslint-disable-next-line
-    console.log("Form data:", data);
     return data;
   }
 }

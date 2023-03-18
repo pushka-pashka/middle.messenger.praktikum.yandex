@@ -1,5 +1,5 @@
 import { Block } from "core";
-import template from "bundle-text:./sidebar.hbs";
+import template from "./sidebar.hbs";
 import "./sidebar.css";
 import { ScreenPath } from "utils/ScreenList";
 

@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 export function deepDiff(obj1, obj2) {
   // Make sure an object to compare is provided
   if (!obj2 || Object.prototype.toString.call(obj2) !== "[object Object]") {

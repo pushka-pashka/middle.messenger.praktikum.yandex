@@ -28,6 +28,7 @@ export async function initApp(dispatch: Dispatch<AppState>) {
 
     dispatch({ chatsList });
   } catch (err) {
+    // eslint-disable-next-line no-console
     console.error(err);
   } finally {
     dispatch({ appIsInited: true });

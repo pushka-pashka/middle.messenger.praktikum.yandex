@@ -5,7 +5,7 @@ import "./searchUsersList.css";
 
 interface ISearchUsersListProps {
   searchId: string;
-  usersList: () => Nullable<Array>;
+  usersList: () => Nullable<User[]>;
   onSearchUsers: () => void;
 }
 
@@ -45,18 +45,20 @@ class SearchUsersList extends Block<ISearchUsersListProps> {
           {{{Button size='s'text='Найти' onClick=onSearchUsers}}}
         </div>
         <div class="search-users-list__list">
-          {{#each usersList}}
-            {{{SearchUsersItem
-              user=this
-              isChecked=this.isChecked
-            }}}
-          {{/each}}
+          {{#if usersList}}
+            {{#each usersList}}
+              {{{SearchUsersItem
+                user=this
+                isChecked=this.isChecked
+              }}}
+            {{/each}}
+          {{/if}}
         </div>
       </div>`;
   }
 }
 
-const mapStateToProps: Partial<ISearchUsersListProps> = (state: AppState) => {
+const mapStateToProps = (state: AppState): Partial<ISearchUsersListProps> => {
   return {
     usersList: () => state.searchUsersList
   };

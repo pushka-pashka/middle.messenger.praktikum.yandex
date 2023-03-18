@@ -2,10 +2,14 @@ import { Block } from "core";
 import { sendMessage } from "services/chatsService";
 import "./chatContent.css";
 
+interface IChatContent {
+  chatId: Nullable<number>;
+}
+
 export class ChatContent extends Block {
   static componentName = "ChatContent";
 
-  constructor(props) {
+  constructor(props: IChatContent) {
     super({
       ...props,
       onSubmit: () => this.onSubmit()

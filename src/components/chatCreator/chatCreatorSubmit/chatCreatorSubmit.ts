@@ -37,7 +37,7 @@ class ChatCreatorSubmit extends Block<IChatCreatorSubmit> {
   }
 }
 
-const mapStateToProps: Partial<IChatCreatorSubmit> = (state: AppState) => {
+const mapStateToProps = (state: AppState): Partial<IChatCreatorSubmit> => {
   const users = state.checkedUsersId;
   const newChatName = state.newChatName;
 

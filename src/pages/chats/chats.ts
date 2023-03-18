@@ -7,7 +7,7 @@ interface IChatsPage {
 }
 
 class ChatsPage extends Block<IChatsPage> {
-  static componentName = "Chats";
+  static componentName = "Messenger";
 
   constructor(props: IChatsPage) {
     const events = {

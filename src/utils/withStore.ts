@@ -1,10 +1,9 @@
 import { BlockClass, Store } from "core";
 import isEqual from "./isEqual";
 
-type WithStateProps = { store: Store<AppState> };
-type MapStateToProps = (state: AppState) => Partial<AppState>;
+type MapStateToProps = (state: AppState) => Record<string, unknown>;
 
-export function withStore<P extends WithStateProps>(
+export function withStore<P extends Record<string, any> = object>(
   WrappedBlock: BlockClass<P>,
   mapStateToProps: MapStateToProps
 ) {

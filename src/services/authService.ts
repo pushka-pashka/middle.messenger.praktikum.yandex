@@ -6,11 +6,12 @@ import { apiHasError } from "utils/apiHasError";
 import { Screens } from "utils/ScreenList";
 import { transformChats, transformUser } from "utils/transformers";
 import { sortChats } from "./chatsService";
+import { FormDataType } from "utils/getFormData";
 
 export const signup = async (
   dispatch: Dispatch<AppState>,
-  state: AppState,
-  action: Object
+  __state: AppState,
+  action: Nullable<FormDataType>
 ) => {
   dispatch({ isLoading: true });
 
@@ -23,9 +24,8 @@ export const signup = async (
 
   const user = await authAPI.me();
 
-  //TODO: вызвать здесь трансформер для юзера
   dispatch({
-    user,
+    user: user ? transformUser(user) : null,
     isLoading: false,
     errorReason: null,
     screen: Screens.Chats
@@ -34,8 +34,8 @@ export const signup = async (
 
 export const login = async (
   dispatch: Dispatch<AppState>,
-  state: AppState,
-  action: Object
+  __state: AppState,
+  action: LoginData
 ) => {
   dispatch({ isLoading: true });
 
@@ -50,14 +50,16 @@ export const login = async (
 
   const chatsList = await chatsAPI.getChats();
 
-  dispatch({ chatsList: sortChats(transformChats(chatsList)) });
+  if (chatsList) {
+    dispatch({ chatsList: sortChats(transformChats(chatsList)) });
 
-  dispatch({
-    user: transformUser(user),
-    isLoading: false,
-    loginFormError: null,
-    screen: Screens.Chats
-  });
+    dispatch({
+      user: user ? transformUser(user) : null,
+      isLoading: false,
+      loginFormError: null,
+      screen: Screens.Chats
+    });
+  }
 };
 
 export const logout = async (dispatch: Dispatch<AppState>) => {

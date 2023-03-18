@@ -3,7 +3,7 @@ import { withStore } from "utils/withStore";
 
 interface IMessagesListProps {
   chatData: IChatData[];
-  myUserId: number;
+  myUserId: number | null;
 }
 
 interface IChatData {
@@ -13,7 +13,7 @@ interface IChatData {
   time: string;
 }
 
-class MessagesList extends Block {
+class MessagesList extends Block<IMessagesListProps> {
   static componentName = "MessagesList";
 
   constructor(props: IMessagesListProps) {
@@ -28,7 +28,7 @@ class MessagesList extends Block {
     return true;
   }
 
-  scrollToLastMessage(): boolean {
+  scrollToLastMessage(): void {
     const el = document.getElementById("message-list")?.lastElementChild;
     el?.scrollIntoView(false);
   }
@@ -37,7 +37,7 @@ class MessagesList extends Block {
     const myUserId = this.getProps().myUserId;
 
     if (!myUserId) {
-      return;
+      return "";
     }
 
     return `
@@ -49,10 +49,12 @@ class MessagesList extends Block {
   }
 }
 
-const mapStateToProps: Partial<IMessagesListProps> = (state: AppState) => {
+const mapStateToProps = (state: AppState): Partial<IMessagesListProps> => {
   return {
     myUserId: state.user ? state.user.id : null,
-    chatData: state.chatsData[state.currentChatId]?.messages
+    chatData: state.currentChatId
+      ? state.chatsData[state.currentChatId]?.messages
+      : []
   };
 };
 

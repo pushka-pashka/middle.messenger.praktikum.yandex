@@ -7,6 +7,8 @@ import { initRouter } from "./route";
 import { deepDiff } from "utils/deepDiff";
 import { cloneDeep } from "utils/cloneDeep";
 
+import "./style.css";
+
 //расширяем интерфейс window
 declare global {
   interface Window {

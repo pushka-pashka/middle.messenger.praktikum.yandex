@@ -5,8 +5,8 @@ const routes = [
   { path: "/", screen: Screens.Login, shouldAuthorized: false },
   { path: "/login", screen: Screens.Login, shouldAuthorized: false },
   { path: "/signin", screen: Screens.SignIn, shouldAuthorized: false },
-  { path: "/profile", screen: Screens.Profile, shouldAuthorized: true },
-  { path: "/chats", screen: Screens.Chats, shouldAuthorized: true },
+  { path: "/settings", screen: Screens.Profile, shouldAuthorized: true },
+  { path: "/messenger", screen: Screens.Chats, shouldAuthorized: true },
   {
     path: "/edit-profile",
     screen: Screens.EditProfile,

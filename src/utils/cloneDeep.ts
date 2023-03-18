@@ -49,13 +49,13 @@ export const cloneDeep = <T extends object = object>(
     if (item instanceof Object) {
       const copy: object = {};
 
-      // @ts-ignore
       Object.getOwnPropertySymbols(item).forEach(
+        // @ts-expect-error typing
         (s) => (copy[s] = _cloneDeep(item[s], transform))
       );
 
-      // @ts-ignore
       Object.keys(item).forEach(
+        // @ts-expect-error typing
         (k) => (copy[k] = _cloneDeep(item[k], transform))
       );
 

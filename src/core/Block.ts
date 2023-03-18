@@ -1,11 +1,12 @@
 import EventBus from "./EventBus";
-import { nanoid } from "nanoid";
+import { v4 as uuidv4 } from "uuid";
 import Handlebars from "handlebars";
 import isEqual from "utils/isEqual";
 import { cloneDeep } from "utils/cloneDeep";
 import { merge } from "utils/merge";
 
-export interface BlockClass<P> extends Function {
+export interface BlockClass<P extends Record<string, any> = object>
+  extends Function {
   new (props: P): Block<P>;
   componentName?: string;
 }
@@ -22,10 +23,10 @@ export default abstract class Block<P extends Record<string, any> = object> {
   } as const;
 
   public static componentName: string;
-  public id = nanoid(6);
+  public id = uuidv4(6);
+  public props: P;
 
   protected _element: Nullable<HTMLElement> = null;
-  protected props: Readonly<P>;
   protected children: { [id: string]: Block } = {};
 
   eventBus: () => EventBus<Events>;
@@ -80,14 +81,16 @@ export default abstract class Block<P extends Record<string, any> = object> {
     this._checkInDom();
     this.componentDidMount(props);
   }
-
-  componentDidMount(props?: P) {}
+  // @ts-expect-error call only in extended classes
+  // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
+  componentDidMount(props: P) {}
 
   _componentWillUnmount() {
     this.eventBus().destroy();
     this.componentWillUnmount();
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   componentWillUnmount() {}
 
   _componentDidUpdate(oldProps: P, newProps: P) {
@@ -101,6 +104,8 @@ export default abstract class Block<P extends Record<string, any> = object> {
   }
 
   //TODO: делать сравнение через isEqual
+  // @ts-expect-error return constant every time
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   componentDidUpdate(oldProps?: P, newProps?: P) {
     return true;
   }
@@ -119,7 +124,7 @@ export default abstract class Block<P extends Record<string, any> = object> {
     }
 
     const prevProps = cloneDeep(this.props);
-    const nextProps = merge(this.props, nextPartialProps);
+    const nextProps = merge(this.props, nextPartialProps) as P;
 
     if (isEqual(prevProps, nextProps)) {
       return;

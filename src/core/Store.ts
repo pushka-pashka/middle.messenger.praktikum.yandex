@@ -35,7 +35,7 @@ export class Store<State extends Record<string, any>> extends EventBus {
     const prevState = cloneDeep(this.getState());
     const nextState = merge(this.getState(), nextPartialState);
 
-    this.state = nextState;
+    this.state = nextState as State;
 
     this.emit(Store.EVENTS.Update, prevState, nextState);
   }

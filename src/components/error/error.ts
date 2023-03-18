@@ -1,5 +1,5 @@
 import Block from "core/Block";
-// import template from "bundle-text:./error.hbs";
+// import template from "./error.hbs";
 import "./error.css";
 
 export interface IErrorProps {

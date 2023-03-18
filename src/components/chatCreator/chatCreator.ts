@@ -6,7 +6,7 @@ import { trim } from "utils/trim";
 interface IChatCreator {
   onCloseChatCreator: () => void;
   onBlurExtension: (value: string) => void;
-  newChatName: string;
+  newChatName: Nullable<string>;
 }
 
 class ChatCreator extends Block<IChatCreator> {
@@ -65,7 +65,7 @@ class ChatCreator extends Block<IChatCreator> {
   }
 }
 
-const mapStateToProps: Partial<IChatCreator> = (state: AppState) => {
+const mapStateToProps = (state: AppState): Partial<IChatCreator> => {
   return {
     newChatName: state.newChatName
   };

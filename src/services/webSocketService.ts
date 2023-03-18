@@ -70,10 +70,11 @@ class SocketService extends EventBus {
   }
 
   public close(code?: number, reason?: string) {
-    this.socket.close(code, reason);
+    this.socket?.close(code, reason);
   }
 
   private loadChat() {
+    // eslint-disable-next-line no-console
     console.log("Соединение установлено");
 
     this.ping();
@@ -82,6 +83,10 @@ class SocketService extends EventBus {
 
   private ping() {
     let pingInterval: NodeJS.Timer | undefined = setInterval(() => {
+      if (!this.socket) {
+        return;
+      }
+
       this.socket.send(
         JSON.stringify({
           content: "",
@@ -98,6 +103,10 @@ class SocketService extends EventBus {
   }
 
   private getOldMessages(from = 0) {
+    if (!this.socket) {
+      return;
+    }
+
     this.socket.send(
       JSON.stringify({
         content: from,

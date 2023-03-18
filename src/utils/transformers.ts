@@ -13,6 +13,17 @@ export const transformUser = (data: UserDTO): User => {
   };
 };
 
+export const transformProfile = (data: Partial<UserDTO>): Partial<User> => {
+  return {
+    login: data.login,
+    firstName: data.first_name,
+    secondName: data.second_name,
+    displayName: data.display_name,
+    phone: data.phone,
+    email: data.email
+  };
+};
+
 export const transformChat = (data: ChatDTO): Chat => {
   const lastMessage = data.last_message
     ? {
@@ -36,7 +47,7 @@ export const transformChat = (data: ChatDTO): Chat => {
 };
 
 export const transformChats = (data: ChatDTO[]): Chat[] => {
-  return data.map((chat) => transformChat(chat));
+  return data?.map((chat) => transformChat(chat));
 };
 
 export const transformMessage = (data: MessageDTO): Message => {

@@ -1,5 +1,5 @@
 import Block from "core/Block";
-import template from "bundle-text:./search.hbs";
+import template from "./search.hbs";
 import "./search.css";
 
 interface ISearchProps {

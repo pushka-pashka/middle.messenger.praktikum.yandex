@@ -2,13 +2,15 @@ import { UserDTO } from "api/types";
 import { usersAPI } from "api/usersApi";
 import { Dispatch } from "core/Store";
 import { apiHasError } from "utils/apiHasError";
-import { transformUser } from "utils/transformers";
+import { transformProfile, transformUser } from "utils/transformers";
 import { Screens } from "utils/ScreenList";
+import { FormDataType } from "utils/getFormData";
+import { merge } from "utils/merge";
 
 export const searchUsers = async (
   dispatch: Dispatch<AppState>,
-  state: AppState,
-  action: Object
+  _state: AppState,
+  action: string
 ) => {
   dispatch({ isLoading: true });
 
@@ -19,7 +21,7 @@ export const searchUsers = async (
     return;
   }
 
-  const usersList: User = rawUsersList.map((user: UserDTO) => {
+  const usersList: User[] = rawUsersList.map((user: UserDTO) => {
     const userData = transformUser(user);
     const newUser = {
       id: userData.id,
@@ -37,12 +39,19 @@ export const searchUsers = async (
 
 export const editProfile = async (
   dispatch: Dispatch<AppState>,
-  state: AppState,
-  action: Object
+  _state: AppState,
+  action: Partial<UserDTO>
 ) => {
   dispatch({ isLoading: true });
 
-  const editProfileData = { ...action, display_name: action.login };
+  if (!action) {
+    return;
+  }
+
+  const editProfileData: Partial<UserDTO> = {
+    ...action,
+    display_name: action.login
+  };
   const response = await usersAPI.changeProfile(editProfileData);
 
   if (apiHasError(response)) {
@@ -50,8 +59,15 @@ export const editProfile = async (
     return;
   }
 
+  const currentUser = window.store.getState().user;
+  const transformEditProfileData = transformProfile(editProfileData);
+  const changedUser = merge(
+    currentUser || {},
+    transformEditProfileData
+  ) as User;
+
   dispatch({
-    user: editProfileData,
+    user: changedUser,
     isLoading: false,
     errorReason: null,
     screen: Screens.Profile
@@ -60,10 +76,14 @@ export const editProfile = async (
 
 export const editPassword = async (
   dispatch: Dispatch<AppState>,
-  state: AppState,
-  action: Object
+  _state: AppState,
+  action: Nullable<FormDataType>
 ) => {
   dispatch({ isLoading: true });
+
+  if (!action) {
+    return;
+  }
 
   const editPassword = {
     oldPassword: action.password,
